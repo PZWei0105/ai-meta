@@ -6,7 +6,7 @@
 import hashlib
 import re
 
-from .util import iso, strip_html
+from .util import days_since, iso, strip_html
 
 PRICE_TOKEN = re.compile(r'(?:US|NT)?\$\s?\d[\d,]*(?:\.\d{1,2})?')
 QUOTA_SENT = re.compile(r'[^.。!?\n]{0,90}\d[^.。!?\n]{0,90}(?:messages?|hours?|per (?:day|week|month)|limits?|context|'
@@ -103,7 +103,10 @@ def app_versions(http, ids: dict, health):
     return out
 
 
-def build(curated: dict, fx, watch_state: dict, apps: dict):
+CHANGE_SHOW_DAYS = 14   # 方案頁變動的提醒掛兩週
+
+
+def build(curated: dict, fx, watch_state: dict, apps: dict, t0=None):
     rate = (fx or {}).get('usd_twd')
     fee = curated.get('card_fee', 0.015)
     vendors = {}
@@ -118,7 +121,8 @@ def build(curated: dict, fx, watch_state: dict, apps: dict):
                 p['twd_card'] = round(p['usd'] * rate * (1 + fee))
             plans.append(p)
         changed = [dict(url=u, **{k: s.get(k) for k in ('changed_at', 'added', 'removed', 'basis')})
-                   for u, s in (watch_state.get(v) or {}).items() if s.get('changed_at')]
+                   for u, s in (watch_state.get(v) or {}).items()
+                   if s.get('changed_at') and days_since(s['changed_at'], t0) <= CHANGE_SHOW_DAYS]
         vendors[v] = dict(info, plans=plans, page_changes=changed, app=apps.get(v))
     return {'fx': fx, 'card_fee': fee, 'checked': curated.get('checked'), 'vendors': vendors,
             'tasks': curated.get('tasks'), 'notes': curated.get('notes')}

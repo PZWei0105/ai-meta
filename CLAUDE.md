@@ -6,13 +6,14 @@
 - PZ 說「開工」才動手；討論階段不做任何檔案或改動。
 - 只用官方頁面與公開資料；不收業配、不放導購連結。
 - 分類、分數、判定一律是固定規則，同樣的資料得到同樣的結果，並附「為什麼」。
+- 資訊一律先翻成繁體中文才上架：App 不顯示英文原文，還沒翻好的改版先藏起來（只顯示「還有幾則翻譯中」）。
 - 「額度雷達」（個人用量監控）PZ 決定先不做；不要擅自加。
 - 鑰匙（GitHub token）只存在使用者裝置的 localStorage，絕不寫進 repo 或資料檔。
 
 ## 怎麼運作
 - `.github/workflows/meta.yml` 每小時第 13 分跑 `pipeline/dispatch.py` → `build.py`。推到 `main` 時執行 `control/job.json` 指定的工作：`build`／`deploy`（只改介面）／`probe`（實測新來源，原始回應存到 `probe-results` 分支，清單在 `control/probe.json`）。
 - 雲端 Claude 工作環境連不到這些網站（只連得到 GitHub），要實測就用 `probe`。
-- 改版：`feeds.py`（各家更新紀錄的解析器）→ `patches.py`（分類加強／削弱／新增／移除／調整／修正、標籤、「跟你有關」分數、合併、每天發版的工具一週併一則）→ `translate.py`（Actions 裡的 llama.cpp＋Qwen3-8B 翻成台灣用語，快取在 state）。
+- 改版：`feeds.py`（各家更新紀錄的解析器）→ `patches.py`（分類加強／削弱／新增／移除／調整／修正、標籤、「跟你有關」分數、合併、每天發版的工具一週併一則）→ `translate.py`（Actions 裡的 llama.cpp＋Qwen3-8B 翻成台灣用語，快取在 state 的 `zh.json`、`zh_short.json`）：先暖快取，再翻標題＋摘要（逾時的最後重試），再翻伺服器狀態的短句，最後把內容逐點翻成中文條列（`pts`）。內容改了先沿用上一次的中文。
 - 價格：`prices.py` 讀 Claude／Gemini／xAI 的 markdown 文件與 OpenAI 價格頁，OpenRouter 交叉核對；記錄漲降價歷史與「即將發生」。
 - 狀態：`status.py`（Claude、OpenAI 的 Statuspage JSON；xAI 自己的狀態 JSON；Google Cloud 事故裡跟 Gemini 有關的）。App 也會直接向 Claude、OpenAI、xAI 的狀態頁即時確認。
 - 方案：`config/plans.json`（人工整理，每格附官方來源）＋ `plans.py`（匯率、官方方案頁變動偵測：連續兩輪一樣才算變動、iOS App 版本）。Google 在台灣用台幣計價（`twd_official`）。

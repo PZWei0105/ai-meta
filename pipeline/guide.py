@@ -46,6 +46,8 @@ def evaluate(playbook: dict, models: list, local_ids: set, patches: list, today:
                 continue
             if reviewed and it['d'] <= reviewed:
                 continue
+            if not (it.get('tz') or it.get('zh_native')):
+                continue                      # 還沒翻好的先不列（App 只顯示中文）
             hits.append({'id': it['id'], 't': it.get('tz') or it['t'], 'd': it['d'], 'fx': it['fx'], 'v': it['v']})
         if hits:
             flags.append({'type': 'patch', 'text': f'複查後又有 {len(hits)} 則相關改版', 'items': hits[:3]})

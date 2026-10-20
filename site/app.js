@@ -262,10 +262,19 @@ function monthly() {
 function patchesFor(mode, vend) {
   const P = S.d.patches?.items || [];
   const R = S.d.meta?.rules || { show_min: 6, mine_min: 42 };
-  let list = P.filter((x) => (vend === 'all' || x.v === vend));
+  // 只顯示翻好中文的（PZ：資訊一律先翻成繁體中文）；翻譯中的另外算數量
+  let list = P.filter((x) => (vend === 'all' || x.v === vend) && (x.tz || x.zh_native));
   if (mode === 'mine') list = list.filter((x) => x.s >= R.mine_min && -dayDiff(x.d) <= 21).sort((a, b) => b.rk - a.rk);
   else list = list.filter((x) => x.s >= R.show_min);
   return list;
+}
+function pendingCount(vend) {
+  const R = S.d.meta?.rules || { show_min: 6 };
+  return (S.d.patches?.items || []).filter((x) => x.s >= R.show_min && !x.tz && !x.zh_native && (!vend || vend === 'all' || x.v === vend)).length;
+}
+function pendHtml(vend) {
+  const n = pendingCount(vend);
+  return n ? `<p class="note pendnote">還有 ${n} 則改版正在翻成中文，翻好就會出現在這裡（每小時自動翻）。</p>` : '';
 }
 function renderHome() {
   const M = S.d.meta;
@@ -286,11 +295,11 @@ function renderHome() {
     <div class="patch-c">
       ${['buff', 'nerf', 'new', 'gone'].map((k) => `<a class="cnt" href="#/patch?fx=${k}"><span class="ico fx-${k}">${FX[k][0]}</span>${FX[k][1]} <b>${c[k] || 0}</b></a>`).join('')}
     </div>
-    <div class="patch-mine">跟你有關的有 <b>${M.week_mine || 0}</b> 則${mine.length ? '，最重要的在下面' : ''}。</div>
+    <div class="patch-mine">跟你有關的有 <b>${patchesFor('mine', 'all').filter((x) => x.d >= (start || '')).length}</b> 則${mine.length ? '，最重要的在下面' : ''}。</div>
   </div>
   ${serversHtml()}
   <h2 class="h2">跟你有關<span class="sub">依你的方案與用途排序</span><a class="more" href="#/patch">全部改版</a></h2>
-  ${mine.length ? `<div class="pl">${mine.map((x) => patchCard(x, true)).join('')}</div>` : '<div class="empty">最近三週沒有跟你特別有關的改版。</div>'}`;
+  ${mine.length ? `<div class="pl">${mine.map((x) => patchCard(x, true)).join('')}</div>` : '<div class="empty">最近三週沒有跟你特別有關的改版。</div>'}${pendHtml('all')}`;
   if (up.length) {
     h += `<h2 class="h2">即將發生<span class="sub">漲價、停用的倒數</span><a class="more" href="#/patch?m=up">全部</a></h2><div>${up.map(cdRow).join('')}</div>`;
   }
@@ -351,17 +360,17 @@ function patchCard(x, showWhy) {
   const src = S.d.meta?.sources?.[x.src];
   const prod = x.p || src?.p || '';
   const title = x.tz || x.t;
-  const sum = x.sz || (x.tz ? '' : (x.b || '').slice(0, 140));
+  const sum = x.sz || '';
   const open = S.open.has(x.id);
   const also = (x.also || []).map((a) => a.p).filter((v, i, a) => a.indexOf(v) === i);
   return `<article class="pc f-${esc(x.fx)}${x.s < (S.d.meta?.rules?.mine_min || 42) && !showWhy ? ' dim' : ''}${open ? ' open' : ''}" data-pid="${esc(x.id)}" tabindex="0" aria-expanded="${open}">
     <div class="pc-h">${fxChip(x.fx)}${vd(x.v, prod)}<span class="when">${esc(relDay(x.d))}</span></div>
-    <h3 class="pc-t">${esc(title)}${x.pend ? ' <span class="pend">翻譯中</span>' : ''}</h3>
-    ${sum ? `<p class="pc-s"${x.tz ? '' : ' lang="en"'}>${esc(sum)}</p>` : ''}
+    <h3 class="pc-t">${esc(title)}</h3>
+    ${sum ? `<p class="pc-s">${esc(sum)}</p>` : ''}
     ${showWhy && x.why?.length ? `<div class="pc-w">${x.why.map((w) => `<span class="why">${esc(w)}</span>`).join('')}</div>` : ''}
     <div class="pc-x">
-      ${x.zh_native ? '' : `<div class="orig" lang="en"><b>原文</b> ${esc(x.t)}${x.b && x.b !== x.t ? ` — ${esc(x.b)}` : ''}</div>`}
-      ${x.hl?.length ? `<div class="orig" lang="en" style="margin-top:6px">${x.n_add ? `新增 ${x.n_add} 項、` : ''}${x.n_fix ? `修正 ${x.n_fix} 項` : ''}</div>` : ''}
+      ${x.pts?.length ? `<ul class="pts">${x.pts.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : (!x.zh_native && (x.b || '').length > (sum.length + 60) ? '<p class="note">完整內容還在翻成中文，想先看可以點「看官方原文」。</p>' : '')}
+      ${x.n_add || x.n_fix ? `<div class="note" style="margin-top:6px">這次${x.n_add ? `新增 ${x.n_add} 項` : ''}${x.n_add && x.n_fix ? '、' : ''}${x.n_fix ? `修正 ${x.n_fix} 項` : ''}</div>` : ''}
       <div class="tags">${(x.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join('')}<span class="tag">分數 ${x.s}</span></div>
       ${also.length ? `<div class="note">同一件事也出現在：${esc(also.join('、'))}</div>` : ''}
       <div class="btn-row">${x.url ? `<a class="btn sm" href="${esc(x.url)}" target="_blank" rel="noopener">看官方原文</a>` : ''}<button type="button" class="btn sm ghost" data-ask-patch="${esc(x.id)}">找 Claude 討論</button></div>
@@ -390,6 +399,7 @@ function renderPatch() {
       list = list.filter((x) => x.fx === fxF && x.d >= (S.d.meta.week_start || ''));
       h += `<div class="warnbox">只看本週的「${FX[fxF][1]}」。<a href="#/patch" class="linkbtn">看全部</a></div>`;
     }
+    h += pendHtml(S.pv);
     if (!list.length) h += '<div class="empty">這個篩選沒有改版。</div>';
     else if (S.pm === 'mine' && !fxF) h += `<div class="pl" style="margin-top:8px">${list.slice(0, 40).map((x) => patchCard(x, true)).join('')}</div>`;
     else {
@@ -531,7 +541,7 @@ function foundHtml() {
   return `<p class="note">Hugging Face 熱門、60 天內發布、知名團隊的官方模型（自動抓，還沒人工挑過）。判定是用參數量估算的。</p><div class="ml">${F.map((c) => `<a class="mr" href="${esc(c.url)}" target="_blank" rel="noopener" style="text-decoration:none">
     <div class="mr-n"><b>${esc(c.id.split('/')[1])}</b><span>${esc(c.id.split('/')[0])}．${c.params_b}B${c.active_b ? `（每次用 ${c.active_b}B）` : ''}．${esc({ llm: '語言模型', image: '生圖', video: '生影片' }[c.kind] || '')}．${esc(md(c.created))} 發布</span></div>
     <div class="mr-side">${c.fit ? `<span class="vchip ${c.fit.level}">${LV_SHORT[c.fit.level]}</span>` : ''}<span class="mr-tps">${c.kind === 'llm' ? (c.gguf ? '有 GGUF' : '還沒 GGUF') : ''}</span></div>
-    <div class="mr-meta"><span>${esc(c.fit?.q || '')} 約 ${c.fit ? c.fit.need.toFixed(1) : '—'} GB</span>${c.license ? `<span>授權 ${esc(c.license)}</span>` : ''}</div></a>`).join('')}</div>`;
+    <div class="mr-meta"><span>${esc(c.fit?.q || '')} 約 ${c.fit ? c.fit.need.toFixed(1) : '—'} GB</span>${c.license ? `<span>授權 ${esc({ other: '自訂授權', 'apache-2.0': 'Apache 2.0', mit: 'MIT' }[c.license] || c.license)}</span>` : ''}</div></a>`).join('')}</div>`;
 }
 
 // ------------------------------------------------------------------ 攻略
@@ -587,15 +597,17 @@ function openSheet(html) {
 }
 function closeSheet() { $('#sheet').hidden = true; document.body.style.overflow = ''; }
 const sheetTop = (title) => `<div class="sh-top"><span class="sp"></span><button type="button" class="ibtn" data-close aria-label="關閉">${ICON.close}</button></div><h2 class="sh-title" id="sh-title">${title}</h2>`;
+function zhMap(t) { return (S.d.status?.zh || {})[t]; }
+function zhStatus(a) { return a.tz || zhMap(a.t) || `${ST[a.impact] || '狀況'}：官方剛公布，正在翻成中文`; }
 function serverSheet(v) {
   const s = S.live[v] || S.d.status?.vendors?.[v];
   if (!s) return;
   const live = S.live[v] ? '（剛剛直接向官方狀態頁確認）' : `（${ago(S.d.status.generated)}的資料）`;
   openSheet(`${sheetTop(`${esc(VNAME[v])} 伺服器：${esc(ST[s.ind] || '')}`)}
     <p class="note">${esc(live)}</p>${s.note ? `<p class="lede">${esc(s.note)}</p>` : ''}
-    ${s.active?.length ? `<div class="sh-sec"><h3>進行中的狀況</h3>${s.active.map((a) => `<div class="warnbox" lang="en">${esc(a.t)}</div>`).join('')}</div>` : ''}
-    ${s.comps?.length ? `<div class="sh-sec"><h3>各項服務</h3><div class="health">${s.comps.map((c) => `<span>${esc(c.n)}</span><span class="${c.s === 'ok' ? 'ok' : 'bad'}">${esc(ST[c.s] || c.s)}</span>`).join('')}</div></div>` : ''}
-    <div class="sh-sec"><h3>最近 7 天的事故（${s.n7 ?? '—'} 次）</h3>${(s.recent || []).length ? s.recent.map((r) => `<div class="cd"><div class="cd-d"><b class="num">${esc(md(r.at))}</b><span>${esc(ST[r.impact] || '')}</span></div><div class="cd-t" lang="en">${esc(r.t)}<small>${r.mins ? `持續 ${r.mins >= 120 ? `${Math.round(r.mins / 60)} 小時` : `${r.mins} 分鐘`}` : '處理中'}</small></div><span></span></div>`).join('') : '<p class="note">沒有事故。</p>'}</div>
+    ${s.active?.length ? `<div class="sh-sec"><h3>進行中的狀況</h3>${s.active.map((a) => `<div class="warnbox">${esc(zhStatus(a))}</div>`).join('')}</div>` : ''}
+    ${s.comps?.length ? `<div class="sh-sec"><h3>各項服務</h3><div class="health">${s.comps.map((c) => `<span>${esc(c.nz || zhMap(c.n) || c.n)}</span><span class="${c.s === 'ok' ? 'ok' : 'bad'}">${esc(ST[c.s] || c.s)}</span>`).join('')}</div></div>` : ''}
+    <div class="sh-sec"><h3>最近 7 天的事故（${s.n7 ?? '—'} 次）</h3>${(s.recent || []).length ? s.recent.map((r) => `<div class="cd"><div class="cd-d"><b class="num">${esc(md(r.at))}</b><span>${esc(ST[r.impact] || '')}</span></div><div class="cd-t">${esc(zhStatus(r))}<small>${r.mins ? `持續 ${r.mins >= 120 ? `${Math.round(r.mins / 60)} 小時` : `${r.mins} 分鐘`}` : '處理中'}</small></div><span></span></div>`).join('') : '<p class="note">沒有事故。</p>'}</div>
     <div class="btn-row"><a class="btn" href="${esc(s.page)}" target="_blank" rel="noopener">開官方狀態頁</a></div>`);
 }
 function llmSheet(id, q) {
@@ -688,7 +700,7 @@ function healthHtml() {
   const pr = H.prices || {};
   for (const v of ['claude', 'chatgpt', 'gemini', 'grok']) if (pr[`parse_${v}`]) rows.push(`<span>${VNAME[v]} 價格表</span><span class="${String(pr[`parse_${v}`]).startsWith('ok') ? 'ok' : 'bad'}">${String(pr[`parse_${v}`]).startsWith('ok') ? '正常' : '讀不到，沿用上次'}</span>`);
   const tr = S.d.meta?.translate || {};
-  rows.push(`<span>中文翻譯</span><span class="${tr.ok ? 'ok' : 'bad'}">${tr.ok ? `本輪翻 ${tr.done || 0} 則` : '翻譯器沒啟動'}${tr.pending ? `，${tr.pending} 則排隊` : ''}</span>`);
+  rows.push(`<span>中文翻譯</span><span class="${tr.ok ? 'ok' : 'bad'}">${tr.ok ? `本輪翻 ${tr.done || 0} 則` : '翻譯器沒啟動'}${tr.pending ? `，${tr.pending} 則排隊` : ''}${tr.points_pending ? `，${tr.points_pending} 則詳細內容排隊` : ''}</span>`);
   return `<div class="health">${rows.join('')}</div>`;
 }
 

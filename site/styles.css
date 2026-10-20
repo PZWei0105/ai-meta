@@ -188,6 +188,9 @@ button { font: inherit; color: inherit; }
 .pc.open .pc-x { display: block; }
 .orig { color: var(--ink3); font-size: 13px; line-height: 1.6; }
 .orig b { color: var(--ink2); font-weight: 600; }
+.pts { margin: 0; padding-left: 1.2em; color: var(--ink2); font-size: 14px; line-height: 1.65; }
+.pts li + li { margin-top: 4px; }
+.pendnote { margin: 10px 0 0; }
 .tags { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0; }
 .tag { font-size: 11.5px; padding: 2px 7px; border-radius: 5px; border: 1px solid var(--line2); color: var(--ink2); }
 .datehead { position: sticky; top: calc(env(safe-area-inset-top) + 51px); z-index: 5; margin: 16px 0 6px; padding: 6px 0; background: var(--bg); font: 600 13px/1 var(--display); letter-spacing: .08em; color: var(--ink3); }

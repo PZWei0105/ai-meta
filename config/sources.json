@@ -55,7 +55,7 @@
   ],
   "plan_pages": {
     "claude": ["https://claude.com/pricing"],
-    "chatgpt": ["https://chatgpt.com/pricing"],
+    "chatgpt": ["https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus", "https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers"],
     "gemini": ["https://gemini.google/tw/subscriptions/", "https://one.google.com/about/plans?hl=zh-TW&gl=TW"],
     "grok": ["https://x.ai/pricing"]
   },

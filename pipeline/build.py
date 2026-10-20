@@ -15,7 +15,7 @@ from .util import TW, Http, iso, now
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT_FILES = ('meta.json', 'patches.json', 'prices.json', 'status.json', 'plans.json', 'local.json', 'guide.json')
 SHOW_DAYS = 60
-TRANSLATE_DAYS = 45
+TRANSLATE_DAYS = SHOW_DAYS     # App 只顯示翻好的，所以看得到的範圍全部都要翻
 
 
 def cfg(name):
@@ -212,7 +212,19 @@ def execute(http, st: State, t0, data_dir: pathlib.Path, build_id: str):
     items = patches.merge(items)
     items.sort(key=lambda x: (x['d'], x['rk']), reverse=True)
 
-    # 4. 翻譯（重要的先翻）
+    # 4. 伺服器狀態（先抓，事故標題跟改版一起翻）
+    stat = {}
+    try:
+        stat = collect_status(http, src_cfg['status'], t0, health)
+    except Exception:  # noqa: BLE001
+        errors.append('status: ' + traceback.format_exc()[-400:])
+        traceback.print_exc()
+    shorts = []
+    for sv in stat.values():
+        shorts += [a.get('t') for a in (sv.get('active') or [])] + [r.get('t') for r in (sv.get('recent') or [])]
+        shorts += [c.get('n') for c in (sv.get('comps') or [])]
+
+    # 5. 翻譯（重要的先翻；App 只顯示翻好的）
     tr_stats = {}
     try:
         from . import translate
@@ -223,7 +235,7 @@ def execute(http, st: State, t0, data_dir: pathlib.Path, build_id: str):
             if x.get('tool') and x.get('hl'):
                 x['_tr_body'] = '重點：' + ' '.join(x['hl'])
         names = {s['id']: s['product'] + ' 更新紀錄' for s in src_cfg['patches']}
-        tr_stats = translate.run(order, st, t0, names)
+        tr_stats = translate.run(order, st, t0, names, shorts=shorts)
     except Exception:  # noqa: BLE001
         errors.append('translate: ' + traceback.format_exc()[-400:])
         traceback.print_exc()
@@ -231,14 +243,14 @@ def execute(http, st: State, t0, data_dir: pathlib.Path, build_id: str):
         x.pop('_tr_body', None)
         x.pop('_translate', None)
         x['b'] = (x.get('b') or '')[:420]
-
-    # 5. 伺服器狀態
-    stat = {}
-    try:
-        stat = collect_status(http, src_cfg['status'], t0, health)
-    except Exception:  # noqa: BLE001
-        errors.append('status: ' + traceback.format_exc()[-400:])
-        traceback.print_exc()
+    short_map = tr_stats.pop('short_map', {}) if isinstance(tr_stats, dict) else {}
+    for sv in stat.values():
+        for a in (sv.get('active') or []) + (sv.get('recent') or []):
+            if a.get('t') in short_map:
+                a['tz'] = short_map[a['t']]
+        for c in sv.get('comps') or []:
+            if c.get('n') in short_map:
+                c['nz'] = short_map[c['n']]
 
     # 6. 方案、匯率、方案頁變動、iOS App 版本
     plan_out = {}
@@ -249,7 +261,7 @@ def execute(http, st: State, t0, data_dir: pathlib.Path, build_id: str):
         wstate, wevents = plans.watch(http, src_cfg['plan_pages'], st.load('plan_watch.json', {}), t0, health)
         st.save('plan_watch.json', wstate)
         apps = plans.app_versions(http, src_cfg['apps'], health)
-        plan_out = plans.build(cfg('plans.json'), fx, wstate, apps)
+        plan_out = plans.build(cfg('plans.json'), fx, wstate, apps, t0)
         for e in wevents:
             vname = src_cfg['vendors'][e['v']]['name']
             t = f'{vname} 官方方案頁有變動'
@@ -309,14 +321,15 @@ def execute(http, st: State, t0, data_dir: pathlib.Path, build_id: str):
             'profile': {k: profile[k] for k in ('tiers', 'uses', 'tasks', 'name', 'paid') if k in profile},
             'vendors': src_cfg['vendors'], 'sources': {s['id']: {'p': s['product'], 'v': s['vendor'], 'url': s['url']}
                                                        for s in src_cfg['patches']},
-            'health': health, 'translate': {k: tr_stats.get(k) for k in ('ok', 'model', 'done', 'cached', 'pending')},
+            'health': health, 'translate': {k: tr_stats.get(k) for k in ('ok', 'model', 'done', 'cached', 'pending',
+                                                                       'points', 'points_pending', 'short')},
             'rules': {'show_min': rules.cfg['show_min_score'], 'mine_min': rules.cfg['mine_min_score'],
                       'weights': rules.w}, 'errors': errors[:5]}
     outputs = {
         'meta.json': meta,
         'patches.json': {'generated': iso(t0), 'items': items, 'upcoming': upcoming},
         'prices.json': {'generated': iso(t0), 'models': models},
-        'status.json': {'generated': iso(t0), 'vendors': stat},
+        'status.json': {'generated': iso(t0), 'vendors': stat, 'zh': short_map},
         'plans.json': dict(plan_out, generated=iso(t0)),
         'local.json': dict(local_out, generated=iso(t0)),
         'guide.json': dict(guide_out, generated=iso(t0)),
