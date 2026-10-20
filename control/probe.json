@@ -1,358 +1,92 @@
 [
  {
-  "name": "status_claude",
-  "url": "https://status.claude.com/api/v2/summary.json"
+  "name": "fx_er_api",
+  "url": "https://open.er-api.com/v6/latest/USD"
  },
  {
-  "name": "status_claude_incidents",
-  "url": "https://status.claude.com/api/v2/incidents.json"
+  "name": "fx_jsdelivr",
+  "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.min.json"
  },
  {
-  "name": "status_anthropic_old",
-  "url": "https://status.anthropic.com/api/v2/summary.json"
+  "name": "fx_floatrates",
+  "url": "https://www.floatrates.com/daily/usd.json"
  },
  {
-  "name": "status_openai",
-  "url": "https://status.openai.com/api/v2/summary.json"
+  "name": "fx_cbc",
+  "url": "https://cpx.cbc.gov.tw/API/DataAPI/Get?FileName=BP01D01"
  },
  {
-  "name": "status_openai_html",
-  "url": "https://status.openai.com/"
- },
- {
-  "name": "status_openai_proxy",
-  "url": "https://status.openai.com/proxy/status.openai.com"
- },
- {
-  "name": "status_xai",
-  "url": "https://status.x.ai/api/v2/summary.json"
- },
- {
-  "name": "status_xai_html",
-  "url": "https://status.x.ai/"
- },
- {
-  "name": "status_aistudio",
-  "url": "https://aistudio.google.com/status"
- },
- {
-  "name": "status_gcloud",
-  "url": "https://status.cloud.google.com/incidents.json"
- },
- {
-  "name": "anthropic_news",
-  "url": "https://www.anthropic.com/news"
- },
- {
-  "name": "anthropic_sitemap",
-  "url": "https://www.anthropic.com/sitemap.xml"
- },
- {
-  "name": "anthropic_rss_guess",
-  "url": "https://www.anthropic.com/rss.xml"
- },
- {
-  "name": "claude_relnotes_apps",
-  "url": "https://support.claude.com/en/articles/12138966-release-notes"
- },
- {
-  "name": "claude_docs_llms",
-  "url": "https://docs.claude.com/llms.txt"
- },
- {
-  "name": "claude_docs_relnotes_md",
-  "url": "https://docs.claude.com/en/release-notes/overview.md"
- },
- {
-  "name": "claude_docs_relnotes_api_md",
-  "url": "https://docs.claude.com/en/release-notes/api.md"
- },
- {
-  "name": "claude_docs_relnotes_apps_md",
-  "url": "https://docs.claude.com/en/release-notes/claude-apps.md"
- },
- {
-  "name": "claude_docs_deprec_md",
-  "url": "https://docs.claude.com/en/docs/about-claude/model-deprecations.md"
- },
- {
-  "name": "claude_docs_pricing_md",
-  "url": "https://docs.claude.com/en/docs/about-claude/pricing.md"
- },
- {
-  "name": "claude_docs_models_md",
-  "url": "https://docs.claude.com/en/docs/about-claude/models/overview.md"
- },
- {
-  "name": "claude_pricing_page",
-  "url": "https://claude.com/pricing"
- },
- {
-  "name": "claude_max_page",
-  "url": "https://claude.com/pricing/max"
- },
- {
-  "name": "openai_rss",
-  "url": "https://openai.com/news/rss.xml"
- },
- {
-  "name": "chatgpt_relnotes",
-  "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes"
- },
- {
-  "name": "openai_api_changelog",
-  "url": "https://platform.openai.com/docs/changelog"
- },
- {
-  "name": "openai_dev_changelog",
-  "url": "https://developers.openai.com/changelog"
- },
- {
-  "name": "openai_dev_llms",
-  "url": "https://developers.openai.com/llms.txt"
- },
- {
-  "name": "openai_deprecations",
-  "url": "https://platform.openai.com/docs/deprecations"
- },
- {
-  "name": "openai_api_pricing",
-  "url": "https://openai.com/api/pricing/"
- },
- {
-  "name": "openai_platform_pricing",
-  "url": "https://platform.openai.com/docs/pricing"
- },
- {
-  "name": "chatgpt_pricing",
-  "url": "https://openai.com/chatgpt/pricing/"
- },
- {
-  "name": "codex_releases",
-  "url": "https://api.github.com/repos/openai/codex/releases?per_page=10",
-  "bot_ua": true
- },
- {
-  "name": "gemini_relnotes",
-  "url": "https://gemini.google/release-notes/"
- },
- {
-  "name": "gemini_api_changelog",
-  "url": "https://ai.google.dev/gemini-api/docs/changelog"
- },
- {
-  "name": "gemini_api_changelog_md",
-  "url": "https://ai.google.dev/gemini-api/docs/changelog.md.txt"
- },
- {
-  "name": "gemini_api_pricing",
-  "url": "https://ai.google.dev/gemini-api/docs/pricing"
- },
- {
-  "name": "gemini_api_pricing_md",
-  "url": "https://ai.google.dev/gemini-api/docs/pricing.md.txt"
- },
- {
-  "name": "gemini_api_models_md",
-  "url": "https://ai.google.dev/gemini-api/docs/models.md.txt"
- },
- {
-  "name": "gemini_api_deprec",
-  "url": "https://ai.google.dev/gemini-api/docs/deprecations"
- },
- {
-  "name": "google_blog_gemini_rss",
-  "url": "https://blog.google/products/gemini/rss/"
- },
- {
-  "name": "google_blog_deepmind_rss",
-  "url": "https://blog.google/technology/google-deepmind/rss/"
- },
- {
-  "name": "deepmind_rss",
-  "url": "https://deepmind.google/blog/rss.xml"
- },
- {
-  "name": "gemini_subs",
-  "url": "https://gemini.google/subscriptions/"
- },
- {
-  "name": "google_one_tw",
-  "url": "https://one.google.com/about/plans?hl=zh-TW&gl=TW"
- },
- {
-  "name": "gemini_cli_releases",
-  "url": "https://api.github.com/repos/google-gemini/gemini-cli/releases?per_page=10",
-  "bot_ua": true
- },
- {
-  "name": "xai_news",
-  "url": "https://x.ai/news"
- },
- {
-  "name": "xai_docs_llms",
-  "url": "https://docs.x.ai/llms.txt"
- },
- {
-  "name": "xai_relnotes",
-  "url": "https://docs.x.ai/docs/release-notes"
- },
- {
-  "name": "xai_relnotes_md",
-  "url": "https://docs.x.ai/docs/release-notes.md"
- },
- {
-  "name": "xai_models",
-  "url": "https://docs.x.ai/docs/models"
- },
- {
-  "name": "grok_plans",
-  "url": "https://x.ai/grok"
- },
- {
-  "name": "openrouter_models",
-  "url": "https://openrouter.ai/api/v1/models",
-  "max": 30000000
- },
- {
-  "name": "models_dev",
-  "url": "https://models.dev/api.json",
-  "max": 30000000
- },
- {
-  "name": "litellm_prices",
-  "url": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
-  "max": 30000000
- },
- {
-  "name": "bot_fx_csv",
+  "name": "fx_bot_bot",
   "url": "https://rate.bot.com.tw/xrt/flcsv/0/day"
  },
  {
-  "name": "itunes_search_claude",
-  "url": "https://itunes.apple.com/search?term=claude%20anthropic&country=tw&entity=software&limit=5"
+  "name": "fx_bot_json",
+  "url": "https://rate.bot.com.tw/xrt/all/day?Lang=en-US"
  },
  {
-  "name": "itunes_search_chatgpt",
-  "url": "https://itunes.apple.com/search?term=chatgpt%20openai&country=tw&entity=software&limit=5"
+  "name": "xai_status_uptime",
+  "url": "https://data.x.ai/status/uptime.json"
  },
  {
-  "name": "itunes_search_gemini",
-  "url": "https://itunes.apple.com/search?term=google%20gemini&country=tw&entity=software&limit=5"
+  "name": "xai_status_incidents",
+  "url": "https://data.x.ai/status/incidents.json"
  },
  {
-  "name": "itunes_search_grok",
-  "url": "https://itunes.apple.com/search?term=grok%20xai&country=tw&entity=software&limit=5"
+  "name": "openai_status_incidents",
+  "url": "https://status.openai.com/api/v2/incidents.json"
  },
  {
-  "name": "appstore_chatgpt_tw",
-  "url": "https://apps.apple.com/tw/app/chatgpt/id6448311069"
+  "name": "xai_models_md",
+  "url": "https://docs.x.ai/developers/models.md"
  },
  {
-  "name": "appstore_claude_tw",
-  "url": "https://apps.apple.com/tw/app/claude-by-anthropic/id6473753684"
+  "name": "xai_pricing_md",
+  "url": "https://docs.x.ai/developers/pricing.md"
  },
  {
-  "name": "hf_trend_text",
-  "url": "https://huggingface.co/api/models?pipeline_tag=text-generation&sort=trendingScore&limit=40&expand[]=safetensors&expand[]=gguf&expand[]=createdAt&expand[]=lastModified&expand[]=downloads&expand[]=likes&expand[]=trendingScore&expand[]=pipeline_tag&expand[]=library_name&expand[]=tags&expand[]=cardData&expand[]=config",
-  "bot_ua": true,
-  "max": 30000000
+  "name": "gemini_deprec_md",
+  "url": "https://ai.google.dev/gemini-api/docs/deprecations.md.txt"
  },
  {
-  "name": "hf_trend_vlm",
-  "url": "https://huggingface.co/api/models?pipeline_tag=image-text-to-text&sort=trendingScore&limit=30&expand[]=safetensors&expand[]=gguf&expand[]=createdAt&expand[]=lastModified&expand[]=downloads&expand[]=likes&expand[]=trendingScore&expand[]=pipeline_tag&expand[]=library_name&expand[]=tags&expand[]=cardData&expand[]=config",
+  "name": "openai_deprec",
+  "url": "https://developers.openai.com/api/docs/deprecations"
+ },
+ {
+  "name": "openai_models_page",
+  "url": "https://developers.openai.com/api/docs/models"
+ },
+ {
+  "name": "anthropic_news_p2",
+  "url": "https://www.anthropic.com/news?page=2"
+ },
+ {
+  "name": "claude_code_npm",
+  "url": "https://registry.npmjs.org/@anthropic-ai%2fclaude-code"
+ },
+ {
+  "name": "ollama_library",
+  "url": "https://ollama.com/library"
+ },
+ {
+  "name": "lmstudio_models",
+  "url": "https://lmstudio.ai/models"
+ },
+ {
+  "name": "hf_gemma_search",
+  "url": "https://huggingface.co/api/models?author=google&sort=createdAt&limit=20&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes",
   "bot_ua": true
  },
  {
-  "name": "hf_trend_t2i",
-  "url": "https://huggingface.co/api/models?pipeline_tag=text-to-image&sort=trendingScore&limit=30&expand[]=safetensors&expand[]=gguf&expand[]=createdAt&expand[]=lastModified&expand[]=downloads&expand[]=likes&expand[]=trendingScore&expand[]=pipeline_tag&expand[]=library_name&expand[]=tags&expand[]=cardData&expand[]=config",
+  "name": "hf_qwen_search",
+  "url": "https://huggingface.co/api/models?author=Qwen&sort=createdAt&limit=30&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes",
   "bot_ua": true
  },
  {
-  "name": "hf_trend_i2i",
-  "url": "https://huggingface.co/api/models?pipeline_tag=image-to-image&sort=trendingScore&limit=20&expand[]=safetensors&expand[]=gguf&expand[]=createdAt&expand[]=lastModified&expand[]=downloads&expand[]=likes&expand[]=trendingScore&expand[]=pipeline_tag&expand[]=library_name&expand[]=tags&expand[]=cardData&expand[]=config",
-  "bot_ua": true
+  "name": "chatgpt_pricing_tw",
+  "url": "https://chatgpt.com/pricing?locale=zh-TW"
  },
  {
-  "name": "hf_trend_t2v",
-  "url": "https://huggingface.co/api/models?pipeline_tag=text-to-video&sort=trendingScore&limit=20&expand[]=safetensors&expand[]=gguf&expand[]=createdAt&expand[]=lastModified&expand[]=downloads&expand[]=likes&expand[]=trendingScore&expand[]=pipeline_tag&expand[]=library_name&expand[]=tags&expand[]=cardData&expand[]=config",
-  "bot_ua": true
- },
- {
-  "name": "hf_trend_i2v",
-  "url": "https://huggingface.co/api/models?pipeline_tag=image-to-video&sort=trendingScore&limit=20&expand[]=safetensors&expand[]=gguf&expand[]=createdAt&expand[]=lastModified&expand[]=downloads&expand[]=likes&expand[]=trendingScore&expand[]=pipeline_tag&expand[]=library_name&expand[]=tags&expand[]=cardData&expand[]=config",
-  "bot_ua": true
- },
- {
-  "name": "hf_trend_plain",
-  "url": "https://huggingface.co/api/models?sort=trendingScore&limit=50",
-  "bot_ua": true
- },
- {
-  "name": "hf_model_qwen3_30b",
-  "url": "https://huggingface.co/api/models/Qwen/Qwen3-30B-A3B?expand[]=safetensors&expand[]=gguf&expand[]=createdAt&expand[]=lastModified&expand[]=downloads&expand[]=likes&expand[]=trendingScore&expand[]=pipeline_tag&expand[]=library_name&expand[]=tags&expand[]=cardData&expand[]=config",
-  "bot_ua": true
- },
- {
-  "name": "hf_tree_unsloth_qwen3_30b",
-  "url": "https://huggingface.co/api/models/unsloth/Qwen3-30B-A3B-GGUF/tree/main",
-  "bot_ua": true
- },
- {
-  "name": "hf_config_qwen3_30b",
-  "url": "https://huggingface.co/Qwen/Qwen3-30B-A3B/resolve/main/config.json",
-  "bot_ua": true
- },
- {
-  "name": "hf_gguf_search",
-  "url": "https://huggingface.co/api/models?search=GGUF&author=unsloth&sort=trendingScore&limit=40&expand[]=gguf&expand[]=createdAt&expand[]=downloads&expand[]=trendingScore",
-  "bot_ua": true
- },
- {
-  "name": "lmarena_text",
-  "url": "https://lmarena.ai/leaderboard/text"
- },
- {
-  "name": "lmarena_root",
-  "url": "https://lmarena.ai/leaderboard"
- },
- {
-  "name": "openrouter_rankings",
-  "url": "https://openrouter.ai/rankings"
- },
- {
-  "name": "ollama_releases",
-  "url": "https://api.github.com/repos/ollama/ollama/releases?per_page=10",
-  "bot_ua": true
- },
- {
-  "name": "comfyui_releases",
-  "url": "https://api.github.com/repos/comfyanonymous/ComfyUI/releases?per_page=10",
-  "bot_ua": true
- },
- {
-  "name": "llamacpp_latest",
-  "url": "https://api.github.com/repos/ggml-org/llama.cpp/releases/latest",
-  "bot_ua": true
- },
- {
-  "name": "lmstudio_changelog",
-  "url": "https://lmstudio.ai/changelog"
- },
- {
-  "name": "lmstudio_rss",
-  "url": "https://lmstudio.ai/rss.xml"
- },
- {
-  "name": "lmstudio_versions",
-  "url": "https://versions-prod.lmstudio.ai/"
- },
- {
-  "name": "ollama_library_new",
-  "url": "https://ollama.com/search?o=newest"
- },
- {
-  "name": "nvidia_drivers",
-  "url": "https://gfwsl.geforce.com/services_toolkit/services/com/nvidia/services/AjaxDriverService.php?func=DriverManualLookup&psid=133&pfid=1066&osID=57&languageCode=1028&isWHQL=1&dch=1&sort1=0&numberOfResults=3"
+  "name": "nvidia_studio",
+  "url": "https://gfwsl.geforce.com/services_toolkit/services/com/nvidia/services/AjaxDriverService.php?func=DriverManualLookup&psid=133&pfid=1066&osID=57&languageCode=1028&isWHQL=1&dch=1&upCRD=1&sort1=0&numberOfResults=3"
  }
 ]
