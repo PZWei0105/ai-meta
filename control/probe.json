@@ -1,92 +1,276 @@
 [
  {
-  "name": "fx_er_api",
-  "url": "https://open.er-api.com/v6/latest/USD"
+  "name": "claude_usage_limits",
+  "url": "https://support.claude.com/en/articles/11647753-understanding-usage-and-length-limits"
  },
  {
-  "name": "fx_jsdelivr",
-  "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.min.json"
+  "name": "claude_usage_best",
+  "url": "https://support.claude.com/en/articles/9797557-usage-limit-best-practices"
  },
  {
-  "name": "fx_floatrates",
-  "url": "https://www.floatrates.com/daily/usd.json"
+  "name": "claude_usage_credits",
+  "url": "https://support.claude.com/en/articles/12429409-manage-usage-credits-for-paid-claude-plans"
  },
  {
-  "name": "fx_cbc",
-  "url": "https://cpx.cbc.gov.tw/API/DataAPI/Get?FileName=BP01D01"
+  "name": "claude_api_credits",
+  "url": "https://support.claude.com/en/articles/17154008"
  },
  {
-  "name": "fx_bot_bot",
-  "url": "https://rate.bot.com.tw/xrt/flcsv/0/day"
+  "name": "claude_promax_collection",
+  "url": "https://support.claude.com/en/collections/5953830-pro-and-max-plans"
  },
  {
-  "name": "fx_bot_json",
-  "url": "https://rate.bot.com.tw/xrt/all/day?Lang=en-US"
+  "name": "claude_context",
+  "url": "https://support.claude.com/en/articles/8606394-how-large-is-the-context-window-on-paid-claude-plans"
  },
  {
-  "name": "xai_status_uptime",
-  "url": "https://data.x.ai/status/uptime.json"
+  "name": "claude_code_plans",
+  "url": "https://support.claude.com/en/articles/11145838-using-claude-code-with-your-pro-or-max-plan"
  },
  {
-  "name": "xai_status_incidents",
-  "url": "https://data.x.ai/status/incidents.json"
+  "name": "claude_max_usage",
+  "url": "https://support.claude.com/en/articles/11014257-about-claude-s-max-plan-usage"
  },
  {
-  "name": "openai_status_incidents",
-  "url": "https://status.openai.com/api/v2/incidents.json"
+  "name": "claude_pro_usage",
+  "url": "https://support.claude.com/en/articles/8324991-about-claude-s-pro-plan-usage"
  },
  {
-  "name": "xai_models_md",
-  "url": "https://docs.x.ai/developers/models.md"
+  "name": "openai_pro",
+  "url": "https://help.openai.com/en/articles/9793128-what-is-chatgpt-pro"
  },
  {
-  "name": "xai_pricing_md",
-  "url": "https://docs.x.ai/developers/pricing.md"
+  "name": "openai_plus",
+  "url": "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus"
  },
  {
-  "name": "gemini_deprec_md",
-  "url": "https://ai.google.dev/gemini-api/docs/deprecations.md.txt"
+  "name": "openai_go",
+  "url": "https://help.openai.com/en/articles/11989085-what-is-chatgpt-go"
  },
  {
-  "name": "openai_deprec",
-  "url": "https://developers.openai.com/api/docs/deprecations"
+  "name": "openai_free",
+  "url": "https://help.openai.com/en/articles/9275245-chatgpt-free-tier-faq"
  },
  {
-  "name": "openai_models_page",
-  "url": "https://developers.openai.com/api/docs/models"
+  "name": "openai_codex_plan",
+  "url": "https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan"
  },
  {
-  "name": "anthropic_news_p2",
-  "url": "https://www.anthropic.com/news?page=2"
+  "name": "openai_rate_card",
+  "url": "https://help.openai.com/en/articles/11481834-chatgpt-rate-card"
  },
  {
-  "name": "claude_code_npm",
-  "url": "https://registry.npmjs.org/@anthropic-ai%2fclaude-code"
+  "name": "openai_credits",
+  "url": "https://help.openai.com/en/articles/12642688-using-credits-for-flexible-usage-in-chatgpt-plus-pro"
  },
  {
-  "name": "ollama_library",
-  "url": "https://ollama.com/library"
+  "name": "openai_images",
+  "url": "https://help.openai.com/en/articles/11084440-images-in-chatgpt"
  },
  {
-  "name": "lmstudio_models",
-  "url": "https://lmstudio.ai/models"
+  "name": "openai_gpt6_pro",
+  "url": "https://help.openai.com/articles/20001354"
  },
  {
-  "name": "hf_gemma_search",
-  "url": "https://huggingface.co/api/models?author=google&sort=createdAt&limit=20&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes",
+  "name": "google_ai_plans",
+  "url": "https://one.google.com/about/google-ai-plans/?hl=zh-TW&gl=TW"
+ },
+ {
+  "name": "google_ai_plans_en",
+  "url": "https://one.google.com/about/google-ai-plans/"
+ },
+ {
+  "name": "gemini_limits",
+  "url": "https://support.google.com/gemini/answer/16275805?hl=en"
+ },
+ {
+  "name": "gemini_limits_tw",
+  "url": "https://support.google.com/gemini/answer/16275805?hl=zh-Hant"
+ },
+ {
+  "name": "gemini_subs_tw",
+  "url": "https://gemini.google/tw/subscriptions/?hl=zh-TW"
+ },
+ {
+  "name": "xai_x_subscription",
+  "url": "https://x.ai/news/x-subscription"
+ },
+ {
+  "name": "grok_com_plans",
+  "url": "https://grok.com/plans"
+ },
+ {
+  "name": "x_premium_help",
+  "url": "https://help.x.com/en/using-x/x-premium"
+ },
+ {
+  "name": "xai_grok_page",
+  "url": "https://x.ai/grok"
+ },
+ {
+  "name": "hf_author_qwen",
+  "url": "https://huggingface.co/api/models?author=Qwen&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
   "bot_ua": true
  },
  {
-  "name": "hf_qwen_search",
-  "url": "https://huggingface.co/api/models?author=Qwen&sort=createdAt&limit=30&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes",
+  "name": "hf_author_google",
+  "url": "https://huggingface.co/api/models?author=google&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
   "bot_ua": true
  },
  {
-  "name": "chatgpt_pricing_tw",
-  "url": "https://chatgpt.com/pricing?locale=zh-TW"
+  "name": "hf_author_meta-llama",
+  "url": "https://huggingface.co/api/models?author=meta-llama&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
  },
  {
-  "name": "nvidia_studio",
-  "url": "https://gfwsl.geforce.com/services_toolkit/services/com/nvidia/services/AjaxDriverService.php?func=DriverManualLookup&psid=133&pfid=1066&osID=57&languageCode=1028&isWHQL=1&dch=1&upCRD=1&sort1=0&numberOfResults=3"
+  "name": "hf_author_facebook",
+  "url": "https://huggingface.co/api/models?author=facebook&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_mistralai",
+  "url": "https://huggingface.co/api/models?author=mistralai&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_deepseek-ai",
+  "url": "https://huggingface.co/api/models?author=deepseek-ai&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_openai",
+  "url": "https://huggingface.co/api/models?author=openai&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_zai-org",
+  "url": "https://huggingface.co/api/models?author=zai-org&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_liquidai",
+  "url": "https://huggingface.co/api/models?author=LiquidAI&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_nvidia",
+  "url": "https://huggingface.co/api/models?author=nvidia&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_minimaxai",
+  "url": "https://huggingface.co/api/models?author=MiniMaxAI&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_moonshotai",
+  "url": "https://huggingface.co/api/models?author=moonshotai&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_microsoft",
+  "url": "https://huggingface.co/api/models?author=microsoft&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_tencent",
+  "url": "https://huggingface.co/api/models?author=tencent&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_xiaomimimo",
+  "url": "https://huggingface.co/api/models?author=XiaomiMiMo&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_black-forest-labs",
+  "url": "https://huggingface.co/api/models?author=black-forest-labs&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_wan-ai",
+  "url": "https://huggingface.co/api/models?author=Wan-AI&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_lightricks",
+  "url": "https://huggingface.co/api/models?author=Lightricks&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_hidream-ai",
+  "url": "https://huggingface.co/api/models?author=HiDream-ai&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_tongyi-mai",
+  "url": "https://huggingface.co/api/models?author=Tongyi-MAI&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_stabilityai",
+  "url": "https://huggingface.co/api/models?author=stabilityai&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_comfy-org",
+  "url": "https://huggingface.co/api/models?author=Comfy-Org&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_unsloth",
+  "url": "https://huggingface.co/api/models?author=unsloth&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_lmstudio-community",
+  "url": "https://huggingface.co/api/models?author=lmstudio-community&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_ggml-org",
+  "url": "https://huggingface.co/api/models?author=ggml-org&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_bytedance-seed",
+  "url": "https://huggingface.co/api/models?author=ByteDance-Seed&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_inclusionai",
+  "url": "https://huggingface.co/api/models?author=inclusionAI&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_author_ibm-granite",
+  "url": "https://huggingface.co/api/models?author=ibm-granite&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_unsloth_popular",
+  "url": "https://huggingface.co/api/models?author=unsloth&sort=downloads&limit=80&expand[]=gguf&expand[]=createdAt&expand[]=downloads&expand[]=likes",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_lmsc_popular",
+  "url": "https://huggingface.co/api/models?author=lmstudio-community&sort=downloads&limit=60&expand[]=gguf&expand[]=createdAt&expand[]=downloads",
+  "bot_ua": true
+ },
+ {
+  "name": "ollama_search_popular",
+  "url": "https://ollama.com/search"
+ },
+ {
+  "name": "codex_releases_small",
+  "url": "https://api.github.com/repos/openai/codex/releases?per_page=4"
+ },
+ {
+  "name": "ollama_latest",
+  "url": "https://api.github.com/repos/ollama/ollama/releases/latest"
+ },
+ {
+  "name": "comfyui_latest",
+  "url": "https://api.github.com/repos/comfyanonymous/ComfyUI/releases/latest"
  }
 ]
