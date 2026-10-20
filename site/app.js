@@ -305,16 +305,20 @@ function renderHome() {
   if (S.d.plans?.vendors) {
     const vs = Object.keys(S.d.plans.vendors).map(subVerdict).filter(Boolean);
     h += `<h2 class="h2">訂閱總帳<a class="more" href="#/shop">商城</a></h2>
-    <a class="bill" href="#/shop" style="display:block;text-decoration:none">
+    <div class="bill">
       <div class="bill-top"><div><div class="note">每月 AI 訂閱</div><div class="bill-sum">${twd(billTwd())}</div><div class="note">約 ${usd(sum)}${paidNote()}</div></div></div>
       <div class="bill-rows">${vs.map((x) => `<div class="brow" data-verdict="${esc(x.v)}" tabindex="0" role="button"><div class="brow-n">${vd(x.v)} ${esc(x.cur?.name || '')}</div><div class="brow-p"><span class="vchip ${esc(x.kind)}">${esc(x.label)}</span></div></div>`).join('')}</div>
-    </a>`;
+    </div>`;
   }
   const L = S.d.local;
   if (L?.llm?.length) {
-    const top = [...L.llm].map((m) => ({ m, f: llmFit(m) })).filter((x) => x.f && (x.f.level === 'easy' || x.f.level === 'tight'));
-    h += `<h2 class="h2">你的筆電跑得動<span class="sub">${top.length} 個精選模型</span><a class="more" href="#/local">本機</a></h2>
-    <div class="tools">${Object.values(L.tools || {}).slice(0, 4).map((t) => `<a class="tool" href="${esc(t.url || '#/local')}" target="_blank" rel="noopener"><b>${esc(t.name)} ${esc(t.ver || '')}</b><span>${esc(relDay(t.date || ''))}更新</span></a>`).join('')}</div>`;
+    const top = [...L.llm].map((m) => ({ m, f: llmFit(m) })).filter((x) => x.f && (x.f.level === 'easy' || x.f.level === 'tight'))
+      .sort((a, b) => (a.m.order ?? 99) - (b.m.order ?? 99));
+    h += `<h2 class="h2">你的筆電跑得動<span class="sub">${top.length} 個精選模型．對話 ${ctxLabel(prefs().ctx)}</span><a class="more" href="#/local">本機</a></h2>
+    <div class="ml">${top.slice(0, 3).map(({ m, f }) => `<div class="mr" data-lm="${esc(m.id)}" tabindex="0">
+      <div class="mr-n"><b>${esc(m.name)}</b><span>${esc(m.good || '')}</span></div>
+      <div class="mr-side"><span class="vchip ${f.level}">${LV_SHORT[f.level]}</span><span class="mr-tps">約 ${Math.round(f.tps)} token/秒</span></div>${vbar(f)}</div>`).join('')}</div>
+    <div class="tools" style="margin-top:10px">${['lmstudio', 'ollama', 'comfyui', 'llamacpp'].map((k) => (L.tools || {})[k]).filter(Boolean).map((t) => `<a class="tool" href="${esc(t.url || '#/local')}" target="_blank" rel="noopener"><b>${esc(t.name)} ${esc(t.ver || '')}</b><span>${esc(relDay(t.date || ''))}更新</span></a>`).join('')}</div>`;
   }
   h += footHtml();
   $('#v-home').innerHTML = h;
@@ -835,7 +839,7 @@ document.addEventListener('click', (ev) => {
   if (d.askModel) { askModel(d.askModel); return; }
   if (d.shopv) { S.shopV = d.shopv; renderShop(); return; }
   if (d.shopvGo) { S.shopV = d.shopvGo; closeSheet(); location.hash = '#/shop'; return; }
-  if (d.verdict) { verdictSheet(d.verdict); return; }
+  if (d.verdict) { ev.preventDefault(); verdictSheet(d.verdict); return; }
   if (d.lcat) { S.lcat = d.lcat; renderLocal(); return; }
   if (d.kvq) { prefs().kvq = d.kvq; savePrefs(); renderLocal(); return; }
   if (d.lmq) { prefs().quant[d.lmq] = d.q; savePrefs(); llmSheet(d.lmq, d.q); if (S.view === 'local') renderLocal(); return; }

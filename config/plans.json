@@ -59,7 +59,7 @@
          "covers": {"code": "Codex（限額）", "novel": "GPT-6（上下文短）", "translate": "可以", "research": "深度研究（限額）", "image": "生圖（限額）"},
          "src": ["https://chatgpt.com/pricing", "https://help.openai.com/en/articles/9275245-chatgpt-free-tier-faq"]
         },
-        {"id": "go", "name": "Go", "usd": 8, "price_note": "依地區定價，以官方定價頁為準",
+        {"id": "go", "name": "Go", "usd": 8, "price_note": "依地區定價（台灣約 US$8），以官方定價頁為準",
          "limits": ["比免費版更多工具訊息、上傳、生圖、語音", "GPT Instant 上下文 5.4 萬、推理 25.6 萬 token", "可能會有廣告"],
          "gets": ["Think 推理", "排程任務、建立並分享外掛程式", "更長的記憶"],
          "covers": {"code": "Codex（限額）", "novel": "GPT-6", "translate": "可以", "research": "深度研究（限額）", "image": "生圖"},
@@ -139,8 +139,8 @@
       "plans": [
         {"id": "free", "name": "免費版", "usd": 0,
          "limits": ["AI 用量有限：對話、代理請求都限量"],
-         "gets": ["Grok 對話、語音、生圖與生影片（限額）", "Cursor 寫程式代理入門額度", "一般 X 帳號（發文、回覆、追蹤）"],
-         "covers": {"trend": "X 即時話題（限額）", "translate": "可以", "novel": "Grok（限額）", "research": "搜尋（限額）", "image": "Grok Imagine（限額）"},
+         "gets": ["每天可用 Grok（額度有限）", "Cursor 寫程式代理入門額度", "一般 X 帳號（發文、回覆、追蹤）"],
+         "covers": {"trend": "X 即時話題（限額）", "translate": "可以", "novel": "Grok（限額）", "research": "搜尋（限額）"},
          "src": ["https://x.ai/pricing", "https://x.ai/news/x-subscription"]
         },
         {"id": "plus", "name": "X Plus", "usd": 8,
