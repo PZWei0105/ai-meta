@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>版本答案</title>
+<meta name="robots" content="noindex">
+<style>
+  :root { --bg: #13153a; --ink: #eef0ff; --ink2: #b9bde6; --acc: #ffd84d; }
+  @media (prefers-color-scheme: light) { :root { --bg: #f3f3fa; --ink: #1a1c3d; --ink2: #555a85; --acc: #8a6d00; } }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); }
+  body { display: grid; place-items: center; font: 16px/1.6 system-ui, -apple-system, "PingFang TC", "Noto Sans TC", sans-serif; padding: 0 16px; }
+  main { max-width: 420px; text-align: center; }
+  b { display: block; font-size: 22px; margin-bottom: 8px; }
+  p { color: var(--ink2); margin: 0 0 16px; }
+  a { color: var(--acc); font-weight: 650; }
+</style>
+<script>
+  // 網址打錯或多帶了符號（例如句號）時，直接帶回 App 首頁
+  (function () {
+    var seg = location.pathname.split('/')[1] || '';
+    var home = seg && seg.indexOf('.') < 0 && seg.indexOf('%') < 0 ? '/' + seg + '/' : '/ai-meta/';
+    if (location.hostname.slice(-10) === 'github.io' && seg !== 'ai-meta') home = '/ai-meta/';
+    location.replace(home + (location.hash || ''));
+  })();
+</script>
+</head>
+<body>
+<main>
+  <b>找不到這一頁</b>
+  <p>正在帶你回《版本答案》…</p>
+  <a href="/ai-meta/">沒有自動跳轉就點這裡</a>
+</main>
+</body>
+</html>
