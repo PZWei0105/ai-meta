@@ -1,0 +1,1 @@
+{"reviewed": "2026-10-20", "tasks": [{"id": "code", "name": "寫程式", "picks": [{"rank": "T0", "kind": "cloud", "v": "claude", "tool": "Claude Code", "model": "Claude Opus 5.5", "models": ["claude-opus-5-5"], "why": "測試"}], "watch": {"vendors": ["claude"], "tags": ["程式"]}}], "cards": []}

@@ -1,0 +1,17 @@
+{
+  "name": "版本答案 — PZ 的 AI 改版與本機模型雷達",
+  "short_name": "版本答案",
+  "description": "四家 AI 的改版、方案與價格、伺服器狀態，以及哪些本機模型在你的 RTX 5090 筆電跑得動。",
+  "lang": "zh-Hant-TW",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#13153a",
+  "theme_color": "#13153a",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

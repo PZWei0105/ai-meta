@@ -1,0 +1,393 @@
+{
+  "note": "改版分類與「跟你有關」分數的固定規則。比對的是官方英文原文（標題＋內文），不分大小寫。同樣的內容永遠得到同樣的結果。",
+  "fx_order": [
+    "gone",
+    "nerf",
+    "buff",
+    "new",
+    "fix",
+    "tweak"
+  ],
+  "fx": {
+    "gone": [
+      "\\bretir(e|es|ed|ing|ement)\\b",
+      "\\bdeprecat",
+      "\\bsunset",
+      "\\bshut(ting)? down\\b",
+      "\\bend of life\\b",
+      "\\bdiscontinu",
+      "no longer (be )?(available|supported|offered)",
+      "\\bwill be removed\\b",
+      "\\bremoved\\b(?! a bug)"
+    ],
+    "nerf": [
+      "(price|prices|pricing)\\s+(increase|increases|going up|will rise|rises)",
+      "\\braise[sd]?\\s+(the\\s+)?prices?",
+      "more expensive",
+      "(reduc|lower|decreas|cut|tighten)\\w*\\s+(the\\s+)?(\\w+\\s+){0,2}(limits?|quotas?|caps?|allowance)",
+      "fewer (messages|requests|credits)",
+      "\\$[\\d.]+ starting [A-Z][a-z]+ \\d",
+      "no longer (free|included)",
+      "now requires? (a )?(paid|subscription|plus|pro)"
+    ],
+    "buff": [
+      "(price|prices|pricing)\\s+(cut|cuts|drop|drops|reduction|decrease)",
+      "\\bcheaper\\b",
+      "lower (price|prices|cost|costs)",
+      "(increas|rais|doubl|tripl|expand|boost|extend)\\w*\\s+(the\\s+)?(\\w+\\s+){0,2}(limits?|quotas?|caps?|context|window|allowance|usage)",
+      "higher (usage |rate )?limits",
+      "more usage",
+      "\\bnow free\\b",
+      "free (for|to) (all|everyone|free users)",
+      "at no (extra|additional) (cost|charge)",
+      "available to (all|free|everyone)",
+      "\\bunlimited\\b",
+      "now (included|available) (in|on|for) (the )?(free|plus|pro|max|go)",
+      "\\bfaster\\b",
+      "monthly (api )?credits"
+    ],
+    "new": [
+      "\\bintroduc",
+      "\\blaunch",
+      "now available",
+      "\\breleas(e|ed|es)\\b",
+      "\\brolling out\\b",
+      "\\bannounc",
+      "\\bnew (model|feature|app|tool|mode|plan)",
+      "\\badded\\b",
+      "\\badds\\b",
+      "\\bin (beta|preview|research preview)\\b",
+      "generally available",
+      "\\bGA\\b",
+      "is here",
+      "\\bmeet\\b"
+    ],
+    "fix": [
+      "^fix",
+      "\\bbug ?fix",
+      "\\bfixed\\b",
+      "\\bpatch(ed)? (a|the) (bug|issue)"
+    ]
+  },
+  "tags": {
+    "新模型": [
+      "(?:^|^(?:introducing|announcing|meet|launching|releasing)\\s+(?:the\\s+)?)(claude (fable|mythos|opus|sonnet|haiku)|gpt-?\\d[\\w.\\- ]{0,12}|gemini \\d[\\w.\\- ]{0,14}|nano banana|imagen \\d|veo \\d|sora \\d?|grok[ -]\\d[\\w.\\- ]{0,10}|grok (imagine|voice) ?[\\d.]*)\\b",
+      "\\bnew (frontier |flagship |small |open |open-weight )?model\\b"
+    ],
+    "價格": [
+      "\\$\\s?\\d",
+      "\\bpric(e|es|ing)\\b",
+      "\\bcredits?\\b",
+      "\\bdiscount",
+      "\\bbilling\\b",
+      "\\bfree tier\\b",
+      "per (1m|million) tokens"
+    ],
+    "額度": [
+      "\\b(usage|rate|message|weekly|daily|session|5-hour|five-hour) limits?\\b",
+      "\\bquota",
+      "\\busage\\b",
+      "\\bcaps?\\b",
+      "\\bcontext window\\b",
+      "messages? per",
+      "\\bpriority access\\b"
+    ],
+    "程式": [
+      "claude code",
+      "\\bcodex\\b",
+      "\\bcoding\\b",
+      "\\bcode\\b",
+      "\\bdeveloper",
+      "\\bcli\\b",
+      "\\bide\\b",
+      "\\bterminal\\b",
+      "\\bagentic\\b",
+      "antigravity",
+      "\\bjules\\b",
+      "grok build",
+      "\\bgithub\\b",
+      "\\bvs ?code\\b"
+    ],
+    "生圖": [
+      "image (generation|editing|gen)\\b",
+      "\\bimages?\\b.*\\b(create|generat|edit)",
+      "nano banana",
+      "\\bimagen\\b",
+      "grok imagine",
+      "gpt-image",
+      "\\bdall"
+    ],
+    "生影片": [
+      "\\bvideos?\\b",
+      "\\bsora\\b",
+      "\\bveo\\b",
+      "\\bflow\\b.*\\bvideo",
+      "imagine video"
+    ],
+    "語音": [
+      "\\bvoice\\b",
+      "\\baudio\\b",
+      "\\bspeech\\b",
+      "\\btranscri",
+      "\\bgpt-live\\b"
+    ],
+    "研究": [
+      "deep research",
+      "\\bresearch mode\\b",
+      "\\bweb search\\b",
+      "\\bsearch\\b"
+    ],
+    "代理": [
+      "\\bagents?\\b",
+      "computer use",
+      "\\bbrowser\\b",
+      "\\bcowork\\b",
+      "\\boperator\\b"
+    ],
+    "Windows": [
+      "\\bwindows\\b",
+      "\\bpowershell\\b"
+    ],
+    "手機": [
+      "\\bios\\b",
+      "\\biphone\\b",
+      "\\bandroid\\b",
+      "\\bmobile\\b"
+    ],
+    "台灣": [
+      "\\btaiwan\\b",
+      "\\btraditional chinese\\b",
+      "\\bzh-tw\\b"
+    ],
+    "企業": [
+      "\\benterprise\\b",
+      "\\bteam plans?\\b",
+      "\\bbusiness\\b",
+      "\\beducation\\b",
+      "\\bedu\\b",
+      "\\bgovernment\\b",
+      "\\bcompliance\\b",
+      "\\bhipaa\\b",
+      "\\bsso\\b",
+      "\\bscim\\b",
+      "\\badmins?\\b",
+      "\\borganization (settings|admins?)\\b",
+      "\\bbaa\\b",
+      "\\bfedramp\\b"
+    ],
+    "地區限定": [
+      "\\b(in|to) the (us|u\\.s\\.|eu|uk)\\b",
+      "\\bus[- ]only\\b",
+      "\\bin (japan|india|korea|brazil|europe)\\b",
+      "\\bavailable in the eu\\b"
+    ],
+    "新聞稿": [
+      "^(how|why) .{3,80} (uses?|is using|built|builds|scales|answers|cuts|saves|transforms|turns|powers)\\b",
+      "\\bcase stud",
+      "\\bcustomer stor",
+      "\\bpartner(s|ship)?\\b",
+      "\\binvest",
+      "\\boffice\\b",
+      "\\bmou\\b",
+      "\\bmidterm",
+      "\\belection",
+      "\\bhiring\\b",
+      "\\bacademy\\b",
+      "\\bfund\\b",
+      "\\bgrant",
+      "\\bnonprofit",
+      "\\bscientific discovery\\b",
+      "\\bbest inventions\\b",
+      "\\bpolicy update\\b",
+      "\\bcommitment\\b",
+      "\\bsafety (report|card|framework)\\b",
+      "\\bresponsibly\\b",
+      "\\btips? for\\b",
+      "\\bstyling\\b",
+      "^(?!introduc|announc|new |meet )[A-Z][\\w&.'+\\- ]{1,40} (cuts|answers|triples|doubles|builds|scales|brings|turns|uses|boosts|saves|speeds|transforms|powers|reaches|gets|helps|runs|ships|expands|launches .* with) .*\\bwith (gpt|chatgpt|codex|claude|gemini|grok|openai)",
+      "\\bdo better for\\b",
+      "\\bcivilian\\b",
+      "\\bgovernance\\b"
+    ],
+    "本機新模型": [
+      "\\b(flux|wan ?\\d|ltx|hunyuan|qwen|gemma|llama|deepseek|kimi|glm|gpt-oss|mistral|minimax|phi-?\\d|z-image|hidream|nemotron|lfm)\\w*\\b.{0,40}\\b(support|added|model|template)",
+      "\\b(support|add)\\w* (for )?(the )?(flux|wan|ltx|hunyuan|qwen|gemma|llama|deepseek|kimi|glm|gpt-oss|mistral|minimax|z-image|hidream)"
+    ],
+    "顯卡": [
+      "\\bcuda\\b",
+      "\\brtx\\b",
+      "\\bblackwell\\b",
+      "\\bnvidia\\b",
+      "\\bvram\\b",
+      "\\bgpu\\b"
+    ]
+  },
+  "cats_newsroom": [
+    "Policy",
+    "Case Study",
+    "Customer stories",
+    "Startup",
+    "Business",
+    "Global Affairs",
+    "Company",
+    "Research",
+    "Safety",
+    "Safety & Security",
+    "Security",
+    "Publication",
+    "Engineering",
+    "Applied AI",
+    "Intelligence Age",
+    "AI Adoption",
+    "Google.org",
+    "Google Cloud",
+    "Google DeepMind",
+    "Learning & Education",
+    "Health"
+  ],
+  "weights": {
+    "vendor": {
+      "claude": 30,
+      "chatgpt": 26,
+      "gemini": 14,
+      "grok": 11,
+      "local": 18
+    },
+    "source": {
+      "claude_apps": 16,
+      "claude_code": 10,
+      "claude_api": -2,
+      "anthropic_news": 4,
+      "chatgpt_notes": 13,
+      "codex": 8,
+      "openai_api": -4,
+      "openai_news": 2,
+      "gemini_app": 9,
+      "gemini_api": -2,
+      "google_blog": 4,
+      "gemini_cli": 1,
+      "xai_news": 4,
+      "xai_api": -3,
+      "ollama": 6,
+      "comfyui": 7,
+      "lmstudio": 6,
+      "nvidia": 4,
+      "prices": 8
+    },
+    "fx": {
+      "gone": 8,
+      "nerf": 18,
+      "buff": 16,
+      "new": 9,
+      "fix": -6,
+      "tweak": 0
+    },
+    "tags": {
+      "額度": 14,
+      "價格": 8,
+      "新模型": 12,
+      "程式": 8,
+      "生圖": 4,
+      "生影片": 6,
+      "語音": 0,
+      "研究": 2,
+      "代理": 2,
+      "Windows": 6,
+      "手機": 3,
+      "台灣": 10,
+      "企業": -16,
+      "地區限定": -6,
+      "新聞稿": -26,
+      "本機新模型": 10,
+      "顯卡": 6
+    },
+    "my_plan": 12,
+    "other_plan_only": -6,
+    "half_life_days": 21
+  },
+  "plan_words": {
+    "claude": {
+      "free": [
+        "free plan",
+        "free users"
+      ],
+      "pro": [
+        "\\bpro\\b"
+      ],
+      "max5": [
+        "\\bmax\\b"
+      ],
+      "max20": [
+        "\\bmax\\b"
+      ]
+    },
+    "chatgpt": {
+      "free": [
+        "free (users|plan|tier)"
+      ],
+      "go": [
+        "\\bgo\\b"
+      ],
+      "plus": [
+        "\\bplus\\b"
+      ],
+      "pro": [
+        "\\bpro (users|plan|subscribers|tier)\\b",
+        "\\bpro\\b(?! model)"
+      ]
+    },
+    "gemini": {
+      "free": [
+        "free (users|plan|tier)",
+        "\\bat no cost\\b",
+        "all users"
+      ],
+      "plus": [
+        "ai plus"
+      ],
+      "pro": [
+        "ai pro"
+      ],
+      "ultra": [
+        "ai ultra",
+        "\\bultra\\b"
+      ]
+    },
+    "grok": {
+      "free": [
+        "free (users|plan|tier)",
+        "everyone"
+      ],
+      "supergrok": [
+        "supergrok(?! heavy)"
+      ],
+      "heavy": [
+        "supergrok heavy",
+        "\\bheavy\\b"
+      ],
+      "premium": [
+        "premium\\+?"
+      ]
+    }
+  },
+  "show_min_score": 6,
+  "mine_min_score": 42,
+  "news_sources": [
+    "anthropic_news",
+    "openai_news",
+    "google_blog",
+    "xai_news"
+  ],
+  "product_words": "\\b(claude|opus|sonnet|haiku|fable|mythos|cowork|chatgpt|gpt-?\\d|codex|sora|gemini|veo|imagen|nano banana|notebooklm|antigravity|jules|grok|imagine|voice|app|apps|api|plan|plans|subscription|pricing|model|models|feature|agent mode|deep research)\\b",
+  "tool_weekly": [
+    "claude_code",
+    "codex",
+    "ollama",
+    "comfyui",
+    "gemini_cli",
+    "lmstudio"
+  ],
+  "tag_title_only": [
+    "新模型"
+  ]
+}

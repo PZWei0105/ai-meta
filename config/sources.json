@@ -1,0 +1,62 @@
+{
+  "note": "所有資料來源。patches 是改版公告（官方更新紀錄）；prices、status、fx、local 是其他資料。只用官方頁面與公開資料，不轉載全文。",
+  "vendors": {
+    "claude": {"name": "Claude", "company": "Anthropic", "home": "https://claude.ai", "status_page": "https://status.claude.com", "pricing_page": "https://claude.com/pricing", "api_pricing": "https://platform.claude.com/docs/en/about-claude/pricing"},
+    "chatgpt": {"name": "ChatGPT", "company": "OpenAI", "home": "https://chatgpt.com", "status_page": "https://status.openai.com", "pricing_page": "https://chatgpt.com/pricing", "api_pricing": "https://developers.openai.com/api/docs/pricing"},
+    "gemini": {"name": "Gemini", "company": "Google", "home": "https://gemini.google.com", "status_page": "https://aistudio.google.com/status", "pricing_page": "https://gemini.google/subscriptions/", "api_pricing": "https://ai.google.dev/gemini-api/docs/pricing"},
+    "grok": {"name": "Grok", "company": "xAI", "home": "https://grok.com", "status_page": "https://status.x.ai/", "pricing_page": "https://x.ai/grok", "api_pricing": "https://docs.x.ai/developers/pricing"},
+    "local": {"name": "本機", "company": "你的筆電", "home": ""}
+  },
+  "patches": [
+    {"id": "claude_apps", "vendor": "claude", "product": "Claude App", "kind": "intercom", "url": "https://support.claude.com/en/articles/12138966-release-notes"},
+    {"id": "claude_code", "vendor": "claude", "product": "Claude Code", "kind": "claude_code", "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md", "npm": "https://registry.npmjs.org/@anthropic-ai%2Fclaude-code"},
+    {"id": "claude_api", "vendor": "claude", "product": "Claude API", "kind": "md_dated", "url": "https://platform.claude.com/docs/en/release-notes/overview.md", "link": "https://platform.claude.com/docs/en/release-notes/overview"},
+    {"id": "anthropic_news", "vendor": "claude", "product": "Anthropic 公告", "kind": "anthropic_news", "url": "https://www.anthropic.com/news"},
+    {"id": "chatgpt_notes", "vendor": "chatgpt", "product": "ChatGPT", "kind": "help_dated", "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes"},
+    {"id": "codex", "vendor": "chatgpt", "product": "Codex CLI", "kind": "gh_releases", "repo": "openai/codex", "skip_tag": "(alpha|beta|rc|nightly|preview)", "url": "https://github.com/openai/codex/releases"},
+    {"id": "openai_api", "vendor": "chatgpt", "product": "OpenAI API", "kind": "openai_changelog", "url": "https://developers.openai.com/api/docs/changelog"},
+    {"id": "openai_news", "vendor": "chatgpt", "product": "OpenAI 公告", "kind": "rss", "url": "https://openai.com/news/rss.xml", "max": 120},
+    {"id": "gemini_app", "vendor": "gemini", "product": "Gemini App", "kind": "gemini_app", "url": "https://gemini.google/release-notes/"},
+    {"id": "gemini_api", "vendor": "gemini", "product": "Gemini API", "kind": "md_dated", "url": "https://ai.google.dev/gemini-api/docs/changelog.md.txt", "link": "https://ai.google.dev/gemini-api/docs/changelog"},
+    {"id": "google_blog", "vendor": "gemini", "product": "Google 公告", "kind": "rss", "url": "https://blog.google/products-and-platforms/products/gemini/rss/"},
+    {"id": "gemini_cli", "vendor": "gemini", "product": "Gemini CLI", "kind": "gh_releases", "repo": "google-gemini/gemini-cli", "skip_tag": "(nightly|preview|alpha|beta|rc)", "url": "https://github.com/google-gemini/gemini-cli/releases"},
+    {"id": "xai_news", "vendor": "grok", "product": "xAI 公告", "kind": "xai_news", "url": "https://x.ai/news"},
+    {"id": "xai_api", "vendor": "grok", "product": "xAI API", "kind": "md_month", "url": "https://docs.x.ai/developers/release-notes.md", "link": "https://docs.x.ai/developers/release-notes"},
+    {"id": "ollama", "vendor": "local", "product": "Ollama", "kind": "gh_releases", "repo": "ollama/ollama", "skip_tag": "(rc|alpha|beta)", "url": "https://github.com/ollama/ollama/releases"},
+    {"id": "comfyui", "vendor": "local", "product": "ComfyUI", "kind": "gh_releases", "repo": "comfyanonymous/ComfyUI", "skip_tag": "(rc|alpha|beta)", "url": "https://github.com/comfyanonymous/ComfyUI/releases"},
+    {"id": "lmstudio", "vendor": "local", "product": "LM Studio", "kind": "lmstudio", "url": "https://lmstudio.ai/changelog"},
+    {"id": "nvidia", "vendor": "local", "product": "NVIDIA 驅動", "kind": "nvidia", "url": "https://gfwsl.geforce.com/services_toolkit/services/com/nvidia/services/AjaxDriverService.php?func=DriverManualLookup&psid=133&pfid=1066&osID=57&languageCode=1028&isWHQL=1&dch=1&sort1=0&numberOfResults=3"}
+  ],
+  "prices": {
+    "claude_pricing": "https://platform.claude.com/docs/en/about-claude/pricing.md",
+    "claude_deprecations": "https://platform.claude.com/docs/en/about-claude/model-deprecations.md",
+    "claude_models": "https://platform.claude.com/docs/en/models/overview.md",
+    "gemini_pricing": "https://ai.google.dev/gemini-api/docs/pricing.md.txt",
+    "gemini_deprecations": "https://ai.google.dev/gemini-api/docs/deprecations.md.txt",
+    "openai_pricing": "https://developers.openai.com/api/docs/pricing",
+    "openai_deprecations": "https://developers.openai.com/api/docs/deprecations",
+    "xai_pricing": "https://docs.x.ai/developers/pricing.md",
+    "openrouter": "https://openrouter.ai/api/v1/models"
+  },
+  "status": {
+    "claude_summary": "https://status.claude.com/api/v2/summary.json",
+    "claude_incidents": "https://status.claude.com/api/v2/incidents.json",
+    "openai_summary": "https://status.openai.com/api/v2/summary.json",
+    "openai_incidents": "https://status.openai.com/api/v2/incidents.json",
+    "xai_incidents": "https://data.x.ai/status/incidents.json",
+    "xai_uptime": "https://data.x.ai/status/uptime.json",
+    "gcloud_incidents": "https://status.cloud.google.com/incidents.json"
+  },
+  "fx": [
+    {"id": "er_api", "url": "https://open.er-api.com/v6/latest/USD", "name": "ExchangeRate-API 每日匯率"},
+    {"id": "floatrates", "url": "https://www.floatrates.com/daily/usd.json", "name": "FloatRates 每日匯率"},
+    {"id": "jsdelivr", "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.min.json", "name": "fawazahmed0 currency-api"}
+  ],
+  "plan_pages": {
+    "claude": ["https://claude.com/pricing"],
+    "chatgpt": ["https://chatgpt.com/pricing"],
+    "gemini": ["https://gemini.google/subscriptions/", "https://one.google.com/about/plans?hl=zh-TW&gl=TW"],
+    "grok": ["https://x.ai/grok"]
+  },
+  "apps": {"claude": 6473753684, "chatgpt": 6448311069, "gemini": 6477489729, "grok": 6670324846}
+}

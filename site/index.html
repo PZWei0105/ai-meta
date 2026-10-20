@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#13153a" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f3f3fa" media="(prefers-color-scheme: light)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="版本答案">
+<meta name="description" content="PZ 的 AI 版本答案：四家 AI 的改版、方案與價格、伺服器狀態，以及哪些本機模型在你的 RTX 5090 筆電跑得動。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.github.com https://status.claude.com https://status.openai.com https://data.x.ai https://open.er-api.com; manifest-src 'self'; worker-src 'self'">
+<title>版本答案</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="styles.css?v=__BUILD__">
+</head>
+<body>
+<div class="app" id="app">
+  <header class="bar">
+    <a class="brand" href="#/" aria-label="版本答案首頁">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path class="mk-a" d="M4 6h17l-4 6H4z"/><path class="mk-b" d="M4 14h12l-4 6H4z"/><path class="mk-c" d="M4 22h7l-4 6H4z"/><path class="mk-d" d="M22 8l6 0-9 18h-6z"/></svg>
+      <span class="brand-t">版本答案</span>
+    </a>
+    <div class="fresh" id="fresh" aria-live="polite">讀取中</div>
+    <button class="scan" id="scan" type="button" aria-label="重新整理資料">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v4.5h-4.5"/></svg>
+      <span>更新</span>
+    </button>
+    <button class="gear" id="gear" type="button" aria-label="我的設定">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.8v2.6M12 18.6v2.6M21.2 12h-2.6M5.4 12H2.8M18.5 5.5l-1.8 1.8M7.3 16.7l-1.8 1.8M18.5 18.5l-1.8-1.8M7.3 7.3 5.5 5.5"/></svg>
+    </button>
+  </header>
+
+  <main class="views" id="views">
+    <section class="view" id="v-home" data-view="home" aria-label="本週版本"></section>
+    <section class="view" id="v-patch" data-view="patch" aria-label="改版公告" hidden></section>
+    <section class="view" id="v-shop" data-view="shop" aria-label="方案與價格" hidden></section>
+    <section class="view" id="v-local" data-view="local" aria-label="本機模型" hidden></section>
+    <section class="view" id="v-guide" data-view="guide" aria-label="攻略" hidden></section>
+  </main>
+
+  <nav class="tabs" aria-label="分頁">
+    <a href="#/" data-tab="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h11l-3 4H4z"/><path d="M4 13h8l-3 4H4z"/><path d="M15 6h5l-7 13h-4"/></svg><span>版本</span></a>
+    <a href="#/patch" data-tab="patch"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 12h6M9 16h4"/></svg><span>改版</span></a>
+    <a href="#/shop" data-tab="shop"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16l-1.5 11h-13z"/><path d="M8.5 8a3.5 3.5 0 0 1 7 0"/><path d="M9 13h6"/></svg><span>商城</span></a>
+    <a href="#/local" data-tab="local"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="1.5"/><path d="M7 10v4M10 10v4M13 10v4"/><path d="M17 11h2"/><path d="M5 17v3M19 17v3"/></svg><span>本機</span></a>
+    <a href="#/guide" data-tab="guide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11"/><path d="m9 8 2 2 3-3"/></svg><span>攻略</span></a>
+  </nav>
+</div>
+
+<div class="sheet-wrap" id="sheet" hidden>
+  <div class="sheet-back" data-close></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-title" tabindex="-1"><div class="sheet-body" id="sheet-body"></div></div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+<noscript><p class="noscript">這個 App 需要開啟 JavaScript。</p></noscript>
+<script src="app.js?v=__BUILD__" defer></script>
+</body>
+</html>

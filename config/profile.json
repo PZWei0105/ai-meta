@@ -1,0 +1,22 @@
+{
+  "note": "PZ 的設定：硬體、四家方案（App 裡可以改，只存在手機）、常做的事。改這裡會變成 App 的預設值。",
+  "name": "PZ",
+  "rig": {
+    "name": "ROG Strix SCAR 18（G835）",
+    "gpu": "RTX 5090 Laptop GPU",
+    "vram_gib": 24,
+    "vram_reserve_gib": 1.0,
+    "gpu_bw_gbs": 896,
+    "ram_gib": 64,
+    "ram_reserve_gib": 18,
+    "ram_bw_gbs": 89.6,
+    "ram_note": "DDR5-5600 雙通道",
+    "cpu": "Intel Core Ultra 9 275HX",
+    "disk_free_gb": 800,
+    "os": "Windows"
+  },
+  "phones": ["iPhone 17 Pro Max", "ROG Phone 9 Pro"],
+  "tiers": {"claude": "max5", "chatgpt": "pro", "gemini": "free", "grok": "free"},
+  "tasks": ["code", "novel", "script", "research", "translate", "image", "video", "trend"],
+  "uses": {"claude": ["code", "novel", "script", "research"], "chatgpt": [], "gemini": [], "grok": []}
+}

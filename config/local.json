@@ -1,0 +1,1 @@
+{"quants": {"Q4_K_M": {"zh": "標準壓縮（推薦）"}}, "cats": [{"id": "chat", "name": "聊天寫作"}], "llm": [{"id": "qwen3-30b-a3b", "name": "Qwen3 30B A3B", "maker": "阿里巴巴 Qwen", "cats": ["chat"], "hf": "Qwen/Qwen3-30B-A3B", "gguf": "unsloth/Qwen3-30B-A3B-GGUF", "total_b": 30.5, "active_b": 3.3, "commercial": "yes"}], "diffusion": []}
