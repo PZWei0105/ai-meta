@@ -72,6 +72,10 @@ EXAMPLES_SHORT = [
     ('Voice mode', '{"zh": "語音模式"}'),
 ]
 SCHEMA_SHORT = {'type': 'object', 'properties': {'zh': {'type': 'string'}}, 'required': ['zh']}
+# 官方有中文名稱的，直接用官方的（台灣版定價頁的叫法）
+SHORT_FIXED = {'ChatGPT Work': 'ChatGPT 工作', 'Codex in ChatGPT Desktop': 'ChatGPT 桌面版的 Codex',
+               'Deep Research': '深度研究', 'Image Generation': '生圖', 'Voice mode': '語音模式',
+               'File uploads': '檔案上傳', 'Search': '搜尋', 'Login': '登入'}
 TERMS = [('克隆', '複製'), ('存儲', '儲存'), ('視頻', '影片'), ('軟件', '軟體'), ('硬件', '硬體'), ('網絡', '網路'),
          ('質量', '品質'), ('信息', '資訊'), ('用戶', '使用者'), ('服務器', '伺服器'), ('鼠標', '滑鼠'), ('屏幕', '螢幕'),
          ('默認', '預設'), ('數據', '資料'), ('代碼', '程式碼'), ('程序', '程式'), ('內存', '記憶體'), ('顯存', '顯示記憶體'),
@@ -238,6 +242,9 @@ def run(items: list[dict], st, t0, src_names: dict, budget_s: int | None = None,
                 need_pts.append((e, ph, pbody))
     short_map, need_short = {}, []
     for text in dict.fromkeys(x for x in (shorts or []) if x and re.search(r'[A-Za-z]', x)):
+        if text in SHORT_FIXED:
+            short_map[text] = SHORT_FIXED[text]
+            continue
         k = _h(text)
         c = scache.get(k)
         if c and c.get('v') == SHORT_VERSION:
