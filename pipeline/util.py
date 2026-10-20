@@ -116,7 +116,11 @@ def strip_md(s: str) -> str:
     s = re.sub(r'!\[[^\]]*\]\([^)]*\)', ' ', s)
     s = re.sub(r'\[([^\]]+)\]\([^)]*\)', r'\1', s)
     s = re.sub(r'<[^>]+>', ' ', s)
-    s = re.sub(r'[*_`>#]+', ' ', s)
+    s = re.sub(r'(\*\*|__)(.+?)\1', r'\2', s)
+    s = re.sub(r'(?<![\w*])[*_](?=\S)(.+?)(?<=\S)[*_](?![\w*])', r'\1', s)
+    s = s.replace('`', '').replace('\\_', '_')
+    s = re.sub(r'^[#>\s]+', '', s)
+    s = re.sub(r'\s[#>]+\s', ' ', s)
     return _WS.sub(' ', html.unescape(s)).strip()
 
 

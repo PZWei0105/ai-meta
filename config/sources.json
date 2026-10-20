@@ -3,8 +3,8 @@
   "vendors": {
     "claude": {"name": "Claude", "company": "Anthropic", "home": "https://claude.ai", "status_page": "https://status.claude.com", "pricing_page": "https://claude.com/pricing", "api_pricing": "https://platform.claude.com/docs/en/about-claude/pricing"},
     "chatgpt": {"name": "ChatGPT", "company": "OpenAI", "home": "https://chatgpt.com", "status_page": "https://status.openai.com", "pricing_page": "https://chatgpt.com/pricing", "api_pricing": "https://developers.openai.com/api/docs/pricing"},
-    "gemini": {"name": "Gemini", "company": "Google", "home": "https://gemini.google.com", "status_page": "https://aistudio.google.com/status", "pricing_page": "https://gemini.google/subscriptions/", "api_pricing": "https://ai.google.dev/gemini-api/docs/pricing"},
-    "grok": {"name": "Grok", "company": "xAI", "home": "https://grok.com", "status_page": "https://status.x.ai/", "pricing_page": "https://x.ai/grok", "api_pricing": "https://docs.x.ai/developers/pricing"},
+    "gemini": {"name": "Gemini", "company": "Google", "home": "https://gemini.google.com", "status_page": "https://aistudio.google.com/status", "pricing_page": "https://gemini.google/tw/subscriptions/", "api_pricing": "https://ai.google.dev/gemini-api/docs/pricing"},
+    "grok": {"name": "Grok", "company": "xAI", "home": "https://grok.com", "status_page": "https://status.x.ai/", "pricing_page": "https://x.ai/pricing", "api_pricing": "https://docs.x.ai/developers/pricing"},
     "local": {"name": "本機", "company": "你的筆電", "home": ""}
   },
   "patches": [
@@ -24,7 +24,8 @@
     {"id": "xai_api", "vendor": "grok", "product": "xAI API", "kind": "md_month", "url": "https://docs.x.ai/developers/release-notes.md", "link": "https://docs.x.ai/developers/release-notes"},
     {"id": "ollama", "vendor": "local", "product": "Ollama", "kind": "gh_releases", "repo": "ollama/ollama", "skip_tag": "(rc|alpha|beta)", "url": "https://github.com/ollama/ollama/releases"},
     {"id": "comfyui", "vendor": "local", "product": "ComfyUI", "kind": "gh_releases", "repo": "comfyanonymous/ComfyUI", "skip_tag": "(rc|alpha|beta)", "url": "https://github.com/comfyanonymous/ComfyUI/releases"},
-    {"id": "lmstudio", "vendor": "local", "product": "LM Studio", "kind": "lmstudio", "url": "https://lmstudio.ai/changelog"},
+    {"id": "lmstudio", "vendor": "local", "product": "LM Studio", "kind": "lmstudio", "url": "https://lmstudio.ai/changelog/lmstudio"},
+    {"id": "bionic", "vendor": "local", "product": "Bionic（LM Studio 的新 App）", "kind": "lmstudio", "url": "https://lmstudio.ai/changelog"},
     {"id": "nvidia", "vendor": "local", "product": "NVIDIA 驅動", "kind": "nvidia", "url": "https://gfwsl.geforce.com/services_toolkit/services/com/nvidia/services/AjaxDriverService.php?func=DriverManualLookup&psid=133&pfid=1066&osID=57&languageCode=1028&isWHQL=1&dch=1&sort1=0&numberOfResults=3"}
   ],
   "prices": {
@@ -55,8 +56,13 @@
   "plan_pages": {
     "claude": ["https://claude.com/pricing"],
     "chatgpt": ["https://chatgpt.com/pricing"],
-    "gemini": ["https://gemini.google/subscriptions/", "https://one.google.com/about/plans?hl=zh-TW&gl=TW"],
-    "grok": ["https://x.ai/grok"]
+    "gemini": ["https://gemini.google/tw/subscriptions/", "https://one.google.com/about/plans?hl=zh-TW&gl=TW"],
+    "grok": ["https://x.ai/pricing"]
   },
-  "apps": {"claude": 6473753684, "chatgpt": 6448311069, "gemini": 6477489729, "grok": 6670324846}
+  "apps": {
+    "claude": 6473753684,
+    "chatgpt": 6448311069,
+    "gemini": 6477489729,
+    "grok": 6670324846
+  }
 }

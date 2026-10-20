@@ -111,7 +111,9 @@ def build(curated: dict, fx, watch_state: dict, apps: dict):
         plans = []
         for p in info['plans']:
             p = dict(p)
-            if rate and p.get('usd') is not None:
+            if p.get('twd_official') is not None:            # 台灣官方台幣價（Google）：不用換算、沒有海外手續費
+                p['twd'] = p['twd_card'] = p['twd_official']
+            elif rate and p.get('usd') is not None:
                 p['twd'] = round(p['usd'] * rate)
                 p['twd_card'] = round(p['usd'] * rate * (1 + fee))
             plans.append(p)

@@ -9,14 +9,16 @@ import re
 from .util import sid
 
 FX_ZH = {'gone': '移除', 'nerf': '削弱', 'buff': '加強', 'new': '新增', 'fix': '修正', 'tweak': '調整'}
+# 公告裡提到的是「方案家族」（例如 Max、Pro），config/plans.json 的方案 id 再對應到家族
 TIER_ORDER = {
-    'claude': ['free', 'pro', 'max5', 'max20'],
+    'claude': ['free', 'pro', 'max'],
     'chatgpt': ['free', 'go', 'plus', 'pro'],
     'gemini': ['free', 'plus', 'pro', 'ultra'],
-    'grok': ['free', 'supergrok', 'heavy'],
+    'grok': ['free', 'plus', 'premium', 'super', 'ultra'],
 }
+TIER_FAMILY = {'max5': 'max', 'max20': 'max', 'pro100': 'pro', 'pro200': 'pro', 'pro500': 'pro', 'ultra20': 'ultra'}
 TIER_ZH = {'free': '免費版', 'pro': 'Pro', 'max5': 'Max', 'max20': 'Max', 'go': 'Go', 'plus': 'Plus', 'ultra': 'Ultra',
-           'supergrok': 'SuperGrok', 'heavy': 'SuperGrok Heavy', 'premium': 'X Premium'}
+           'ultra20': 'Ultra', 'pro100': 'Pro', 'pro200': 'Pro', 'pro500': 'Pro', 'premium': 'X Premium', 'super': 'X Super'}
 VENDOR_ZH = {'claude': 'Claude', 'chatgpt': 'ChatGPT', 'gemini': 'Gemini', 'grok': 'Grok', 'local': '本機工具'}
 STOP = set('a an the and or of to in on for with is are be now new our your you we it its this that from by at as '
            'available introducing announcing update updates model models'.split())
@@ -78,11 +80,12 @@ class Rules:
         mine = self.tiers.get(v)
         if v not in TIER_ORDER or not mine:
             return None
+        mine = TIER_FAMILY.get(mine, mine)
         hits = [t for t, pats in self.plan.get(v, {}).items() if any(p.search(text) for p in pats)]
         if not hits:
             return None
         order = TIER_ORDER[v]
-        if mine in hits or (mine.startswith('max') and any(h.startswith('max') for h in hits)):
+        if mine in hits:
             return 'mine'
         if mine in order and all(h in order and order.index(h) > order.index(mine) for h in hits):
             return 'higher'

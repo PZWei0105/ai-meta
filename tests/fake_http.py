@@ -2,6 +2,7 @@
 import json
 import os
 import pathlib
+import re
 
 DIRS = [pathlib.Path(p) / 'raw' for p in os.environ.get('PROBE', '').split(':') if p]
 
@@ -24,15 +25,21 @@ class FakeHttp:
         self.log = []
         self.gh_token = ''
 
+    DYNAMIC = [
+        (re.compile(r'huggingface\.co/api/models/([^/?]+)/([^/?]+)/tree/main'), 'tree_{0}__{1}'),
+        (re.compile(r'huggingface\.co/([^/?]+)/([^/?]+)/resolve/main/config\.json'), 'cfg_{0}__{1}'),
+    ]
+
     def get(self, url, **kw):
         self.calls += 1
         self.log.append(url)
-        for key, name in self.routes:
-            if key in url:
-                for d in DIRS:
-                    p = d / f'{name}.txt'
-                    if p.exists():
-                        return R(p.read_bytes())
+        names = [rx_name.format(*m.groups()) for rx, rx_name in self.DYNAMIC for m in [rx.search(url)] if m]
+        names += [name for key, name in self.routes if key in url]
+        for name in names:
+            for d in DIRS:
+                p = d / f'{name}.txt'
+                if p.exists():
+                    return R(p.read_bytes())
         return R(b'', 404)
 
     def text(self, url, **kw):

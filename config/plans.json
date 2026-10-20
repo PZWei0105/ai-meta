@@ -1,1 +1,177 @@
-{"checked": "2026-10-20", "card_fee": 0.015, "tasks": {"code": "寫程式・做 App"}, "vendors": {"claude": {"name": "Claude", "plans": [{"id": "free", "name": "免費版", "usd": 0}, {"id": "pro", "name": "Pro", "usd": 20}, {"id": "max5", "name": "Max 5x", "usd": 100}, {"id": "max20", "name": "Max 20x", "usd": 200}]}}}
+{
+  "note": "四家訂閱方案（人工整理，每一格都來自官方頁面）。價格為美元月費；Google 在台灣以台幣計價，另列 twd_official。covers 是「這個方案能不能做這件事」，訂閱方針的規則靠它判斷重疊與缺口。改了就更新 checked。",
+  "checked": "2026-10-20",
+  "card_fee": 0.015,
+  "notes": [
+    "Claude、ChatGPT、Grok 以美元計價，信用卡刷外幣約多 1.5% 海外交易手續費；官方標價都不含稅。",
+    "Google AI 方案在台灣直接用台幣計價（官方台灣訂閱頁）。",
+    "App Store／Google Play 訂閱的台幣價格可能不同，以你實際帳單為準（可在「我的設定」填實付金額）。"
+  ],
+  "tasks": {
+    "code": "寫程式・做 App 與遊戲",
+    "novel": "寫長篇小說",
+    "script": "影片企劃與腳本",
+    "research": "查資料與查證",
+    "translate": "翻譯與摘要",
+    "image": "生圖",
+    "video": "生影片",
+    "trend": "即時話題與社群風向"
+  },
+  "vendors": {
+    "claude": {
+      "name": "Claude",
+      "plans": [
+        {"id": "free", "name": "免費版", "usd": 0,
+         "limits": ["有用量上限，尖峰時段可能更緊", "只能用 Sonnet 與 Haiku", "專案最多 5 個"],
+         "gets": ["網頁、桌面、手機 App", "網路搜尋、建立檔案、執行程式碼", "Claude Design、Slides、Docs、Artifacts", "記憶、連接器、技能"],
+         "covers": {"novel": "Sonnet（額度少）", "script": "Sonnet（額度少）", "translate": "可以", "research": "網路搜尋（沒有 Research）"},
+         "src": ["https://claude.com/pricing"]
+        },
+        {"id": "pro", "name": "Pro", "usd": 20, "usd_year": 17,
+         "limits": ["每 5 小時重置一次的額度＋每週上限", "網頁、桌面 App、Claude Code 共用同一份額度", "Fable 要用「用量點數」另外付費"],
+         "gets": ["Claude Code（終端機、桌面、IDE）", "Opus 等更多模型", "Research 深度研究", "交辦與排程任務、Dashboards（beta）", "Claude Science", "Claude in Chrome、Microsoft 365", "專案不限數量"],
+         "covers": {"code": "Claude Code", "novel": "Opus／Sonnet", "script": "Opus／Sonnet", "research": "Research", "translate": "可以"},
+         "lift": "Max 5x 的用量是 Pro 的 5 倍，另附每月 $100 API 額度。",
+         "src": ["https://claude.com/pricing", "https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work"]
+        },
+        {"id": "max5", "name": "Max 5x", "usd": 100,
+         "limits": ["用量是 Pro 的 5 倍（一樣是 5 小時週期＋每週上限）", "Fable 最多可用到每週額度的一半", "只能月繳"],
+         "gets": ["Pro 的全部功能", "每月 $100 Claude Platform API 額度（給自己的 App、代理用；不能抵 Claude Code 對話）", "所有工作的輸出長度上限較高", "尖峰時段優先使用", "新功能搶先用"],
+         "covers": {"code": "Claude Code（5 倍用量）", "novel": "Opus 5.5／Fable 5.1", "script": "Opus／Sonnet", "research": "Research", "translate": "可以"},
+         "lift": "Max 20x 用量是 Pro 的 20 倍，API 額度變每月 $200。",
+         "src": ["https://claude.com/pricing", "https://support.claude.com/en/articles/17154008-monthly-api-credits-for-max-and-team-plans"]
+        },
+        {"id": "max20", "name": "Max 20x", "usd": 200,
+         "limits": ["用量是 Pro 的 20 倍", "Fable 最多可用到每週額度的一半", "只能月繳"],
+         "gets": ["Max 5x 的全部功能", "每月 $200 Claude Platform API 額度"],
+         "covers": {"code": "Claude Code（20 倍用量）", "novel": "Opus 5.5／Fable 5.1", "script": "Opus／Sonnet", "research": "Research", "translate": "可以"},
+         "src": ["https://claude.com/pricing"]
+        }
+      ],
+      "unique": ["Claude Code：Pro 起就含終端機、桌面與 IDE 的寫程式代理", "Max 方案每月附 API 額度（Max 5x 每月 $100、Max 20x 每月 $200），要到網頁版「設定 → 帳單」連結 Claude Console 才領得到", "Fable 5.1 頂規模型（Max 每週最多用到一半額度；Pro 要用點數）"]
+    },
+    "chatgpt": {
+      "name": "ChatGPT",
+      "plans": [
+        {"id": "free", "name": "免費版", "usd": 0,
+         "limits": ["日常文字對話不限次數（有防濫用規則）", "上傳、生圖、語音、深度研究都有限額", "GPT Instant 上下文 2.7 萬 token（約 12 頁）", "部分國家會出現廣告"],
+         "gets": ["GPT-6 文字對話", "Codex 寫程式代理（限額）", "桌面版「ChatGPT 工作」（限額）", "專案、搜尋、學習模式"],
+         "covers": {"code": "Codex（限額）", "novel": "GPT-6（上下文短）", "translate": "可以", "research": "深度研究（限額）", "image": "生圖（限額）"},
+         "src": ["https://chatgpt.com/pricing", "https://help.openai.com/en/articles/9275245-chatgpt-free-tier-faq"]
+        },
+        {"id": "go", "name": "Go", "usd": 8, "price_note": "依地區定價，以官方定價頁為準",
+         "limits": ["比免費版更多工具訊息、上傳、生圖、語音", "GPT Instant 上下文 5.4 萬、推理 25.6 萬 token", "可能會有廣告"],
+         "gets": ["Think 推理", "排程任務、建立並分享外掛程式", "更長的記憶"],
+         "covers": {"code": "Codex（限額）", "novel": "GPT-6", "translate": "可以", "research": "深度研究（限額）", "image": "生圖"},
+         "src": ["https://help.openai.com/en/articles/11989085-what-is-chatgpt-go", "https://chatgpt.com/pricing"]
+        },
+        {"id": "plus", "name": "Plus", "usd": 20,
+         "limits": ["GPT-6 Astra、GPT-6.1 Sol 有限額", "GPT Instant 上下文 5.4 萬、推理 25.6 萬 token（約 320 頁）", "高峰時段可能有訊息上限"],
+         "gets": ["GPT-6 進階推理（Astra 可在 ChatGPT 工作與 Codex 裡用）", "生圖可用 Thinking 模型（ChatGPT Images 2.5）", "深度研究", "Codex（含雲端 Codex Cloud）", "ChatGPT 工作（桌面、網頁、行動）", "工作站、開發者模式、互動式表格", "搶先試用新功能"],
+         "covers": {"code": "Codex", "novel": "GPT-6 Astra（限額）", "script": "GPT-6 Sol", "research": "深度研究", "translate": "可以", "image": "ChatGPT Images 2.5"},
+         "lift": "Pro 100 起有 GPT-6 Pro、dot 常駐代理、無限額生圖、最高等級深度研究與更長的 Codex 工作階段。",
+         "src": ["https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus", "https://chatgpt.com/pricing"]
+        },
+        {"id": "pro100", "name": "Pro 100", "usd": 100,
+         "limits": ["GPT-6 Astra、Sol 擴充額度", "GPT Instant 上下文 12.8 萬、推理 40 萬 token（約 680 頁）"],
+         "gets": ["GPT-6 Pro（由 GPT-6 Astra 驅動）", "dot 常駐代理、ChatGPT 空間", "無限額且更快的生圖", "最高等級的深度研究與記憶", "更長的 Codex 與 ChatGPT 工作階段"],
+         "covers": {"code": "Codex（擴充額度）", "novel": "GPT-6 Astra／Pro", "script": "GPT-6 Astra", "research": "最高等級深度研究", "translate": "可以", "image": "無限額生圖"},
+         "lift": "Pro 200 的用量比 Pro 100 多。",
+         "src": ["https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers"]
+        },
+        {"id": "pro200", "name": "Pro 200", "usd": 200,
+         "limits": ["用量比 Pro 100 多", "9/29 起新訂閱的內含用量比以前低；9/22–9/29 間有訂閱的舊戶 10/29 前沿用舊額度"],
+         "gets": ["Pro 100 的全部功能", "更高的內含用量"],
+         "covers": {"code": "Codex（擴充額度）", "novel": "GPT-6 Astra／Pro", "script": "GPT-6 Astra", "research": "最高等級深度研究", "translate": "可以", "image": "無限額生圖"},
+         "lift": "Pro 500 用量最高，並含 GPT-6 Astra／GPT-6.1 Sol Ultrafast。",
+         "src": ["https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers"]
+        },
+        {"id": "pro500", "name": "Pro 500", "usd": 500,
+         "limits": ["三個 Pro 方案中內含用量最高", "Ultrafast 以 8 倍速率扣內含額度，用完再扣點數"],
+         "gets": ["Pro 200 的全部功能", "GPT-6 Astra／GPT-6.1 Sol Ultrafast（ChatGPT 工作與 Codex）"],
+         "covers": {"code": "Codex（最高用量＋Ultrafast）", "novel": "GPT-6 Astra／Pro", "script": "GPT-6 Astra", "research": "最高等級深度研究", "translate": "可以", "image": "無限額生圖"},
+         "src": ["https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers"]
+        }
+      ],
+      "unique": ["Codex 寫程式代理（免費版起就有；Plus 起含雲端 Codex Cloud）", "ChatGPT Images 2.5 生圖（Plus 起可用 Thinking 模型生圖）", "ChatGPT 工作：長時間研究與交付任務", "dot 常駐代理、ChatGPT 空間（Pro 才有）"]
+    },
+    "gemini": {
+      "name": "Gemini",
+      "plans": [
+        {"id": "free", "name": "免費版", "usd": 0, "twd_official": 0,
+         "limits": ["依運算量計，每 5 小時重置，另有每週上限", "上下文 3.2 萬 token", "需求高的時段可能用不到 Deep Research 等重度功能"],
+         "gets": ["Gemini App（Flash-Lite 模型）", "生圖與修圖、Deep Research、Gemini Live、Canvas、Gem", "Google Flow 少量額度（含有限的 Nano Banana Pro）", "Gemini Notebook", "15 GB 雲端空間"],
+         "covers": {"novel": "Flash-Lite（上下文短）", "translate": "可以", "research": "Deep Research（限額）", "image": "Nano Banana（限額）"},
+         "src": ["https://support.google.com/gemini/answer/16275805", "https://gemini.google/tw/subscriptions/"]
+        },
+        {"id": "plus", "name": "Google AI Plus", "usd": 4.99, "twd_official": 165,
+         "limits": ["免費版的 2 倍用量", "上下文 12.8 萬 token"],
+         "gets": ["Flash 模型", "影片生成等功能", "Google Flow 每月 200 點", "Gemini Notebook 用量提高到 5 倍", "Gmail、Vids 內建 Gemini", "400 GB 雲端空間"],
+         "covers": {"novel": "Flash", "translate": "可以", "research": "Deep Research", "image": "Nano Banana", "video": "影片生成（少量）"},
+         "lift": "AI Pro 是免費版 4 倍用量，含 Gemini 4 Argon、Antigravity 與 1,000 點 Flow。",
+         "src": ["https://gemini.google/tw/subscriptions/", "https://support.google.com/gemini/answer/16275805"]
+        },
+        {"id": "pro", "name": "Google AI Pro", "usd": 19.99, "twd_official": 650,
+         "limits": ["免費版的 4 倍用量", "上下文 100 萬 token"],
+         "gets": ["Gemini 4 Argon 與 Pro 模型", "影片生成、Google Flow 每月 1,000 點", "Antigravity 代理式開發平台基本額度", "AI Studio、Jules 擴充額度", "每月 $10 Google Cloud 額度（Google Developer Program）", "YouTube Premium Lite", "5 TB 雲端空間"],
+         "covers": {"code": "Antigravity／Jules", "novel": "Gemini 4 Argon", "script": "Gemini 4 Argon", "research": "Deep Research", "translate": "可以", "image": "Nano Banana", "video": "Omni Flash 影片／Flow"},
+         "lift": "AI Ultra 有 AI Pro 的 5 倍或 20 倍用量，加 Project Genie 與 YouTube Premium。",
+         "src": ["https://gemini.google/tw/subscriptions/", "https://one.google.com/about/google-ai-plans/"]
+        },
+        {"id": "ultra", "name": "AI Ultra（5 倍）", "usd": 99.99, "twd_official": 3300,
+         "limits": ["AI Pro 的 5 倍用量"],
+         "gets": ["AI Pro 的全部功能", "Gemini 4 Argon 最高權限", "Google Flow 每月 10,000 點", "Antigravity 更高額度", "Project Genie（Genie 3 世界模型）", "YouTube Premium 個人方案", "20 TB 起雲端空間", "每月 $40 Google Cloud 額度"],
+         "covers": {"code": "Antigravity／Jules", "novel": "Gemini 4 Argon", "script": "Gemini 4 Argon", "research": "Deep Research", "translate": "可以", "image": "Nano Banana", "video": "Omni Flash 影片／Flow（更高額度）"},
+         "lift": "20 倍的 AI Ultra 每月 NT$6,500。",
+         "src": ["https://gemini.google/tw/subscriptions/", "https://one.google.com/about/google-ai-plans/"]
+        },
+        {"id": "ultra20", "name": "AI Ultra（20 倍）", "usd": 199.99, "twd_official": 6500,
+         "limits": ["AI Pro 的 20 倍用量"],
+         "gets": ["AI Ultra 的全部功能", "Google Flow 每月 25,000 點", "Antigravity 最高額度"],
+         "covers": {"code": "Antigravity／Jules", "novel": "Gemini 4 Argon", "script": "Gemini 4 Argon", "research": "Deep Research", "translate": "可以", "image": "Nano Banana", "video": "Omni Flash 影片／Flow（最高額度）"},
+         "src": ["https://gemini.google/tw/subscriptions/"]
+        }
+      ],
+      "unique": ["影片生成（Gemini Omni Flash）與 Google Flow 創作室", "大容量雲端空間（AI Plus 400 GB、AI Pro 5 TB）與 YouTube Premium（Lite／個人）", "Gemini Notebook 研究與寫作筆記本", "Antigravity、Jules 寫程式代理（AI Pro 起）"]
+    },
+    "grok": {
+      "name": "Grok",
+      "plans": [
+        {"id": "free", "name": "免費版", "usd": 0,
+         "limits": ["AI 用量有限：對話、代理請求都限量"],
+         "gets": ["Grok 對話、語音、生圖與生影片（限額）", "Cursor 寫程式代理入門額度", "一般 X 帳號（發文、回覆、追蹤）"],
+         "covers": {"trend": "X 即時話題（限額）", "translate": "可以", "novel": "Grok（限額）", "research": "搜尋（限額）", "image": "Grok Imagine（限額）"},
+         "src": ["https://x.ai/pricing", "https://x.ai/news/x-subscription"]
+        },
+        {"id": "plus", "name": "X Plus", "usd": 8,
+         "limits": ["Grok 與 Cursor 共用一個用量池（基本量）"],
+         "gets": ["Grok 對話、語音、Imagine、Build", "Grok API 存取", "Cursor 寫程式代理", "X 藍勾勾、時間軸廣告變少、創作者工具、進階分析"],
+         "covers": {"trend": "X 即時話題", "code": "Cursor（基本用量）", "translate": "可以", "novel": "Grok", "research": "搜尋", "image": "Grok Imagine"},
+         "lift": "X Premium 是 Plus 的 4 倍用量，加最新 Grok 模型、Grok Bot、生圖生影片與雲端代理。",
+         "src": ["https://x.ai/pricing", "https://x.ai/news/x-subscription"]
+        },
+        {"id": "premium", "name": "X Premium", "usd": 30,
+         "limits": ["Plus 的 4 倍用量（Grok 與 Cursor 共用）"],
+         "gets": ["最新的 Grok 模型、回應更快", "Grok Bot（AI 隊友）", "生圖、生影片", "程式碼託管、AI 程式碼審查、雲端代理與自動化", "X 大部分畫面無廣告、可選偏好的 @帳號", "等於 SuperGrok＋Cursor Pro＋X Premium+（以前合計每月 $90）", "Cursor 可用第三方模型（另外按 API 價計費）"],
+         "covers": {"trend": "X 即時話題", "code": "Cursor Pro", "translate": "可以", "novel": "Grok 4.7", "research": "搜尋", "image": "Grok Imagine", "video": "Grok Imagine 影片"},
+         "lift": "X Super 是 Plus 的 15 倍用量。",
+         "src": ["https://x.ai/pricing", "https://x.ai/news/x-subscription"]
+        },
+        {"id": "super", "name": "X Super", "usd": 100,
+         "limits": ["Plus 的 15 倍用量"],
+         "gets": ["X Premium 的全部功能", "尖峰時段優先使用模型"],
+         "covers": {"trend": "X 即時話題", "code": "Cursor Pro（15 倍）", "translate": "可以", "novel": "Grok 4.7", "research": "搜尋", "image": "Grok Imagine", "video": "Grok Imagine 影片"},
+         "lift": "X Ultra 是 Plus 的 50 倍用量。",
+         "src": ["https://x.ai/pricing", "https://x.ai/news/x-subscription"]
+        },
+        {"id": "ultra", "name": "X Ultra", "usd": 200,
+         "limits": ["Plus 的 50 倍用量"],
+         "gets": ["X Super 的全部功能"],
+         "covers": {"trend": "X 即時話題", "code": "Cursor Pro（50 倍）", "translate": "可以", "novel": "Grok 4.7", "research": "搜尋", "image": "Grok Imagine", "video": "Grok Imagine 影片"},
+         "src": ["https://x.ai/pricing", "https://x.ai/news/x-subscription"]
+        }
+      ],
+      "unique": ["X 即時貼文與話題（Grok 內建 X 搜尋）", "Grok 與 Cursor 寫程式代理共用同一份用量（10/12 推出的 The X Subscription）", "Grok Imagine 生圖、生影片", "舊的 SuperGrok、Cursor、X Premium 訂閱戶可以維持原方案，或改訂新方案並按比例退費"]
+    }
+  }
+}

@@ -272,7 +272,8 @@
       "comfyui": 7,
       "lmstudio": 6,
       "nvidia": 4,
-      "prices": 8
+      "prices": 8,
+      "bionic": 2
     },
     "fx": {
       "gone": 8,
@@ -312,12 +313,9 @@
         "free users"
       ],
       "pro": [
-        "\\bpro\\b"
+        "\\bpro\\b(?! model)"
       ],
-      "max5": [
-        "\\bmax\\b"
-      ],
-      "max20": [
+      "max": [
         "\\bmax\\b"
       ]
     },
@@ -326,13 +324,14 @@
         "free (users|plan|tier)"
       ],
       "go": [
-        "\\bgo\\b"
+        "\\bgo\\b(?! to)"
       ],
       "plus": [
         "\\bplus\\b"
       ],
       "pro": [
         "\\bpro (users|plan|subscribers|tier)\\b",
+        "\\bpro ?(100|200|500)\\b",
         "\\bpro\\b(?! model)"
       ]
     },
@@ -358,15 +357,21 @@
         "free (users|plan|tier)",
         "everyone"
       ],
-      "supergrok": [
+      "plus": [
+        "\\bx plus\\b"
+      ],
+      "premium": [
+        "\\bx premium\\b",
+        "\\bpremium\\+?",
         "supergrok(?! heavy)"
       ],
-      "heavy": [
+      "super": [
+        "\\bx super\\b",
         "supergrok heavy",
         "\\bheavy\\b"
       ],
-      "premium": [
-        "premium\\+?"
+      "ultra": [
+        "\\bx ultra\\b"
       ]
     }
   },
@@ -385,7 +390,8 @@
     "ollama",
     "comfyui",
     "gemini_cli",
-    "lmstudio"
+    "lmstudio",
+    "bionic"
   ],
   "tag_title_only": [
     "新模型"

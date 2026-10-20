@@ -21,9 +21,14 @@ DEFAULT_RIG = {
 
 KV_BYTES = {'f16': 2.0, 'q8_0': 34 / 32, 'q4_0': 18 / 32}
 RUNTIME_GIB = 0.35            # CUDA 與推論程式本身
-EFF_GPU_DENSE = 0.70           # 實際能用到的頻寬比例（以 4090 實測反推：8B 約 140 tok/s、32B 約 37 tok/s）
-EFF_GPU_MOE = 0.48
+SWA_PAD = 512                 # 滑動視窗層實際會多留一批（llama.cpp 的 ubatch）
+# 實際能用到的頻寬比例＋每個 token 的固定開銷，用公開實測校準：
+#   密集模型：Muse Glimmer 官方在桌機 RTX 5090 量到 74.9 token/秒（約 17 GB 檔）；32B Q4 在 4090 約 35–40
+#   MoE：Qwen3-30B-A3B Q4 在 4090 約 150–170（專家分散讀取，頻寬用不滿）
+EFF_GPU_DENSE = 0.72
+EFF_GPU_MOE = 0.40
 EFF_CPU = 0.55
+T_FIXED = 0.001               # 秒／token：排程、同步這些跟模型大小無關的時間
 MAX_TPS = 260
 
 LEVELS = ('easy', 'tight', 'offload', 'no')
@@ -42,7 +47,7 @@ def kv_gib(m: dict, ctx: int, kvq: str = 'f16') -> float:
     swa = 0.0
     if m.get('swa_layers') and m.get('swa_window'):
         per = 2.0 * m['swa_layers'] * (m.get('kv_heads') or 0) * (m.get('head_dim') or 0) * KV_BYTES[kvq]
-        swa = per * min(ctx, int(m['swa_window']))
+        swa = per * min(ctx, int(m['swa_window']) + SWA_PAD)
     return (full + swa) / GIB + float(m.get('state_gib') or 0)
 
 
@@ -107,6 +112,7 @@ def speed(m: dict, weights_gib: float, spill_gib: float, ctx: int, rig: dict, kv
             t = (per_tok * (1 - cpu_share) + kv_read) / (gbw * eff) + per_tok * cpu_share / (cbw * EFF_CPU)
         else:
             t = (weights_gib * (1 - cpu_share) + kv_read) / (gbw * eff) + weights_gib * cpu_share / (cbw * EFF_CPU)
+    t += T_FIXED
     tps = 1.0 / t if t > 0 else MAX_TPS
     return round(min(MAX_TPS, tps), 1)
 

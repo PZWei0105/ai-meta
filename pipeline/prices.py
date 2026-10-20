@@ -39,6 +39,19 @@ def md_tables(text):
     return out
 
 
+def ctx_tokens(v):
+    """'1M tokens'、'1.04858M'、'500k'、1048576 → 整數 token。"""
+    if v is None:
+        return None
+    if isinstance(v, (int, float)):
+        return int(v)
+    m = re.search(r'([\d.]+)\s*([kKmM])', str(v))
+    if not m:
+        return None
+    n = float(m.group(1)) * (1_000_000 if m.group(2).lower() == 'm' else 1000)
+    return int(round(n, -3))
+
+
 def _slug(s):
     return re.sub(r'[^a-z0-9]', '', (s or '').lower())
 
@@ -292,12 +305,17 @@ def cross_check(models, openrouter):
         except ValueError:
             continue
         m['or'] = {'inp': oi, 'out': oo}
+        if not m.get('maxout') and (o.get('top_provider') or {}).get('max_completion_tokens'):
+            m['maxout'] = o['top_provider']['max_completion_tokens']
         if m.get('inp') is not None and m.get('out') is not None:
             m['agree'] = abs(oi - m['inp']) < 0.011 and abs(oo - m['out']) < 0.011
         if o.get('context_length') and not m.get('ctx'):
-            m['ctx'] = f"{o['context_length'] // 1000}K" if o['context_length'] < 1_000_000 else f"{o['context_length'] / 1e6:g}M"
+            m['ctx'] = o['context_length']
         if o.get('created') and not m.get('rel'):
             m['rel'] = dt.datetime.fromtimestamp(o['created'], dt.timezone.utc).date().isoformat()
+    for m in models:
+        m['ctx'] = ctx_tokens(m.get('ctx'))
+        m['maxout'] = ctx_tokens(m.get('maxout'))
     return models
 
 

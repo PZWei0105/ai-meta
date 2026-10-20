@@ -15,8 +15,42 @@
     "disk_free_gb": 800,
     "os": "Windows"
   },
-  "phones": ["iPhone 17 Pro Max", "ROG Phone 9 Pro"],
-  "tiers": {"claude": "max5", "chatgpt": "pro", "gemini": "free", "grok": "free"},
-  "tasks": ["code", "novel", "script", "research", "translate", "image", "video", "trend"],
-  "uses": {"claude": ["code", "novel", "script", "research"], "chatgpt": [], "gemini": [], "grok": []}
+  "phones": [
+    "iPhone 17 Pro Max",
+    "ROG Phone 9 Pro"
+  ],
+  "tiers": {
+    "claude": "max5",
+    "chatgpt": "plus",
+    "gemini": "free",
+    "grok": "free"
+  },
+  "tasks": [
+    "code",
+    "novel",
+    "script",
+    "research",
+    "translate",
+    "image",
+    "video",
+    "trend"
+  ],
+  "uses": {
+    "claude": [
+      "code",
+      "novel",
+      "script",
+      "research"
+    ],
+    "chatgpt": [],
+    "gemini": [],
+    "grok": []
+  },
+  "paid": {
+    "chatgpt": {
+      "tier": "plus",
+      "twd": 699,
+      "note": "PZ 說月付 NT$699"
+    }
+  }
 }

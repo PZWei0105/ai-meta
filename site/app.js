@@ -47,6 +47,8 @@ const usd = (x) => (x == null ? '—' : `$${x >= 100 ? Math.round(x) : x >= 1 ? 
 const twd = (x) => (x == null ? '—' : `NT$${Math.round(x).toLocaleString('en-US')}`);
 const rate = () => S.d.plans?.fx?.usd_twd || null;
 const toTwd = (u) => (rate() && u != null ? u * rate() : null);
+function ym(d) { const [y, mo] = String(d).split('-'); return `${y} 年 ${+mo} 月`; }
+function ctxZh(n) { if (!n) return ''; return n >= 10000 ? `${Math.round(n / 10000)} 萬 token` : `${n.toLocaleString()} token`; }
 function ctxLabel(n) { if (n >= 1e6) return `${+(n / 1e6).toFixed(1)}M`; return `${Math.round(n / 1024)}K`; }
 function ctxChars(n) { const c = Math.round(n * 1.3 / 1000) * 1000; return c >= 10000 ? `約 ${+(c / 10000).toFixed(1)} 萬字` : `約 ${c.toLocaleString()} 字`; }
 function vd(v, label) { return `<span class="vd vc-${esc(v)}">${esc(label || VNAME[v] || v)}</span>`; }
@@ -59,14 +61,14 @@ function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return n
 function lsSet(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { /* 私密瀏覽 */ } }
 function defaults() {
   const p = S.d.meta?.profile || {};
-  return { v: 1, tiers: { ...(p.tiers || {}) }, hits: {}, uses: JSON.parse(JSON.stringify(p.uses || {})), ctx: 32768, kvq: 'f16', theme: 'auto', budget: null, quant: {} };
+  return { v: 1, tiers: { ...(p.tiers || {}) }, hits: {}, uses: JSON.parse(JSON.stringify(p.uses || {})), paid: JSON.parse(JSON.stringify(p.paid || {})), ctx: 32768, kvq: 'f16', theme: 'auto', budget: null, quant: {} };
 }
 function prefs() {
   if (S.prefs) return S.prefs;
   let saved = null;
   try { saved = JSON.parse(lsGet(PREF_KEY) || 'null'); } catch (e) { saved = null; }
   const d = defaults();
-  S.prefs = saved ? { ...d, ...saved, tiers: { ...d.tiers, ...(saved.tiers || {}) }, uses: { ...d.uses, ...(saved.uses || {}) }, hits: { ...(saved.hits || {}) }, quant: { ...(saved.quant || {}) } } : d;
+  S.prefs = saved ? { ...d, ...saved, tiers: { ...d.tiers, ...(saved.tiers || {}) }, uses: { ...d.uses, ...(saved.uses || {}) }, hits: { ...(saved.hits || {}) }, quant: { ...(saved.quant || {}) }, paid: { ...d.paid, ...(saved.paid || {}) } } : d;
   return S.prefs;
 }
 function savePrefs() { lsSet(PREF_KEY, JSON.stringify(S.prefs)); }
@@ -87,7 +89,7 @@ async function loadData(force) {
 // ------------------------------------------------------------------ 跑得動嗎（和 pipeline/vram.py 同一套算法）
 const GIB = 1024 ** 3;
 const KVB = { f16: 2, q8_0: 34 / 32, q4_0: 18 / 32 };
-const RUNTIME_GIB = 0.35, EFF_DENSE = 0.70, EFF_MOE = 0.48, EFF_CPU = 0.55, MAX_TPS = 260;
+const RUNTIME_GIB = 0.35, SWA_PAD = 512, EFF_DENSE = 0.72, EFF_MOE = 0.40, EFF_CPU = 0.55, T_FIXED = 0.001, MAX_TPS = 260;
 function kvBpt(m, kvq) {
   if (m.kv_bpt) return m.kv_bpt * KVB[kvq] / 2;
   const layers = m.kv_layers ?? m.layers ?? 0;
@@ -96,7 +98,7 @@ function kvBpt(m, kvq) {
 function kvGib(m, ctx, kvq) {
   let full = kvBpt(m, kvq) * ctx;
   let swa = 0;
-  if (m.swa_layers && m.swa_window) swa = 2 * m.swa_layers * (m.kv_heads || 0) * (m.head_dim || 0) * KVB[kvq] * Math.min(ctx, m.swa_window);
+  if (m.swa_layers && m.swa_window) swa = 2 * m.swa_layers * (m.kv_heads || 0) * (m.head_dim || 0) * KVB[kvq] * Math.min(ctx, m.swa_window + SWA_PAD);
   return (full + swa) / GIB + (m.state_gib || 0);
 }
 function computeGib(m, ctx) { const w = (m.hidden || 4096) / 4096; return 0.30 + 0.25 * w + ctx * 6e-6 * w; }
@@ -127,6 +129,7 @@ function speedOf(m, wGib, spill, ctx, r, kvq, moe) {
     t = moe ? (per * (1 - share) + kvRead) / (gbw * eff) + per * share / (cbw * EFF_CPU)
       : (wGib * (1 - share) + kvRead) / (gbw * eff) + wGib * share / (cbw * EFF_CPU);
   }
+  t += T_FIXED;
   return Math.round(Math.min(MAX_TPS, t > 0 ? 1 / t : MAX_TPS) * 10) / 10;
 }
 function speedWord(tps) { return tps >= 60 ? '飛快' : tps >= 25 ? '順暢' : tps >= 10 ? '可以用' : tps >= 4 ? '會等' : '很慢'; }
@@ -175,6 +178,8 @@ function vbar(f, big) {
 // ------------------------------------------------------------------ 訂閱方針（固定規則）
 const HITS = { unknown: '還沒填', never: '幾乎不會撞到', monthly: '偶爾（一個月幾次）', weekly: '常常（每週都會）', daily: '幾乎每天' };
 function planOf(v, id) { return (S.d.plans?.vendors?.[v]?.plans || []).find((p) => p.id === id); }
+function planTwd(pl) { return pl ? (pl.twd_official != null ? pl.twd_official : toTwd(pl.usd || 0)) : 0; }
+function diffMoney(a, b) { const t = twd(planTwd(a) - planTwd(b)); return a.twd_official != null ? t : `${usd((a.usd || 0) - (b.usd || 0))}（約 ${t}）`; }
 function subVerdict(v) {
   const PL = S.d.plans?.vendors?.[v];
   if (!PL) return null;
@@ -201,13 +206,13 @@ function subVerdict(v) {
     return { v, kind: 'keep', label: '維持免費', cur, reasons };
   }
   if (!uses.length) {
-    reasons.push(`每月約 ${twd(toTwd(cur.usd))}，但還沒告訴我你拿它做什麼；到下面勾選用途，才能判斷值不值得。`);
+    reasons.push(`每月約 ${twd(paidTwd(v))}，但還沒告訴我你拿它做什麼；到「我的設定」勾選用途，才能判斷值不值得。`);
     return { v, kind: 'ask', label: '先填用途', cur, reasons };
   }
   const higher = PL.plans[idx + 1];
   const lowerPaid = [...PL.plans.slice(0, idx)].reverse().find((x) => x.usd > 0);
   if ((hit === 'daily' || hit === 'weekly') && higher) {
-    reasons.push(`你${HITS[hit]}撞到額度。升到 ${higher.name} 每月多 ${usd(higher.usd - cur.usd)}（約 ${twd(toTwd(higher.usd - cur.usd))}）。`);
+    reasons.push(`你${HITS[hit]}撞到額度。升到 ${higher.name} 每月多 ${diffMoney(higher, cur)}。`);
     if (higher.lift) reasons.push(higher.lift);
     reasons.push('先試試「攻略」裡的省額度做法，還是常撞再升。');
     return { v, kind: 'up', label: `可考慮升 ${higher.name}`, cur, reasons, delta: higher.usd - cur.usd };
@@ -218,20 +223,34 @@ function subVerdict(v) {
   }
   if (hit === 'never' && lowerPaid) {
     const lose = (cur.gets || []).filter((g) => !(lowerPaid.gets || []).includes(g)).slice(0, 4);
-    reasons.push(`幾乎不會撞到額度，降到 ${lowerPaid.name} 每月省 ${usd(cur.usd - lowerPaid.usd)}（約 ${twd(toTwd(cur.usd - lowerPaid.usd))}）。`);
+    reasons.push(`幾乎不會撞到額度，降到 ${lowerPaid.name} 每月省 ${diffMoney(cur, lowerPaid)}。`);
     if (lose.length) reasons.push(`會少掉：${lose.join('；')}。這些你用得到就維持。`);
     return { v, kind: 'down', label: `可考慮降 ${lowerPaid.name}`, cur, reasons, delta: lowerPaid.usd - cur.usd };
   }
-  const uniq = uses.filter((t) => !paidOthers.some((x) => planOf(x, p.tiers[x])?.covers?.[t]));
+  // 重疊看的是「你實際拿哪一家做這件事」（你勾的用途），不是「方案理論上做得到」：主力不會因為別家也能寫程式就被建議砍掉
+  const uniq = uses.filter((t) => !paidOthers.some((x) => (p.uses[x] || []).includes(t)));
   if (!uniq.length && paidOthers.length) {
-    reasons.push(`你勾的用途（${uses.map((t) => tasks[t] || t).join('、')}）其他付費方案都做得到。`);
-    reasons.push(`如果沒有非它不可的理由，每月可省 ${twd(toTwd(cur.usd))}。`);
+    const who = (t) => paidOthers.filter((x) => (p.uses[x] || []).includes(t)).map((x) => VNAME[x]).join('、');
+    reasons.push(`你勾的用途你也都在用別家做：${uses.map((t) => `${tasks[t] || t}（${who(t)}）`).join('、')}。`);
+    reasons.push(`如果沒有非它不可的理由，每月可省 ${twd(paidTwd(v))}。`);
     return { v, kind: 'cut', label: '用途重疊', cur, reasons, delta: -cur.usd };
   }
   if (hit === 'unknown') reasons.push('填上「多常撞到額度」，就能判斷要不要升降級。');
   if (uniq.length) reasons.push(`只有它在幫你做：${uniq.map((t) => tasks[t] || t).join('、')}。`);
   return { v, kind: 'keep', label: '維持', cur, reasons };
 }
+// 實際付款金額：有填「我實際付多少台幣」就用那個，否則用美元標價換算
+function paidTwd(v) {
+  const p = prefs();
+  const pl = planOf(v, p.tiers[v]);
+  if (!pl || !pl.usd) return 0;
+  const own = (p.paid || {})[v];
+  if (own && own.tier === pl.id && own.twd) return own.twd;
+  if (pl.twd_official != null) return pl.twd_official;
+  return toTwd(pl.usd) || 0;
+}
+function billTwd() { return Object.keys(S.d.plans?.vendors || {}).reduce((a, v) => a + paidTwd(v), 0); }
+function paidNote() { const p = prefs(); return Object.values(p.paid || {}).some((x) => x && x.twd) ? '．含你填的實付金額' : ''; }
 function monthly() {
   const p = prefs();
   let sum = 0;
@@ -287,8 +306,8 @@ function renderHome() {
     const vs = Object.keys(S.d.plans.vendors).map(subVerdict).filter(Boolean);
     h += `<h2 class="h2">訂閱總帳<a class="more" href="#/shop">商城</a></h2>
     <a class="bill" href="#/shop" style="display:block;text-decoration:none">
-      <div class="bill-top"><div><div class="note">每月 AI 訂閱</div><div class="bill-sum">${twd(toTwd(sum))}<small>約．${usd(sum)}</small></div></div></div>
-      <div class="bill-rows">${vs.map((x) => `<div class="brow"><div class="brow-n">${vd(x.v)} ${esc(x.cur?.name || '')}</div><div class="brow-p"><span class="vchip ${esc(x.kind)}">${esc(x.label)}</span></div></div>`).join('')}</div>
+      <div class="bill-top"><div><div class="note">每月 AI 訂閱</div><div class="bill-sum">${twd(billTwd())}</div><div class="note">約 ${usd(sum)}${paidNote()}</div></div></div>
+      <div class="bill-rows">${vs.map((x) => `<div class="brow" data-verdict="${esc(x.v)}" tabindex="0" role="button"><div class="brow-n">${vd(x.v)} ${esc(x.cur?.name || '')}</div><div class="brow-p"><span class="vchip ${esc(x.kind)}">${esc(x.label)}</span></div></div>`).join('')}</div>
     </a>`;
   }
   const L = S.d.local;
@@ -393,13 +412,13 @@ function renderShop() {
   const vs = Object.keys(PL.vendors);
   let h = `<h1 class="h1">商城</h1><p class="lede">你的訂閱帳單、四家方案比較、API 價格表。台幣是用當天匯率換算的參考值。</p>
   <div class="bill">
-    <div class="bill-top"><div><div class="note">每月 AI 訂閱</div><div class="bill-sum">${twd(toTwd(sum))}<small>約．${usd(sum)}</small></div></div>
+    <div class="bill-top"><div><div class="note">每月 AI 訂閱</div><div class="bill-sum">${twd(billTwd())}</div><div class="note">約 ${usd(sum)}${paidNote()}</div></div>
     <button type="button" class="btn sm" data-sheet="settings">改我的方案</button></div>
     <div class="bill-rows">${vs.map((v) => {
       const x = subVerdict(v);
       const cur = x?.cur;
-      return `<div class="brow" data-verdict="${v}"><div class="brow-n">${vd(v)} ${esc(cur?.name || '')}</div>
-      <div class="brow-p">${cur?.usd ? `${usd(cur.usd)}<small>${twd(toTwd(cur.usd))}／月</small>` : '免費'}</div>
+      return `<div class="brow" data-verdict="${v}" tabindex="0" role="button"><div class="brow-n">${vd(v)} ${esc(cur?.name || '')}</div>
+      <div class="brow-p">${cur?.usd ? `${twd(paidTwd(v))}<small>${cur.twd_official != null ? '台幣計價' : usd(cur.usd)}／月${(p.paid || {})[v]?.tier === cur.id ? '．實付' : ''}</small>` : '免費'}</div>
       <div class="brow-r"><span class="vchip ${esc(x?.kind)}">${esc(x?.label || '')}</span><span>${esc((x?.reasons || [])[0] || '')}</span></div></div>`;
     }).join('')}</div>
   </div>
@@ -413,8 +432,8 @@ function renderShop() {
       const mine = p.tiers[S.shopV] === pl.id;
       return `<div class="plan${mine ? ' mine' : ''}">
         <div class="plan-n"><span>${esc(pl.name)}</span>${mine ? '<span class="plan-mine">你的方案</span>' : ''}</div>
-        <div class="plan-p">${pl.usd ? usd(pl.usd) : '免費'}${pl.usd ? '<small> ／月</small>' : ''}</div>
-        ${pl.usd ? `<div class="plan-tw">約 ${twd(pl.twd)}${pl.twd_ios ? `；iOS 台灣 App Store NT$${pl.twd_ios}` : ''}${pl.usd_year ? `；年繳每月 ${usd(pl.usd_year)}` : ''}</div>` : ''}
+        <div class="plan-p">${pl.usd ? (pl.twd_official != null ? twd(pl.twd_official) : usd(pl.usd)) : '免費'}${pl.usd ? '<small> ／月</small>' : ''}</div>
+        ${pl.usd ? `<div class="plan-tw">${pl.twd_official != null ? `台灣官方台幣價；美國 ${usd(pl.usd)}` : `約 ${twd(pl.twd)}`}${pl.twd_ios ? `；iOS 台灣 App Store NT$${pl.twd_ios}` : ''}${pl.usd_year ? `；年繳每月 ${usd(pl.usd_year)}` : ''}${pl.price_note ? `；${esc(pl.price_note)}` : ''}</div>` : ''}
         ${pl.limits?.length ? `<ul>${pl.limits.map((l) => `<li class="lim">${esc(l)}</li>`).join('')}</ul>` : ''}
         ${pl.gets?.length ? `<ul>${pl.gets.map((l) => `<li>${esc(l)}</li>`).join('')}</ul>` : ''}
         ${pl.src?.length ? `<div class="plan-src">來源：${pl.src.map((s, i) => `<a href="${esc(s)}" target="_blank" rel="noopener">官方${i ? i + 1 : ''}</a>`).join('、')}</div>` : ''}
@@ -433,7 +452,7 @@ function renderShop() {
     h += `<h3 style="margin:16px 0 4px;font-size:15px">${vd(v)}</h3><table class="ptable"><thead><tr><th>模型</th><th>輸入</th><th>輸出</th><th>快取讀取</th></tr></thead><tbody>${ms.map((m) => {
       const chg = m.chg ? `<span class="pchg ${m.chg.to > m.chg.from ? 'up' : 'down'}">${m.chg.to > m.chg.from ? '漲' : '降'}</span>` : '';
       const fut = m.fut?.from ? `<span class="pchg fut">${md(m.fut.from)} 起 ${usd(m.fut.inp)}／${usd(m.fut.out)}</span>` : '';
-      return `<tr><td><span class="mname">${esc(m.name)}</span>${m.tier ? `<span class="tierlbl">${esc(m.tier)}</span>` : ''}${chg}<span class="msub">${esc([m.role, m.note, m.ctx ? `上下文 ${String(m.ctx).replace(' tokens', '')}` : ''].filter(Boolean).join('．'))}</span>${fut ? `<span class="msub">${fut}</span>` : ''}</td>
+      return `<tr><td><span class="mname">${esc(m.name)}</span>${m.tier ? `<span class="tierlbl">${esc(m.tier)}</span>` : ''}${chg}<span class="msub">${esc([m.role, m.note, m.ctx ? `上下文 ${ctxZh(m.ctx)}` : ''].filter(Boolean).join('．'))}</span>${fut ? `<span class="msub">${fut}</span>` : ''}</td>
       <td>${usd(m.inp)}</td><td>${usd(m.out)}</td><td>${usd(m.cr)}</td></tr>`;
     }).join('')}</tbody></table>`;
   }
@@ -492,7 +511,12 @@ function renderLocal() {
       ${vbar(f)}<div class="mr-meta">${licChip(m.commercial)}<span>${esc(m.good || '')}</span></div></div>`).join('')}</div>` : '<div class="empty">這一類還沒有精選模型。</div>';
   }
   const T = L.tools || {};
-  h += `<h2 class="h2">本機工具最新版</h2><div class="tools">${Object.values(T).map((t) => `<a class="tool" href="${esc(t.url || '#')}" target="_blank" rel="noopener"><b>${esc(t.name)} ${esc(t.ver || '')}</b><span>${esc(t.date ? relDay(t.date) : '')}${t.date ? '發布' : ''}</span></a>`).join('')}</div>`;
+  const stack = L.stack || [];
+  const extra = Object.entries(T).filter(([k]) => !stack.some((x) => x.id === k)).map(([k, t]) => ({ id: k, name: t.name, url: t.url }));
+  h += `<h2 class="h2">要裝的工具<span class="sub">版本每天自動更新</span></h2><div class="stack">${[...stack, ...extra].map((x) => {
+    const t = T[x.id] || {};
+    return `<a class="stk" href="${esc(t.url || x.url || '#')}" target="_blank" rel="noopener"><div class="stk-h"><b>${esc(x.name)}</b>${t.ver ? `<span class="num">${esc(t.ver)}</span>` : ''}${t.date ? `<small>${esc(relDay(t.date))}發布</small>` : ''}</div>${x.for ? `<p>${esc(x.for)}</p>` : ''}</a>`;
+  }).join('')}</div>`;
   h += '<p class="note" style="margin-top:12px">速度是用記憶體頻寬推算的生成速度（token／秒，中文一個字約 0.8 token），實際會因設定與散熱上下浮動兩三成。筆電插電、開效能模式最準。</p>';
   h += footHtml();
   $('#v-local').innerHTML = h;
@@ -576,10 +600,10 @@ function llmSheet(id, q) {
   q = q || pickQuant(m);
   const f = llmFit(m, q);
   const p = prefs();
-  const qs = Object.entries(m.quants || {}).filter(([k]) => S.d.local.quants?.[k]).sort((a, b) => a[1] - b[1]);
-  const lab = (k) => S.d.local.quants?.[k]?.zh || k;
+  const qs = Object.entries(m.quants || {}).filter(([k]) => (m.quant_only ? m.quant_only.includes(k) : S.d.local.quants?.[k])).sort((a, b) => a[1] - b[1]);
+  const lab = (k) => (m.quant_zh || {})[k] || S.d.local.quants?.[k]?.zh || k;
   openSheet(`${sheetTop(esc(m.name))}
-    <p class="lede">${esc(m.maker || '')}．${esc(m.size_note || (m.active_b ? `總共 ${m.total_b}B 參數，每次只用 ${m.active_b}B（MoE）` : `${m.total_b}B 參數`))}．${licChip(m.commercial)}</p>
+    <p class="lede">${esc(m.maker || '')}．${esc(m.size_note || (m.active_b ? `總共 ${m.total_b}B 參數，每次只用 ${m.active_b}B（MoE）` : `${m.total_b}B 參數`))}${m.released ? `．${esc(ym(m.released))}發布` : ''}．${licChip(m.commercial)}${m.license ? ` <small class="note">${esc(m.license)}</small>` : ''}</p>
     ${m.zh ? `<p>${esc(m.zh)}</p>` : ''}
     ${f ? `<div class="sh-sec"><h3>在你的筆電：<span class="vchip ${f.level}">${LV[f.level]}</span></h3>
       ${vbar(f, true)}
@@ -606,7 +630,7 @@ function diffSheet(id, vi) {
   vi = vi ?? m.rec ?? 0;
   const f = diffFit(m, vi);
   openSheet(`${sheetTop(esc(m.name))}
-    <p class="lede">${esc(m.maker || '')}．${esc({ image: '生圖', video: '生影片' }[m.kind])}．${licChip(m.commercial)}</p>
+    <p class="lede">${esc(m.maker || '')}．${esc({ image: '生圖', video: '生影片' }[m.kind])}${m.released ? `．${esc(ym(m.released))}發布` : ''}．${licChip(m.commercial)}${m.license ? ` <small class="note">${esc(m.license)}</small>` : ''}</p>
     ${m.zh ? `<p>${esc(m.zh)}</p>` : ''}
     ${f ? `<div class="sh-sec"><h3>在你的筆電：<span class="vchip ${f.level}">${LV[f.level]}</span></h3>${vbar(f, true)}
       <dl class="kv" style="margin-top:10px"><dt>最高需要</dt><dd class="num">約 ${f.need.toFixed(1)} GB</dd><dt>模型本體</dt><dd class="num">${f.weights.toFixed(1)} GB（${esc(f.variant.prec)}）</dd>
@@ -641,6 +665,7 @@ function settingsSheet() {
   openSheet(`${sheetTop('我的設定')}<p class="note">只存在這台裝置。換手機或電腦時，用最下面的「備份」搬過去。</p>
     ${Object.keys(PL).map((v) => `<div class="set-group"><h3>${vd(v)}</h3>
       <div class="set-row"><span>目前方案</span><select data-pref="tier" data-v="${v}">${PL[v].plans.map((pl) => `<option value="${esc(pl.id)}"${p.tiers[v] === pl.id ? ' selected' : ''}>${esc(pl.name)}${pl.usd ? `（${usd(pl.usd)}）` : ''}</option>`).join('')}</select></div>
+      ${(planOf(v, p.tiers[v])?.usd || 0) > 0 ? `<div class="set-row"><span>實際每月付多少台幣<br><small class="note">刷卡帳單或 App Store 的金額；不填就用美元換算</small></span><input type="number" min="0" step="1" inputmode="numeric" style="width:110px;height:36px;border-radius:8px;border:1px solid var(--line2);background:var(--bg);color:var(--ink);padding:0 8px;font-size:15px" data-pref="paid" data-v="${v}" value="${(p.paid || {})[v]?.tier === p.tiers[v] ? (p.paid[v].twd || '') : ''}" placeholder="${Math.round(toTwd(planOf(v, p.tiers[v]).usd) || 0)}"></div>` : ''}
       ${(planOf(v, p.tiers[v])?.usd || 0) > 0 ? `<div class="set-row"><span>多常撞到額度上限</span><select data-pref="hits" data-v="${v}">${Object.entries(HITS).map(([k, l]) => `<option value="${k}"${(p.hits[v] || 'unknown') === k ? ' selected' : ''}>${esc(l)}</option>`).join('')}</select></div>` : ''}
       <div class="set-row" style="border:0"><span>拿它做什麼</span><span></span><div class="checks">${Object.entries(tasks).map(([k, l]) => `<label><input type="checkbox" data-pref="use" data-v="${v}" value="${k}"${(p.uses[v] || []).includes(k) ? ' checked' : ''}>${esc(l)}</label>`).join('')}</div></div>
     </div>`).join('')}
@@ -795,7 +820,7 @@ function toast(msg) {
   toastT = setTimeout(() => { t.hidden = true; }, 3200);
 }
 document.addEventListener('click', (ev) => {
-  const el = ev.target.closest('button, [data-pid], [data-lm], [data-dm], a');
+  const el = ev.target.closest('button, [data-pid], [data-lm], [data-dm], [data-verdict], a');
   if (!el) return;
   const d = el.dataset;
   if (d.close !== undefined || ev.target.matches('.sheet-back')) { closeSheet(); return; }
@@ -826,7 +851,7 @@ document.addEventListener('click', (ev) => {
 });
 document.addEventListener('keydown', (ev) => {
   if (ev.key === 'Escape' && !$('#sheet').hidden) closeSheet();
-  if ((ev.key === 'Enter' || ev.key === ' ') && ev.target.matches('[data-pid], [data-lm], [data-dm]')) { ev.preventDefault(); ev.target.click(); }
+  if ((ev.key === 'Enter' || ev.key === ' ') && ev.target.matches('[data-pid], [data-lm], [data-dm], [data-verdict]')) { ev.preventDefault(); ev.target.click(); }
 });
 document.addEventListener('change', (ev) => {
   const el = ev.target;
@@ -836,6 +861,7 @@ document.addEventListener('change', (ev) => {
   else if (d.pref === 'hits') { p.hits[d.v] = el.value; }
   else if (d.pref === 'use') { const set = new Set(p.uses[d.v] || []); if (el.checked) set.add(el.value); else set.delete(el.value); p.uses[d.v] = [...set]; }
   else if (d.pref === 'theme') { p.theme = el.value; applyTheme(); }
+  else if (d.pref === 'paid') { p.paid = p.paid || {}; const n = Math.round(+el.value || 0); if (n > 0) p.paid[d.v] = { tier: p.tiers[d.v], twd: n }; else delete p.paid[d.v]; }
   else if (d.calc) { S.calc[d.calc] = d.calc === 'id' ? el.value : Math.max(0, +el.value || 0); renderShop(); return; }
   else return;
   savePrefs();

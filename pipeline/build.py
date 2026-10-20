@@ -269,11 +269,13 @@ def execute(http, st: State, t0, data_dir: pathlib.Path, build_id: str):
         lc = cfg('local.json')
         cache = st.load('hf_cache.json.gz', {})
         llms = local.enrich_llms(http, lc['llm'], cache, t0, health, rig)
-        ids = {m.get('hf') for m in lc['llm']} | {m.get('hf') for m in lc.get('diffusion', [])}
+        ids = set()
+        for m in lc['llm'] + lc.get('diffusion', []):
+            ids |= {m.get('hf'), m.get('gguf'), *(m.get('hf_also') or [])}
         found = local.discover(http, ids, cache, t0, health, rig)
         tools = local.tool_versions(http, cache, t0, health)
         for x in items:
-            if x['src'] == 'lmstudio' and x.get('app') and x['app'] + 'v' not in tools:
+            if x['src'] in ('lmstudio', 'bionic') and x.get('app'):      # 新的排前面，第一個看到的就是最新版
                 tools.setdefault('lmstudio' if x['app'] == 'LM Studio' else 'bionic',
                                  {'name': x['app'], 'ver': x.get('ver'), 'date': x['d'], 'url': x['url']})
             if x['src'] == 'nvidia' and 'nvidia' not in tools:
@@ -304,7 +306,7 @@ def execute(http, st: State, t0, data_dir: pathlib.Path, build_id: str):
     meta = {'generated': iso(t0), 'build': build_id, 'repo': 'PZWei0105/ai-meta', 'week': week,
             'week_start': monday.isoformat(), 'week_counts': counts, 'week_mine': sum(
                 1 for x in this_week if x['s'] >= rules.cfg['mine_min_score']),
-            'profile': {k: profile[k] for k in ('tiers', 'uses', 'tasks', 'name') if k in profile},
+            'profile': {k: profile[k] for k in ('tiers', 'uses', 'tasks', 'name', 'paid') if k in profile},
             'vendors': src_cfg['vendors'], 'sources': {s['id']: {'p': s['product'], 'v': s['vendor'], 'url': s['url']}
                                                        for s in src_cfg['patches']},
             'health': health, 'translate': {k: tr_stats.get(k) for k in ('ok', 'model', 'done', 'cached', 'pending')},

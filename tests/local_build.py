@@ -29,7 +29,9 @@ ROUTES = [
     ('developers/release-notes.md', 'xai_relnotes_md'),
     ('repos/ollama/ollama/releases?', 'ollama_releases'),
     ('repos/comfyanonymous/ComfyUI/releases?', 'comfyui_releases'),
+    ('lmstudio.ai/changelog/lmstudio', 'lmstudio_changelog_lms'),
     ('lmstudio.ai/changelog', 'lmstudio_changelog'),
+    ('x.ai/pricing', 'xai_pricing_page'),
     ('AjaxDriverService', 'nvidia_drivers'),
     ('about-claude/pricing.md', 'claude_docs_pricing_md'),
     ('model-deprecations.md', 'claude_docs_deprec_md'),
@@ -54,6 +56,12 @@ ROUTES = [
     ('one.google.com/about/plans', 'google_one_tw'),
     ('x.ai/grok', 'grok_plans'),
     ('itunes.apple.com/lookup', 'itunes_lookup'),
+    ('pipeline_tag=text-generation', 'trend_text-generation'),
+    ('pipeline_tag=image-text-to-text', 'trend_image-text-to-text'),
+    ('pipeline_tag=text-to-image', 'trend_text-to-image'),
+    ('pipeline_tag=image-to-image', 'trend_image-to-image'),
+    ('pipeline_tag=text-to-video', 'trend_text-to-video'),
+    ('pipeline_tag=image-to-video', 'trend_image-to-video'),
     ('pipeline_tag=text-generation', 'hf_trend_text'),
     ('pipeline_tag=image-text-to-text', 'hf_trend_vlm'),
     ('pipeline_tag=text-to-image', 'hf_trend_t2i'),
@@ -64,6 +72,9 @@ ROUTES = [
     ('Qwen/Qwen3-30B-A3B/resolve/main/config.json', 'hf_config_qwen3_30b'),
     ('repos/ollama/ollama/releases/latest', 'ollama_latest'),
     ('repos/ggml-org/llama.cpp/releases/latest', 'llamacpp_latest'),
+    ('repos/comfyanonymous/ComfyUI/releases/latest', 'comfyui_latest'),
+    ('gemini.google/tw/subscriptions', 'gemini_subs_tw'),
+    ('help.openai.com/en/articles/9793128', 'openai_pro'),
 ]
 
 out = pathlib.Path(sys.argv[1])

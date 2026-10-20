@@ -1,1 +1,185 @@
-{"reviewed": "2026-10-20", "tasks": [{"id": "code", "name": "寫程式", "picks": [{"rank": "T0", "kind": "cloud", "v": "claude", "tool": "Claude Code", "model": "Claude Opus 5.5", "models": ["claude-opus-5-5"], "why": "測試"}], "watch": {"vendors": ["claude"], "tags": ["程式"]}}], "cards": []}
+{
+  "note": "攻略：做什麼事用什麼（人工判斷，附理由）。picks 的 models 用 API 型號 id，管線會檢查有沒有停用、同家族有沒有新版；local_id 對應 config/local.json。watch 決定哪些改版會讓這題亮黃燈。改完更新 reviewed。",
+  "reviewed": "2026-10-20",
+  "tasks": [
+    {"id": "code", "name": "寫程式・做 App 與遊戲", "short": "寫程式",
+     "lede": "你的 App 都是用 Claude Code 做的；額度是唯一瓶頸，所以重點是「主力留給難的、雜事分出去」。",
+     "picks": [
+       {"rank": "T0", "v": "claude", "tool": "Claude Code", "model": "Opus 5.5", "models": ["claude-opus-5-5"], "plan": "Max 5x 已包含",
+        "why": "長時間寫程式、整個專案一起改最穩；冷眼、玩真的、回波、下單前都是這樣做出來的。"},
+       {"rank": "T1", "v": "chatgpt", "tool": "Codex", "model": "GPT-6 Astra", "models": ["gpt-6-astra"], "plan": "Plus 已包含",
+        "why": "Claude 額度用完時的第二主力：Plus 的 Codex 可以用 GPT-6 Astra，還有雲端 Codex Cloud 能丟背景任務。"},
+       {"rank": "T2", "v": "claude", "tool": "Claude Code", "model": "Sonnet 5.5", "models": ["claude-sonnet-5-5"], "plan": "Max 5x 已包含",
+        "why": "小改、查錯、寫測試換 Sonnet，同樣的額度能做更多事。"},
+       {"rank": "本機", "v": "local", "tool": "LM Studio／Ollama", "model": "Qwen3.8 27B", "local_id": "qwen3.8-27b",
+        "why": "完全不吃額度：產生樣板、改格式、離線也能用。品質比雲端差一截，關鍵程式碼還是給 Claude。"}
+     ],
+     "tips": ["開新功能前先請 Claude 列計畫，確認再動工，省掉來回重做的額度", "一件事一個對話；做完就開新對話，不要讓對話越拖越長", "需求、檔案、錯誤訊息一次給齊，比分好幾則送省", "電腦裡如果設了 ANTHROPIC_API_KEY 環境變數，Claude Code 會改用 API 計費、不吃訂閱額度；不是故意的就拿掉"],
+     "watch": {"vendors": ["claude", "chatgpt"], "tags": ["程式", "額度", "新模型", "代理"]}},
+    {"id": "novel", "name": "寫長篇小說", "short": "小說",
+     "lede": "長篇要的是「記得住設定、文筆穩」：Claude 的專案和長上下文最適合。",
+     "picks": [
+       {"rank": "T0", "v": "claude", "tool": "Claude（專案）", "model": "Opus 5.5", "models": ["claude-opus-5-5"], "plan": "Max 5x 已包含",
+        "why": "中文文筆、角色前後一致最好；人物設定、大綱、前情摘要放進專案，每章都能接著寫。"},
+       {"rank": "T1", "v": "claude", "tool": "Claude", "model": "Fable 5.1", "models": ["claude-fable-5-1"], "plan": "Max 5x（每週最多用到一半額度）",
+        "why": "最強的模型，留給關鍵章節和整部作品的結構檢查；它很吃額度，日常段落別用它。"},
+       {"rank": "T2", "v": "chatgpt", "tool": "ChatGPT", "model": "GPT-6 Sol", "models": ["gpt-6.1-sol"], "plan": "Plus 已包含",
+        "why": "換個文風、想劇情點子、要第二意見時用。"},
+       {"rank": "本機", "v": "local", "tool": "LM Studio", "model": "Qwen3.8 27B", "local_id": "qwen3.8-27b",
+        "why": "完全私密的草稿與大量改寫；本機模型裡中文最好的一顆。"}
+     ],
+     "tips": ["主角名字（魏子葳）、世界觀規則寫進專案的設定集，每章都會照著寫", "一章一個對話；開頭請 Claude 先讀大綱和上一章摘要", "每章寫完請它產生「本章摘要」存回專案，下一章就不用貼全文", "整段文字一次送出修改，比拆成好幾則省額度"],
+     "watch": {"vendors": ["claude", "chatgpt"], "tags": ["新模型", "額度"]}},
+    {"id": "script", "name": "影片企劃與腳本", "short": "腳本",
+     "lede": "腳本要懂遊戲、懂科技、懂你的口吻，再加上查證。",
+     "picks": [
+       {"rank": "T0", "v": "claude", "tool": "Claude", "model": "Opus 5.5", "models": ["claude-opus-5-5"], "plan": "Max 5x 已包含",
+        "why": "口語、節奏感好；把你過去的腳本當範例放進專案，它會學你的語氣。"},
+       {"rank": "T1", "v": "claude", "tool": "Claude Research", "model": "深度研究", "plan": "Max 5x 已包含",
+        "why": "先把題目查透（附來源）再寫，少講錯、少被留言糾正。"},
+       {"rank": "T2", "v": "grok", "tool": "Grok", "model": "X 即時搜尋", "plan": "免費版就能用",
+        "why": "看 X 上大家正在吵什麼，抓開場梗與留言區風向。"},
+       {"rank": "本機", "v": "local", "tool": "LM Studio", "model": "Qwen3.6 35B-A3B", "local_id": "qwen3.6-35b-a3b",
+        "why": "大量產生標題、縮圖文字選項，挑完再給 Claude 修。"}
+     ],
+     "tips": ["請 Claude 一次給 3 種開場（懸念、反差、直接講結論），挑一個再展開", "數字、規格、價格一律回原始來源核對"],
+     "watch": {"vendors": ["claude", "grok"], "tags": ["研究", "新模型"]}},
+    {"id": "research", "name": "查資料與查證", "short": "查資料",
+     "lede": "要有來源、能點開核對；兩家交叉比對最保險。",
+     "picks": [
+       {"rank": "T0", "v": "claude", "tool": "Claude Research", "model": "深度研究", "models": ["claude-opus-5-5"], "plan": "Max 5x 已包含",
+        "why": "多步驟搜尋、整理成附引用的報告。"},
+       {"rank": "T1", "v": "chatgpt", "tool": "ChatGPT 深度研究", "plan": "Plus（額度比免費版多）",
+        "why": "做第二份報告交叉比對，兩邊說法不一樣的地方就是要查證的地方。"},
+       {"rank": "T2", "v": "gemini", "tool": "Gemini Deep Research", "plan": "免費版（限額）",
+        "why": "Google 搜尋覆蓋面廣，免費版也能用幾次。"},
+       {"rank": "不推", "v": "local", "tool": "本機模型",
+        "why": "不能上網、知識有截止日，查新資料不要用。"}
+     ],
+     "tips": ["重要結論請它附原文連結，自己點開看一次", "Research 很吃額度：先把問題範圍講清楚再按"],
+     "watch": {"vendors": ["claude", "chatgpt", "gemini"], "tags": ["研究", "額度"]}},
+    {"id": "translate", "name": "翻譯與摘要", "short": "翻譯",
+     "lede": "量大、重複、不需要最強的腦袋：最適合本機，完全不吃額度。",
+     "picks": [
+       {"rank": "T0", "v": "local", "tool": "LM Studio", "model": "Qwen3.6 35B-A3B", "local_id": "qwen3.6-35b-a3b",
+        "why": "大量翻譯、整理逐字稿最划算：不吃訂閱額度，每秒上百 token。"},
+       {"rank": "T1", "v": "claude", "tool": "Claude", "model": "Sonnet 5.5／Haiku 5.5", "models": ["claude-sonnet-5-5", "claude-haiku-5-5"], "plan": "Max 5x 已包含",
+        "why": "要品質又要快時用小模型，Opus 額度留給寫程式和小說。"},
+       {"rank": "T2", "v": "chatgpt", "tool": "ChatGPT", "plan": "Plus 已包含",
+        "why": "日常文字對話不限次數，短篇翻譯直接丟。"},
+       {"rank": "本機", "v": "local", "tool": "LM Studio", "model": "Gemma 4 12B", "local_id": "gemma-4-12b",
+        "why": "打遊戲時也能開著的小模型。"}
+     ],
+     "tips": ["逐字稿先切段（每段兩三千字）再丟，摘要品質比一次整份好", "遊戲名、角色名先給一份中英對照表，翻譯才不會亂"],
+     "watch": {"vendors": ["claude", "chatgpt", "local"], "tags": ["新模型", "本機新模型"]}},
+    {"id": "image", "name": "生圖（縮圖、素材）", "short": "生圖",
+     "lede": "雲端看品質，本機看數量；做頻道內容一定要看授權。",
+     "picks": [
+       {"rank": "T0", "v": "chatgpt", "tool": "ChatGPT Images 2.5", "plan": "Plus 已包含（可用 Thinking 模型生圖）",
+        "why": "改圖、套模板、寫字都強，最省事的雲端生圖。"},
+       {"rank": "T1", "v": "local", "tool": "ComfyUI", "model": "MOSS-Image", "local_id": "moss-image",
+        "why": "可商用、中文字寫得清楚，適合大量做縮圖草稿，不吃雲端額度。"},
+       {"rank": "本機", "v": "local", "tool": "ComfyUI", "model": "Z-Image-Turbo", "local_id": "z-image-turbo",
+        "why": "8 步出圖、可商用，最快的本機選擇。"},
+       {"rank": "T2", "v": "gemini", "tool": "Gemini（Nano Banana）", "plan": "免費版（限額）",
+        "why": "免費版就能生圖、修圖，當備用。"},
+       {"rank": "不推", "v": "local", "tool": "ComfyUI", "model": "Qwen-Image 2.1", "local_id": "qwen-image-2.1",
+        "why": "透明背景很強，但授權只限研究；頻道縮圖算商用。"}
+     ],
+     "tips": ["縮圖上的字最後用剪輯軟體自己打，AI 偶爾會錯一兩個字", "同一個構想請它出 4 種構圖比較，比反覆修一張快"],
+     "watch": {"vendors": ["chatgpt", "gemini", "local"], "tags": ["生圖", "本機新模型"]}},
+    {"id": "video", "name": "生影片", "short": "生影片",
+     "lede": "本機能做，但很吃顯示記憶體；拿來做頻道內容要特別注意授權。",
+     "picks": [
+       {"rank": "T1", "v": "local", "tool": "ComfyUI", "model": "LTX-2.5", "local_id": "ltx-2.5",
+        "why": "本機最強的「影片＋聲音」一起生成；年營收未滿 1,000 萬美元可以商用。"},
+       {"rank": "本機", "v": "local", "tool": "ComfyUI", "model": "Wan 2.2 TI2V 5B", "local_id": "wan2.2-ti2v-5b",
+        "why": "最好上手、授權最乾淨（Apache 2.0），只是沒有聲音。"},
+       {"rank": "T2", "v": "grok", "tool": "Grok Imagine", "plan": "免費版（限額）",
+        "why": "免費就能試生短影片。"},
+       {"rank": "T2", "v": "gemini", "tool": "Gemini 影片生成", "plan": "Google AI Plus（NT$165）起",
+        "why": "雲端生影片的便宜入口；需要時訂一個月就好。"},
+       {"rank": "不推", "v": "local", "tool": "ComfyUI", "model": "MiniMax H3", "local_id": "minimax-h3",
+        "why": "品質很好，但授權禁止在美國、歐盟、英國、韓國使用或展示產出——YouTube 全球都看得到。"}
+     ],
+     "tips": ["先生好第一格畫面，再用「圖生影片」，比純文字好控制", "生影片前關掉遊戲和瀏覽器，把顯示記憶體讓出來"],
+     "watch": {"vendors": ["gemini", "grok", "local"], "tags": ["生影片", "本機新模型"]}},
+    {"id": "trend", "name": "即時話題與社群風向", "short": "風向",
+     "lede": "要最新、要看大家怎麼說：Grok 直接讀 X，再拿 Claude 查證。",
+     "picks": [
+       {"rank": "T0", "v": "grok", "tool": "Grok", "model": "X 即時搜尋", "plan": "免費版就能用（限額）",
+        "why": "直接搜 X 上的即時貼文，看玩家和科技圈在吵什麼。"},
+       {"rank": "T1", "v": "claude", "tool": "Claude 網路搜尋", "plan": "Max 5x 已包含",
+        "why": "整理重點、附來源；把 Grok 找到的話題查證一次。"},
+       {"rank": "T2", "v": "chatgpt", "tool": "ChatGPT 搜尋", "plan": "Plus 已包含",
+        "why": "第二個來源。"}
+     ],
+     "tips": ["Grok 給的貼文要點進原文看時間和作者，避免轉傳舊聞", "你的「回波」選題雷達在追 YouTube 和社群熱度，可以一起看"],
+     "watch": {"vendors": ["grok", "claude"], "tags": ["研究", "新模型"]}}
+  ],
+  "cards": [
+    {"id": "combo", "title": "你的訂閱組合（版本答案）",
+     "lede": "Claude Max 5x 當主力、ChatGPT Plus 當備援，其他兩家用免費版，是目前最划算的配法。",
+     "items": [
+       {"b": "Claude Max 5x", "t": "主力，維持。常撞每週上限再考慮 20x，先試試下面的省額度做法。"},
+       {"b": "ChatGPT Plus", "t": "Codex 備援＋生圖＋第二意見，維持。不需要 Pro：主力已經在 Claude，Pro 100 就要 $100。"},
+       {"b": "Gemini", "t": "維持免費。想要大量生影片、5 TB 雲端空間、YouTube Premium Lite 時，Google AI Pro（NT$650）最划算。"},
+       {"b": "Grok", "t": "維持免費，看即時話題夠用。哪天想要 Cursor Pro，X Premium（$30）同時含 SuperGrok、Cursor Pro、X Premium+，比分開買便宜很多。"}
+     ],
+     "src": [{"t": "Claude 方案", "u": "https://claude.com/pricing"}, {"t": "ChatGPT 方案", "u": "https://chatgpt.com/pricing"}, {"t": "Google AI 方案（台灣）", "u": "https://gemini.google/tw/subscriptions/"}, {"t": "The X Subscription", "u": "https://x.ai/news/x-subscription"}]},
+    {"id": "claude-quota", "title": "Claude 額度守則",
+     "lede": "額度每 5 小時重置一次，另有每週上限；網頁、桌面 App、Claude Code 共用同一份。",
+     "items": [
+       {"b": "先想好再送", "t": "需求、背景資料、相關問題合併成一則，少來回。"},
+       {"b": "善用專案", "t": "常用資料放進專案會被快取，重複使用時算得比較少；隔太久沒用快取會失效。"},
+       {"b": "對話別拖太長", "t": "對話越長、附檔越大，每一則越貴；換主題就開新對話。"},
+       {"b": "選對模型與思考強度", "t": "模型、思考強度、Research 和網路搜尋都會影響用量；簡單的事用 Sonnet／Haiku、調低強度。"},
+       {"b": "看用量條", "t": "網頁版「設定 → 用量」有 5 小時與每週進度條，還有 Fable 的每週額度。"},
+       {"b": "Claude Code 收尾", "t": "做到一半撞到 5 小時上限時，會先把手上那一步做完（顯示 wrapping up），這段也算進每週用量。"}
+     ],
+     "src": [{"t": "用量上限怎麼算", "u": "https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work"}, {"t": "省額度的做法", "u": "https://support.claude.com/en/articles/9797557-usage-limit-best-practices"}, {"t": "Claude Code 與方案", "u": "https://support.claude.com/en/articles/11145838-use-claude-code-with-your-pro-or-max-plan"}]},
+    {"id": "quota-out", "title": "額度用完怎麼辦（接力順序）", "ordered": true,
+     "items": [
+       {"b": "換 Codex", "t": "ChatGPT Plus 已含 Codex（也能用 GPT-6 Astra），寫程式直接接手。"},
+       {"b": "換本機", "t": "翻譯、摘要、樣板程式碼丟給 Qwen3.6 35B-A3B 或 Qwen3.8 27B，完全不吃額度。"},
+       {"b": "開用量點數", "t": "真的急，在 Claude 網頁版「設定 → 用量」開啟用量點數，超出的部分按 API 價計費；記得設每月上限。手機 App 訂閱的也要到網頁版開。"},
+       {"b": "等重置", "t": "5 小時週期一到就恢復；每週上限撞到就只能等或升級。"}
+     ],
+     "src": [{"t": "用量點數", "u": "https://support.claude.com/en/articles/12429409-manage-usage-credits-for-paid-claude-plans"}]},
+    {"id": "api-credits", "title": "Max 每月 $100 API 額度：記得領",
+     "lede": "這筆是給你自己寫的 App 和代理用的，不領就浪費。",
+     "items": [
+       {"b": "怎麼領", "t": "在 claude.ai 網頁版「設定 → 帳單」的 API credits 選「Link organization」，連到你的 Claude Console 組織（訂閱滿 7 天後才能領）。"},
+       {"b": "能用在哪", "t": "Claude API、Console 的 Playground、Managed Agents、Agent SDK。"},
+       {"b": "不能用在哪", "t": "互動式的 Claude Code、Claude App 的額外用量、AWS／Google／微軟平台上的 Claude。"},
+       {"b": "不累積", "t": "每個帳單週期重新發放，沒用完就過期；連結的組織之後不能自己改，選好再連。"},
+       {"b": "點子", "t": "讓你的 App 用 Haiku 5.5 做大量分類、翻譯：Haiku 輸入每百萬 token 約 $0.1，$100 夠用很多。"}
+     ],
+     "src": [{"t": "Max 方案每月 API 額度", "u": "https://support.claude.com/en/articles/17154008-monthly-api-credits-for-max-and-team-plans"}]},
+    {"id": "local-roadmap", "title": "本機路線圖（24 GB 筆電）", "ordered": true,
+     "items": [
+       {"b": "先裝 LM Studio", "t": "下載 Qwen3.8 27B（約 15 GB），拿來翻譯、寫草稿、看截圖。"},
+       {"b": "要快再加一顆", "t": "Qwen3.6 35B-A3B：品質稍低但快好幾倍，大量雜事交給它。"},
+       {"b": "裝 ComfyUI 生圖", "t": "先用 MOSS-Image 或 Z-Image-Turbo（都可商用）；範本裡選好就能跑。"},
+       {"b": "影片最後再玩", "t": "LTX-2.5 的 GGUF 版放得進 24 GB；生影片時關掉遊戲和其他吃顯卡的程式。"},
+       {"b": "硬碟預算", "t": "上面全裝大約 100–150 GB；你還有約 800 GB，放得下，但模型更新很快，舊的記得刪。"},
+       {"b": "插電、開效能模式", "t": "筆電用電池時顯卡會降速；跑模型時插電，Armoury Crate 開效能或 Turbo 模式。"}
+     ]},
+    {"id": "cloud-vs-local", "title": "雲端還是本機？",
+     "items": [
+       {"b": "用雲端", "t": "要最好的品質、要上網查資料、寫重要的程式碼。"},
+       {"b": "用本機", "t": "大量重複的雜事、私密內容、不想被額度卡住、沒網路的時候。"},
+       {"b": "速度參考", "t": "你的筆電跑 27B 模型每秒約 35 token（大約四十個中文字），夠用但比雲端慢。"},
+       {"b": "一次只開一個大模型", "t": "24 GB 顯示記憶體同時開兩個大模型會互搶；LM Studio 用完記得卸載（Eject）。"}
+     ]},
+    {"id": "license", "title": "商用授權守則（做頻道內容前看一下）",
+     "lede": "頻道有營利，縮圖、影片素材都算商用。",
+     "items": [
+       {"b": "放心用", "t": "Apache 2.0 這類寬鬆授權：Qwen3.8／3.6／3.5、Gemma 4、gpt-oss、Muse Glimmer、MOSS-Image、Z-Image-Turbo、Wan 2.2；Nemotron 3.5 Bolt（OpenMDW）也可商用。"},
+       {"b": "有條件", "t": "LTX-2.5、LFM2.5：年營收未滿 1,000 萬美元免費商用。FLUX 3 Klein：年營收未滿 500 萬美元才可商用產出。"},
+       {"b": "別拿來做頻道內容", "t": "Qwen-Image 2.1（只限研究、評估）；MiniMax H3（禁止在美國、歐盟、英國、韓國使用或展示產出）。"},
+       {"b": "不管用哪個", "t": "不要生成真人肖像、別人的角色或商標；雲端服務的使用權依各家服務條款。"}
+     ],
+     "src": [{"t": "LTX-2.x 授權", "u": "https://github.com/Lightricks/LTX-2/blob/main/LICENSE-2_x"}, {"t": "MiniMax H3 授權 Q&A", "u": "https://huggingface.co/MiniMaxAI/MiniMax-H3/blob/main/docs/QA-about-License.md"}, {"t": "Qwen-Image-2.1 授權", "u": "https://huggingface.co/Qwen/Qwen-Image-2.1/blob/main/LICENSE"}, {"t": "FLUX 3 Klein 模型卡", "u": "https://huggingface.co/black-forest-labs/flux-3-image-klein"}]}
+  ]
+}
