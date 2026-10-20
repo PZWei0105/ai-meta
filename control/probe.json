@@ -1,276 +1,402 @@
 [
  {
-  "name": "claude_usage_limits",
-  "url": "https://support.claude.com/en/articles/11647753-understanding-usage-and-length-limits"
+  "name": "ollama_tags_qwen3.8",
+  "url": "https://ollama.com/library/qwen3.8/tags",
+  "bot_ua": false
  },
  {
-  "name": "claude_usage_best",
-  "url": "https://support.claude.com/en/articles/9797557-usage-limit-best-practices"
+  "name": "ollama_tags_qwen3.6",
+  "url": "https://ollama.com/library/qwen3.6/tags",
+  "bot_ua": false
  },
  {
-  "name": "claude_usage_credits",
-  "url": "https://support.claude.com/en/articles/12429409-manage-usage-credits-for-paid-claude-plans"
+  "name": "ollama_tags_qwen3.5",
+  "url": "https://ollama.com/library/qwen3.5/tags",
+  "bot_ua": false
  },
  {
-  "name": "claude_api_credits",
-  "url": "https://support.claude.com/en/articles/17154008"
+  "name": "ollama_tags_gemma4",
+  "url": "https://ollama.com/library/gemma4/tags",
+  "bot_ua": false
  },
  {
-  "name": "claude_promax_collection",
-  "url": "https://support.claude.com/en/collections/5953830-pro-and-max-plans"
+  "name": "ollama_tags_gpt-oss",
+  "url": "https://ollama.com/library/gpt-oss/tags",
+  "bot_ua": false
  },
  {
-  "name": "claude_context",
-  "url": "https://support.claude.com/en/articles/8606394-how-large-is-the-context-window-on-paid-claude-plans"
+  "name": "ollama_tags_qwen3-coder",
+  "url": "https://ollama.com/library/qwen3-coder/tags",
+  "bot_ua": false
  },
  {
-  "name": "claude_code_plans",
-  "url": "https://support.claude.com/en/articles/11145838-using-claude-code-with-your-pro-or-max-plan"
+  "name": "ollama_tags_nemotron-3.5-bolt",
+  "url": "https://ollama.com/library/nemotron-3.5-bolt/tags",
+  "bot_ua": false
  },
  {
-  "name": "claude_max_usage",
-  "url": "https://support.claude.com/en/articles/11014257-about-claude-s-max-plan-usage"
+  "name": "ollama_tags_mistral-large-4",
+  "url": "https://ollama.com/library/mistral-large-4/tags",
+  "bot_ua": false
  },
  {
-  "name": "claude_pro_usage",
-  "url": "https://support.claude.com/en/articles/8324991-about-claude-s-pro-plan-usage"
+  "name": "ollama_tags_glm-5.3-flash",
+  "url": "https://ollama.com/library/glm-5.3-flash/tags",
+  "bot_ua": false
  },
  {
-  "name": "openai_pro",
-  "url": "https://help.openai.com/en/articles/9793128-what-is-chatgpt-pro"
- },
- {
-  "name": "openai_plus",
-  "url": "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus"
- },
- {
-  "name": "openai_go",
-  "url": "https://help.openai.com/en/articles/11989085-what-is-chatgpt-go"
- },
- {
-  "name": "openai_free",
-  "url": "https://help.openai.com/en/articles/9275245-chatgpt-free-tier-faq"
- },
- {
-  "name": "openai_codex_plan",
-  "url": "https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan"
- },
- {
-  "name": "openai_rate_card",
-  "url": "https://help.openai.com/en/articles/11481834-chatgpt-rate-card"
- },
- {
-  "name": "openai_credits",
-  "url": "https://help.openai.com/en/articles/12642688-using-credits-for-flexible-usage-in-chatgpt-plus-pro"
- },
- {
-  "name": "openai_images",
-  "url": "https://help.openai.com/en/articles/11084440-images-in-chatgpt"
- },
- {
-  "name": "openai_gpt6_pro",
-  "url": "https://help.openai.com/articles/20001354"
- },
- {
-  "name": "google_ai_plans",
-  "url": "https://one.google.com/about/google-ai-plans/?hl=zh-TW&gl=TW"
- },
- {
-  "name": "google_ai_plans_en",
-  "url": "https://one.google.com/about/google-ai-plans/"
- },
- {
-  "name": "gemini_limits",
-  "url": "https://support.google.com/gemini/answer/16275805?hl=en"
- },
- {
-  "name": "gemini_limits_tw",
-  "url": "https://support.google.com/gemini/answer/16275805?hl=zh-Hant"
- },
- {
-  "name": "gemini_subs_tw",
-  "url": "https://gemini.google/tw/subscriptions/?hl=zh-TW"
- },
- {
-  "name": "xai_x_subscription",
-  "url": "https://x.ai/news/x-subscription"
- },
- {
-  "name": "grok_com_plans",
-  "url": "https://grok.com/plans"
- },
- {
-  "name": "x_premium_help",
-  "url": "https://help.x.com/en/using-x/x-premium"
- },
- {
-  "name": "xai_grok_page",
-  "url": "https://x.ai/grok"
- },
- {
-  "name": "hf_author_qwen",
-  "url": "https://huggingface.co/api/models?author=Qwen&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__Qwen3.8-27B-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/Qwen3.8-27B-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_google",
-  "url": "https://huggingface.co/api/models?author=google&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__Qwen3.6-35B-A3B-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/Qwen3.6-35B-A3B-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_meta-llama",
-  "url": "https://huggingface.co/api/models?author=meta-llama&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__gemma-4-12b-it-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/gemma-4-12b-it-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_facebook",
-  "url": "https://huggingface.co/api/models?author=facebook&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__gemma-4-26B-A4B-it-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/gemma-4-26B-A4B-it-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_mistralai",
-  "url": "https://huggingface.co/api/models?author=mistralai&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__gemma-4-31B-it-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/gemma-4-31B-it-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_deepseek-ai",
-  "url": "https://huggingface.co/api/models?author=deepseek-ai&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__gpt-oss-20b-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/gpt-oss-20b-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_openai",
-  "url": "https://huggingface.co/api/models?author=openai&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__gpt-oss-120b-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/gpt-oss-120b-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_zai-org",
-  "url": "https://huggingface.co/api/models?author=zai-org&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__Qwen3-Coder-30B-A3B-Instruct-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_liquidai",
-  "url": "https://huggingface.co/api/models?author=LiquidAI&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__Qwen3.5-9B-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/Qwen3.5-9B-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_nvidia",
-  "url": "https://huggingface.co/api/models?author=nvidia&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__Qwen3.5-4B-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/Qwen3.5-4B-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_minimaxai",
-  "url": "https://huggingface.co/api/models?author=MiniMaxAI&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__LFM2.5-24B-A2B-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/LFM2.5-24B-A2B-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_moonshotai",
-  "url": "https://huggingface.co/api/models?author=moonshotai&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__Muse-Glimmer-30B-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/Muse-Glimmer-30B-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_microsoft",
-  "url": "https://huggingface.co/api/models?author=microsoft&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__NVIDIA-Nemotron-3.5-Bolt-74B-A9B-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_tencent",
-  "url": "https://huggingface.co/api/models?author=tencent&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__Qwen3.6-27B-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/Qwen3.6-27B-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_xiaomimimo",
-  "url": "https://huggingface.co/api/models?author=XiaomiMiMo&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__Qwen-Image-2.1-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/Qwen-Image-2.1-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_black-forest-labs",
-  "url": "https://huggingface.co/api/models?author=black-forest-labs&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__Qwen-Image-2.1-Turbo-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/Qwen-Image-2.1-Turbo-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_wan-ai",
-  "url": "https://huggingface.co/api/models?author=Wan-AI&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__flux-3-image-klein-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/flux-3-image-klein-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_lightricks",
-  "url": "https://huggingface.co/api/models?author=Lightricks&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__Z-Image-Turbo-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/Z-Image-Turbo-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_hidream-ai",
-  "url": "https://huggingface.co/api/models?author=HiDream-ai&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__MiniMax-H3-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/MiniMax-H3-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_tongyi-mai",
-  "url": "https://huggingface.co/api/models?author=Tongyi-MAI&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__LTX-2.5-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/LTX-2.5-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_stabilityai",
-  "url": "https://huggingface.co/api/models?author=stabilityai&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__Wan2.2-TI2V-5B-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/Wan2.2-TI2V-5B-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_comfy-org",
-  "url": "https://huggingface.co/api/models?author=Comfy-Org&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_unsloth__FLUX.2-klein-9B-GGUF",
+  "url": "https://huggingface.co/api/models/unsloth/FLUX.2-klein-9B-GGUF/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_unsloth",
-  "url": "https://huggingface.co/api/models?author=unsloth&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_Comfy-Org__Qwen-Image-2.1",
+  "url": "https://huggingface.co/api/models/Comfy-Org/Qwen-Image-2.1/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_lmstudio-community",
-  "url": "https://huggingface.co/api/models?author=lmstudio-community&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_Comfy-Org__MiniMax-H3",
+  "url": "https://huggingface.co/api/models/Comfy-Org/MiniMax-H3/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_ggml-org",
-  "url": "https://huggingface.co/api/models?author=ggml-org&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_Comfy-Org__MOSS-Image",
+  "url": "https://huggingface.co/api/models/Comfy-Org/MOSS-Image/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_bytedance-seed",
-  "url": "https://huggingface.co/api/models?author=ByteDance-Seed&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_black-forest-labs__flux-3-image-klein-comfy",
+  "url": "https://huggingface.co/api/models/black-forest-labs/flux-3-image-klein-comfy/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_inclusionai",
-  "url": "https://huggingface.co/api/models?author=inclusionAI&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_Comfy-Org__Wan_2.2_ComfyUI_Repackaged",
+  "url": "https://huggingface.co/api/models/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_author_ibm-granite",
-  "url": "https://huggingface.co/api/models?author=ibm-granite&sort=createdAt&limit=40&expand[]=safetensors&expand[]=createdAt&expand[]=pipeline_tag&expand[]=downloads&expand[]=likes&expand[]=cardData&expand[]=gguf",
+  "name": "tree_Lightricks__LTX-2.5",
+  "url": "https://huggingface.co/api/models/Lightricks/LTX-2.5/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_unsloth_popular",
-  "url": "https://huggingface.co/api/models?author=unsloth&sort=downloads&limit=80&expand[]=gguf&expand[]=createdAt&expand[]=downloads&expand[]=likes",
+  "name": "tree_Comfy-Org__z_image_turbo",
+  "url": "https://huggingface.co/api/models/Comfy-Org/z_image_turbo/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "hf_lmsc_popular",
-  "url": "https://huggingface.co/api/models?author=lmstudio-community&sort=downloads&limit=60&expand[]=gguf&expand[]=createdAt&expand[]=downloads",
+  "name": "tree_HiDream-ai__HiDream-O1-Image",
+  "url": "https://huggingface.co/api/models/HiDream-ai/HiDream-O1-Image/tree/main?recursive=true",
   "bot_ua": true
  },
  {
-  "name": "ollama_search_popular",
-  "url": "https://ollama.com/search"
+  "name": "cfg_Qwen__Qwen3.8-27B",
+  "url": "https://huggingface.co/Qwen/Qwen3.8-27B/resolve/main/config.json",
+  "bot_ua": true
  },
  {
-  "name": "codex_releases_small",
-  "url": "https://api.github.com/repos/openai/codex/releases?per_page=4"
+  "name": "cfg_Qwen__Qwen3.6-35B-A3B",
+  "url": "https://huggingface.co/Qwen/Qwen3.6-35B-A3B/resolve/main/config.json",
+  "bot_ua": true
  },
  {
-  "name": "ollama_latest",
-  "url": "https://api.github.com/repos/ollama/ollama/releases/latest"
+  "name": "cfg_unsloth__gemma-4-12b-it",
+  "url": "https://huggingface.co/unsloth/gemma-4-12b-it/resolve/main/config.json",
+  "bot_ua": true
  },
  {
-  "name": "comfyui_latest",
-  "url": "https://api.github.com/repos/comfyanonymous/ComfyUI/releases/latest"
+  "name": "cfg_unsloth__gemma-4-31B-it",
+  "url": "https://huggingface.co/unsloth/gemma-4-31B-it/resolve/main/config.json",
+  "bot_ua": true
+ },
+ {
+  "name": "cfg_unsloth__gemma-4-26B-A4B-it",
+  "url": "https://huggingface.co/unsloth/gemma-4-26B-A4B-it/resolve/main/config.json",
+  "bot_ua": true
+ },
+ {
+  "name": "cfg_openai__gpt-oss-20b",
+  "url": "https://huggingface.co/openai/gpt-oss-20b/resolve/main/config.json",
+  "bot_ua": true
+ },
+ {
+  "name": "cfg_openai__gpt-oss-120b",
+  "url": "https://huggingface.co/openai/gpt-oss-120b/resolve/main/config.json",
+  "bot_ua": true
+ },
+ {
+  "name": "cfg_Qwen__Qwen3-Coder-30B-A3B-Instruct",
+  "url": "https://huggingface.co/Qwen/Qwen3-Coder-30B-A3B-Instruct/resolve/main/config.json",
+  "bot_ua": true
+ },
+ {
+  "name": "cfg_Qwen__Qwen3.5-9B",
+  "url": "https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json",
+  "bot_ua": true
+ },
+ {
+  "name": "cfg_LiquidAI__LFM2.5-24B-A2B",
+  "url": "https://huggingface.co/LiquidAI/LFM2.5-24B-A2B/resolve/main/config.json",
+  "bot_ua": true
+ },
+ {
+  "name": "cfg_unsloth__Muse-Glimmer-30B",
+  "url": "https://huggingface.co/unsloth/Muse-Glimmer-30B/resolve/main/config.json",
+  "bot_ua": true
+ },
+ {
+  "name": "cfg_nvidia__NVIDIA-Nemotron-3.5-Bolt-74B-A9B-BF16",
+  "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-BF16/resolve/main/config.json",
+  "bot_ua": true
+ },
+ {
+  "name": "cfg_Qwen__Qwen3.6-27B",
+  "url": "https://huggingface.co/Qwen/Qwen3.6-27B/resolve/main/config.json",
+  "bot_ua": true
+ },
+ {
+  "name": "info_Qwen__Qwen3.8-27B",
+  "url": "https://huggingface.co/api/models/Qwen/Qwen3.8-27B?expand[]=cardData&expand[]=safetensors&expand[]=gated&expand[]=createdAt&expand[]=downloads&expand[]=likes&expand[]=pipeline_tag&expand[]=tags",
+  "bot_ua": true
+ },
+ {
+  "name": "info_Qwen__Qwen3.6-35B-A3B",
+  "url": "https://huggingface.co/api/models/Qwen/Qwen3.6-35B-A3B?expand[]=cardData&expand[]=safetensors&expand[]=gated&expand[]=createdAt&expand[]=downloads&expand[]=likes&expand[]=pipeline_tag&expand[]=tags",
+  "bot_ua": true
+ },
+ {
+  "name": "info_google__gemma-4-12B-it",
+  "url": "https://huggingface.co/api/models/google/gemma-4-12B-it?expand[]=cardData&expand[]=safetensors&expand[]=gated&expand[]=createdAt&expand[]=downloads&expand[]=likes&expand[]=pipeline_tag&expand[]=tags",
+  "bot_ua": true
+ },
+ {
+  "name": "info_google__gemma-4-31B-it",
+  "url": "https://huggingface.co/api/models/google/gemma-4-31B-it?expand[]=cardData&expand[]=safetensors&expand[]=gated&expand[]=createdAt&expand[]=downloads&expand[]=likes&expand[]=pipeline_tag&expand[]=tags",
+  "bot_ua": true
+ },
+ {
+  "name": "info_google__gemma-4-26B-A4B-it",
+  "url": "https://huggingface.co/api/models/google/gemma-4-26B-A4B-it?expand[]=cardData&expand[]=safetensors&expand[]=gated&expand[]=createdAt&expand[]=downloads&expand[]=likes&expand[]=pipeline_tag&expand[]=tags",
+  "bot_ua": true
+ },
+ {
+  "name": "info_LiquidAI__LFM2.5-24B-A2B",
+  "url": "https://huggingface.co/api/models/LiquidAI/LFM2.5-24B-A2B?expand[]=cardData&expand[]=safetensors&expand[]=gated&expand[]=createdAt&expand[]=downloads&expand[]=likes&expand[]=pipeline_tag&expand[]=tags",
+  "bot_ua": true
+ },
+ {
+  "name": "info_black-forest-labs__flux-3-image-klein",
+  "url": "https://huggingface.co/api/models/black-forest-labs/flux-3-image-klein?expand[]=cardData&expand[]=safetensors&expand[]=gated&expand[]=createdAt&expand[]=downloads&expand[]=likes&expand[]=pipeline_tag&expand[]=tags",
+  "bot_ua": true
+ },
+ {
+  "name": "info_Qwen__Qwen-Image-2.1",
+  "url": "https://huggingface.co/api/models/Qwen/Qwen-Image-2.1?expand[]=cardData&expand[]=safetensors&expand[]=gated&expand[]=createdAt&expand[]=downloads&expand[]=likes&expand[]=pipeline_tag&expand[]=tags",
+  "bot_ua": true
+ },
+ {
+  "name": "info_Qwen__Qwen-Image-2.1-Turbo",
+  "url": "https://huggingface.co/api/models/Qwen/Qwen-Image-2.1-Turbo?expand[]=cardData&expand[]=safetensors&expand[]=gated&expand[]=createdAt&expand[]=downloads&expand[]=likes&expand[]=pipeline_tag&expand[]=tags",
+  "bot_ua": true
+ },
+ {
+  "name": "info_MiniMaxAI__MiniMax-H3",
+  "url": "https://huggingface.co/api/models/MiniMaxAI/MiniMax-H3?expand[]=cardData&expand[]=safetensors&expand[]=gated&expand[]=createdAt&expand[]=downloads&expand[]=likes&expand[]=pipeline_tag&expand[]=tags",
+  "bot_ua": true
+ },
+ {
+  "name": "info_Lightricks__LTX-2.5",
+  "url": "https://huggingface.co/api/models/Lightricks/LTX-2.5?expand[]=cardData&expand[]=safetensors&expand[]=gated&expand[]=createdAt&expand[]=downloads&expand[]=likes&expand[]=pipeline_tag&expand[]=tags",
+  "bot_ua": true
+ },
+ {
+  "name": "info_Tongyi-MAI__Z-Image-Turbo",
+  "url": "https://huggingface.co/api/models/Tongyi-MAI/Z-Image-Turbo?expand[]=cardData&expand[]=safetensors&expand[]=gated&expand[]=createdAt&expand[]=downloads&expand[]=likes&expand[]=pipeline_tag&expand[]=tags",
+  "bot_ua": true
+ },
+ {
+  "name": "info_Comfy-Org__MOSS-Image",
+  "url": "https://huggingface.co/api/models/Comfy-Org/MOSS-Image?expand[]=cardData&expand[]=safetensors&expand[]=gated&expand[]=createdAt&expand[]=downloads&expand[]=likes&expand[]=pipeline_tag&expand[]=tags",
+  "bot_ua": true
+ },
+ {
+  "name": "info_nvidia__NVIDIA-Nemotron-3.5-Bolt-74B-A9B-BF16",
+  "url": "https://huggingface.co/api/models/nvidia/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-BF16?expand[]=cardData&expand[]=safetensors&expand[]=gated&expand[]=createdAt&expand[]=downloads&expand[]=likes&expand[]=pipeline_tag&expand[]=tags",
+  "bot_ua": true
+ },
+ {
+  "name": "info_Wan-AI__Wan2.2-TI2V-5B",
+  "url": "https://huggingface.co/api/models/Wan-AI/Wan2.2-TI2V-5B?expand[]=cardData&expand[]=safetensors&expand[]=gated&expand[]=createdAt&expand[]=downloads&expand[]=likes&expand[]=pipeline_tag&expand[]=tags",
+  "bot_ua": true
+ },
+ {
+  "name": "info_Wan-AI__Wan2.2-T2V-A14B",
+  "url": "https://huggingface.co/api/models/Wan-AI/Wan2.2-T2V-A14B?expand[]=cardData&expand[]=safetensors&expand[]=gated&expand[]=createdAt&expand[]=downloads&expand[]=likes&expand[]=pipeline_tag&expand[]=tags",
+  "bot_ua": true
+ },
+ {
+  "name": "readme_black-forest-labs__flux-3-image-klein",
+  "url": "https://huggingface.co/black-forest-labs/flux-3-image-klein/resolve/main/README.md",
+  "bot_ua": true
+ },
+ {
+  "name": "readme_Qwen__Qwen-Image-2.1",
+  "url": "https://huggingface.co/Qwen/Qwen-Image-2.1/resolve/main/README.md",
+  "bot_ua": true
+ },
+ {
+  "name": "readme_MiniMaxAI__MiniMax-H3",
+  "url": "https://huggingface.co/MiniMaxAI/MiniMax-H3/resolve/main/README.md",
+  "bot_ua": true
+ },
+ {
+  "name": "readme_Lightricks__LTX-2.5",
+  "url": "https://huggingface.co/Lightricks/LTX-2.5/resolve/main/README.md",
+  "bot_ua": true
+ },
+ {
+  "name": "readme_Qwen__Qwen3.8-27B",
+  "url": "https://huggingface.co/Qwen/Qwen3.8-27B/resolve/main/README.md",
+  "bot_ua": true
+ },
+ {
+  "name": "readme_LiquidAI__LFM2.5-24B-A2B",
+  "url": "https://huggingface.co/LiquidAI/LFM2.5-24B-A2B/resolve/main/README.md",
+  "bot_ua": true
+ },
+ {
+  "name": "readme_Comfy-Org__MOSS-Image",
+  "url": "https://huggingface.co/Comfy-Org/MOSS-Image/resolve/main/README.md",
+  "bot_ua": true
+ },
+ {
+  "name": "readme_unsloth__MiniMax-H3-GGUF",
+  "url": "https://huggingface.co/unsloth/MiniMax-H3-GGUF/resolve/main/README.md",
+  "bot_ua": true
+ },
+ {
+  "name": "readme_Tongyi-MAI__Z-Image-Turbo",
+  "url": "https://huggingface.co/Tongyi-MAI/Z-Image-Turbo/resolve/main/README.md",
+  "bot_ua": true
+ },
+ {
+  "name": "readme_unsloth__Muse-Glimmer-30B-GGUF",
+  "url": "https://huggingface.co/unsloth/Muse-Glimmer-30B-GGUF/resolve/main/README.md",
+  "bot_ua": true
+ },
+ {
+  "name": "readme_nvidia__NVIDIA-Nemotron-3.5-Bolt-74B-A9B-BF16",
+  "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-BF16/resolve/main/README.md",
+  "bot_ua": true
+ },
+ {
+  "name": "hf_search_glimmer",
+  "url": "https://huggingface.co/api/models?search=Muse-Glimmer&limit=10&expand[]=createdAt&expand[]=downloads",
+  "bot_ua": true
  }
 ]
