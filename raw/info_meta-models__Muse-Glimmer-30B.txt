@@ -1,0 +1,1 @@
+{"_id":"6a78be27e8cfa31c8b543588","id":"meta-models/Muse-Glimmer-30B","cardData":{"license":"apache-2.0","library_name":"transformers","pipeline_tag":"image-text-to-text"},"gated":false,"createdAt":"2026-08-09T17:51:35.000Z","safetensors":{"parameters":{"BF16":29776626688},"total":29776626688}}
