@@ -1,0 +1,105 @@
+name: meta
+
+on:
+  schedule:
+    # 每小時更新一次（UTC 時間第 13 分；玩真的第 23 分、回波第 47 分，錯開比較不會塞車）
+    - cron: '13 * * * *'
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'build / probe / deploy'
+        default: build
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+  actions: write
+
+concurrency:
+  group: meta-data
+  cancel-in-progress: false
+
+jobs:
+  # 抓資料、判斷、翻譯，把網站打包好（不碰 Pages 環境，Pages 有狀況時資料照樣更新）
+  run:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    outputs:
+      deploy: ${{ steps.pipe.outputs.deploy }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: mode
+        run: python3 -m pipeline.dispatch --print-mode
+        env:
+          EVENT: ${{ github.event_name }}
+          INPUT_MODE: ${{ github.event.inputs.mode }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      # 翻譯器：llama.cpp ＋ 開源模型，第一次下載後存在 GitHub 快取
+      - id: llmrestore
+        if: steps.mode.outputs.mode == 'build'
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.cache/meta-llm
+          key: meta-llm-v1-qwen3-8b
+          restore-keys: meta-llm-
+      - id: llmsetup
+        if: steps.mode.outputs.mode == 'build'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash scripts/llm_setup.sh
+      - if: steps.mode.outputs.mode == 'build' && steps.llmrestore.outputs.cache-hit != 'true' && steps.llmsetup.outputs.ready == 'true'
+        continue-on-error: true
+        uses: actions/cache/save@v4
+        with:
+          path: ~/.cache/meta-llm
+          key: meta-llm-v1-qwen3-8b
+      - if: steps.mode.outputs.mode == 'build'
+        continue-on-error: true
+        run: bash scripts/llm_start.sh
+
+      - id: pipe
+        run: python -m pipeline.dispatch
+        env:
+          EVENT: ${{ github.event_name }}
+          INPUT_MODE: ${{ github.event.inputs.mode }}
+          REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ github.token }}
+      - if: always() && steps.mode.outputs.mode == 'build'
+        continue-on-error: true
+        run: tail -25 /tmp/llama.log 2>/dev/null || true
+      - if: steps.pipe.outputs.deploy == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+      # 公開 repo 的排程 60 天沒動靜會被 GitHub 自動停用；每週主動續命一次
+      - name: keep schedule alive
+        if: github.event_name == 'schedule'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "$(date -u +%u%H)" = "703" ]; then
+            gh api -X PUT "repos/${{ github.repository }}/actions/workflows/meta.yml/enable" && echo "schedule kept alive"
+          fi
+
+  # 發布到 GitHub Pages
+  deploy:
+    needs: run
+    if: needs.run.outputs.deploy == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
