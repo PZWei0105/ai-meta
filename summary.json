@@ -1,0 +1,160 @@
+{
+ "started": "2026-10-27T22:47:59.984400+00:00",
+ "python": "3.12.15",
+ "results": [
+  {
+   "name": "anthropic_news",
+   "url": "https://www.anthropic.com/news",
+   "status": 200,
+   "final_url": "https://www.anthropic.com/news",
+   "size": 412422,
+   "headers": {
+    "content-type": "text/html; charset=utf-8",
+    "cache-control": "s-maxage=300, stale-while-revalidate=31535700",
+    "server": "cloudflare",
+    "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding"
+   },
+   "history": [],
+   "elapsed": 0.17
+  },
+  {
+   "name": "anthropic_news_bot",
+   "url": "https://www.anthropic.com/news",
+   "status": 200,
+   "final_url": "https://www.anthropic.com/news",
+   "size": 412567,
+   "headers": {
+    "content-type": "text/html; charset=utf-8",
+    "cache-control": "s-maxage=300, stale-while-revalidate=31535700",
+    "server": "cloudflare",
+    "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding"
+   },
+   "history": [],
+   "elapsed": 0.1
+  },
+  {
+   "name": "anthropic_sitemap",
+   "url": "https://www.anthropic.com/sitemap.xml",
+   "status": 200,
+   "final_url": "https://www.anthropic.com/sitemap.xml",
+   "size": 75583,
+   "headers": {
+    "content-type": "application/xml",
+    "cache-control": "public, max-age=0, must-revalidate",
+    "server": "cloudflare",
+    "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, accept-encoding"
+   },
+   "history": [],
+   "elapsed": 0.11
+  },
+  {
+   "name": "openai_pricing",
+   "url": "https://developers.openai.com/api/docs/pricing",
+   "status": 200,
+   "final_url": "https://developers.openai.com/api/docs/pricing",
+   "size": 582552,
+   "headers": {
+    "content-type": "text/html; charset=utf-8",
+    "access-control-allow-origin": "*",
+    "cache-control": "public, max-age=0, must-revalidate",
+    "etag": "W/\"5e69972806f23a75d43ea8cdd802da52\"",
+    "last-modified": "Tue, 27 Oct 2026 21:58:10 GMT",
+    "server": "Vercel",
+    "vary": "Accept"
+   },
+   "history": [],
+   "elapsed": 0.19
+  },
+  {
+   "name": "openai_plus",
+   "url": "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus",
+   "status": 200,
+   "final_url": "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus",
+   "size": 66865,
+   "headers": {
+    "content-type": "text/html; charset=utf-8",
+    "cache-control": "no-store, no-cache, must-revalidate, max-age=0, private",
+    "server": "cloudflare",
+    "vary": "Accept-Encoding"
+   },
+   "history": [],
+   "elapsed": 0.23
+  },
+  {
+   "name": "openai_pro_tiers",
+   "url": "https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers",
+   "status": 200,
+   "final_url": "https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers",
+   "size": 72437,
+   "headers": {
+    "content-type": "text/html; charset=utf-8",
+    "cache-control": "no-store, no-cache, must-revalidate, max-age=0, private",
+    "server": "cloudflare",
+    "vary": "Accept-Encoding"
+   },
+   "history": [],
+   "elapsed": 0.2
+  },
+  {
+   "name": "claude_pricing",
+   "url": "https://claude.com/pricing",
+   "status": 200,
+   "final_url": "https://claude.com/pricing",
+   "size": 1245222,
+   "headers": {
+    "content-type": "text/html; charset=utf-8",
+    "cache-control": "private, max-age=0, must-revalidate",
+    "server": "cloudflare",
+    "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+   },
+   "history": [],
+   "elapsed": 0.72
+  },
+  {
+   "name": "claude_release_notes",
+   "url": "https://support.claude.com/en/articles/12138966-release-notes",
+   "status": 200,
+   "final_url": "https://support.claude.com/en/articles/12138966-release-notes",
+   "size": 360827,
+   "headers": {
+    "content-type": "text/html; charset=utf-8",
+    "cache-control": "max-age=0, private, must-revalidate",
+    "server": "cloudflare",
+    "vary": "Accept-Encoding, Sec-Fetch-Site"
+   },
+   "history": [],
+   "elapsed": 0.51
+  },
+  {
+   "name": "chatgpt_release_notes",
+   "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes",
+   "status": 200,
+   "final_url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes",
+   "size": 831025,
+   "headers": {
+    "content-type": "text/html; charset=utf-8",
+    "cache-control": "no-store, no-cache, must-revalidate, max-age=0, private",
+    "server": "cloudflare",
+    "vary": "Accept-Encoding"
+   },
+   "history": [],
+   "elapsed": 0.54
+  },
+  {
+   "name": "info_nvidia__Nemotron-3.5-Bolt-E4B-4GB",
+   "url": "https://huggingface.co/api/models/nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB",
+   "status": 200,
+   "final_url": "https://huggingface.co/api/models/nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB",
+   "size": 23159,
+   "headers": {
+    "content-type": "application/json; charset=utf-8",
+    "access-control-allow-origin": "https://pzwei0105.github.io",
+    "etag": "W/\"5a77-D5pDw9nkSGJyl6zti2f+F/Pp/qY\"",
+    "vary": "Origin, Accept-Encoding"
+   },
+   "history": [],
+   "elapsed": 0.13
+  }
+ ],
+ "finished": "2026-10-27T22:48:12.900774+00:00"
+}
