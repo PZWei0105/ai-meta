@@ -240,29 +240,59 @@ def xai(pricing_md):
 
 
 # ------------------------------------------------------------------ OpenAI
+def _openai_cols(heads):
+    """依表頭文字對欄位，不靠位置（官方 2026-10-20 把「輸出」搬到第三欄、加了 12 小時快取寫入）。
+    同名欄位第二次出現（例如舊版的「長上下文」那一組）記成 *_long。"""
+    idx, seen = {}, {}
+    for i, h in enumerate(heads):
+        h = re.sub(r'\s+', ' ', h.lower()).strip()
+        if h == 'model':
+            key = 'model'
+        elif h == 'input':
+            key = 'inp'
+        elif h == 'output':
+            key = 'out'
+        elif 'cached input' in h or h in ('cache read', 'cache hits'):
+            key = 'cr'
+        elif 'write' in h:
+            key = 'cw12' if re.search(r'12\s?h|12-hour', h) else 'cw'
+        else:
+            continue
+        n = seen.get(key, 0)
+        seen[key] = n + 1
+        idx[key if n == 0 else f'{key}_long'] = i
+    return idx
+
+
 def openai(pricing_html, deprec_html):
     soup = BeautifulSoup(pricing_html, 'lxml')
     models = []
-    tables = soup.find_all('table')
-    std = None
-    for t in tables:
-        heads = [c.get_text(' ', strip=True).lower() for c in t.find_all('th')]
-        if 'model' in heads and 'input' in heads and 'output' in heads:
-            std = t
+    std, cols = None, None
+    for t in soup.find_all('table'):
+        for tr in t.find_all('tr'):
+            heads = [c.get_text(' ', strip=True) for c in tr.find_all(['th', 'td'])]
+            c = _openai_cols(heads)
+            if {'model', 'inp', 'out'} <= set(c):
+                std, cols = t, c
+                break
+        if std is not None:
             break
     if std is not None:
+        def cell(cells, k):
+            i = cols.get(k)
+            return money(cells[i]) if i is not None and i < len(cells) else None
         for tr in std.find_all('tr'):
             cells = [c.get_text(' ', strip=True) for c in tr.find_all(['td', 'th'])]
-            if len(cells) < 5 or not re.match(r'^[a-z0-9][a-z0-9.\-]+$', cells[0]):
+            if len(cells) <= max(cols['inp'], cols['out']) or not re.match(r'^[a-z0-9][a-z0-9.\-]+$', cells[0]):
                 continue
             mid = cells[0]
             name = re.sub(r'^gpt-', 'GPT-', mid)
             name = ' '.join(p.capitalize() if i else p for i, p in enumerate(re.split(r'(?<=\d)-(?=[a-z])', name)))
             long = None
-            if len(cells) >= 9 and money(cells[5]):
-                long = {'inp': money(cells[5]), 'out': money(cells[8]), 'over': '長上下文'}
-            models.append(_rec('chatgpt', mid, name, inp=money(cells[1]), cr=money(cells[2]), cw=money(cells[3]),
-                               out=money(cells[4]), long=long, status='active'))
+            if cell(cells, 'inp_long') and cell(cells, 'out_long'):
+                long = {'inp': cell(cells, 'inp_long'), 'out': cell(cells, 'out_long'), 'over': '長上下文'}
+            models.append(_rec('chatgpt', mid, name, inp=cell(cells, 'inp'), cr=cell(cells, 'cr'), cw=cell(cells, 'cw'),
+                               cw12=cell(cells, 'cw12'), out=cell(cells, 'out'), long=long, status='active'))
     retire = {}
     dsoup = BeautifulSoup(deprec_html or '', 'lxml')
     for t in dsoup.find_all('table'):
@@ -320,8 +350,28 @@ def cross_check(models, openrouter):
 
 
 # ------------------------------------------------------------------ 和上一輪比對
+def check_sane(models):
+    """抓到的價格要合理：輸出價不低於輸入價、快取讀取不高於輸入價。
+    不合理多半是官方改了頁面版型、欄位對錯，整家當作這輪沒讀好（沿用上一次），不把錯的數字放上去。"""
+    bad = [m['id'] for m in models
+           if (m.get('inp') is not None and m.get('out') is not None and m['out'] < m['inp'])
+           or (m.get('inp') is not None and m.get('cr') is not None and m['cr'] > m['inp'])]
+    if bad:
+        raise ValueError(f"價格欄位對不上：{'、'.join(bad[:3])}")
+    return models
+
+
+def _near(a, b, tol=0.011):
+    return a is not None and b is not None and abs(a - b) < tol
+
+
 def diff(models, prev: dict, t0):
-    """prev: {vendor/id: {'inp','out','seen'}}。回傳 (新的 prev, 事件)。第一次看到整批時不產生事件。"""
+    """prev: {vendor/id: {'inp','out','seen','hist','or'}}。回傳 (新的 prev, 事件)。第一次看到整批時不產生事件。
+
+    OpenRouter（m['or']）是交叉核對，不是來源；但用它擋兩種讀錯：
+    - 更正：上一次讀到的價跟當時的 OpenRouter 對不上、這次讀到的對得上 → 上一次是讀錯，悄悄改回、刪掉那筆假的異動；
+    - 暫緩：這次讀到的跟 OpenRouter 對不上、舊價卻對得上 → 多半是頁面改版讀錯，先沿用舊價（m['held']），不記異動。
+    """
     events = []
     first_run = not prev
     now = iso(t0)
@@ -330,17 +380,30 @@ def diff(models, prev: dict, t0):
         key = f"{m['v']}/{m['id']}"
         old = prev.get(key)
         rec = {'inp': m.get('inp'), 'out': m.get('out'), 'seen': (old or {}).get('seen') or now,
-               'hist': (old or {}).get('hist', [])}
+               'hist': list((old or {}).get('hist', [])), 'or': m.get('or')}
         if old is None and not first_run and m.get('status') not in ('retired',):
             events.append({'type': 'new_model', 'v': m['v'], 'id': m['id'], 'name': m['name'],
                            'inp': m.get('inp'), 'out': m.get('out'), 'at': now})
         elif old is not None:
             for f in ('inp', 'out'):
                 a, b = old.get(f), m.get(f)
-                if a is not None and b is not None and abs(a - b) > 1e-9:
-                    events.append({'type': 'price', 'v': m['v'], 'id': m['id'], 'name': m['name'], 'field': f,
-                                   'from': a, 'to': b, 'at': now})
-                    rec['hist'] = (rec['hist'] + [{'at': now, 'f': f, 'from': a, 'to': b}])[-12:]
+                if a is None or b is None or abs(a - b) <= 1e-9:
+                    continue
+                orv = (m.get('or') or {}).get(f)
+                old_or = (old.get('or') or {}).get(f)
+                if 'or' not in old or (_near(orv, b) and old_or is not None and not _near(old_or, a)):
+                    # 更正讀錯：刪掉當時記下的那筆假異動、不發新的異動。
+                    # 舊紀錄沒有 OpenRouter 快照（2026-10-28 這次升級前寫的）時一律當更正：
+                    # 2026-10-20 起 OpenAI 價格表欄位讀錯，記下了幾筆假的「降價」
+                    rec['hist'] = [h for h in rec['hist'] if not (h.get('f') == f and _near(h.get('to'), a, 1e-9))]
+                    continue
+                if orv is not None and not _near(orv, b) and _near(orv, a):
+                    m[f] = rec[f] = a
+                    m['held'] = True
+                    continue                      # 暫緩：等官方頁面或 OpenRouter 其中一邊對得上再說
+                events.append({'type': 'price', 'v': m['v'], 'id': m['id'], 'name': m['name'], 'field': f,
+                               'from': a, 'to': b, 'at': now})
+                rec['hist'] = (rec['hist'] + [{'at': now, 'f': f, 'from': a, 'to': b}])[-12:]
         m['seen'] = rec['seen']
         if rec['hist']:
             m['chg'] = rec['hist'][-1]

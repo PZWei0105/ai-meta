@@ -690,7 +690,27 @@ function settingsSheet() {
       ${key ? '<div class="btn-row"><button type="button" class="btn sm" data-key-del>移除這台裝置的鑰匙</button></div>' : `<ol class="tips"><li>登入 GitHub，打開 <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">建立新鑰匙</a>（Fine-grained token）。</li><li>名稱填「版本答案遙控鑰匙」，期限選最長；Repository access 選 Only select repositories → ai-meta。</li><li>Permissions 的 Actions 選 Read and write，其他不用動，按 Generate token。</li><li>複製那串字貼到下面。鑰匙只存在這台裝置。</li></ol>
       <div class="field" style="margin-top:8px"><input type="password" id="key-in" placeholder="github_pat_…" autocomplete="off"></div><div class="btn-row"><button type="button" class="btn primary sm" data-key-save>儲存鑰匙</button></div>`}</div>
     <div class="set-group"><h3>備份與還原</h3><div class="btn-row"><button type="button" class="btn sm" data-backup>複製備份碼</button><button type="button" class="btn sm" data-restore>貼上備份碼</button></div></div>
-    <div class="set-group"><h3>資料來源狀態</h3>${healthHtml()}</div>`);
+    <div class="set-group"><h3>資料來源狀態</h3>${healthHtml()}</div>
+    ${updatesList().length ? `<div class="set-group"><h3>App 更新紀錄</h3><p class="lede">最近一次：${esc(md(updatesList()[0].date))}　${esc(updatesList()[0].title)}</p><div class="btn-row"><button type="button" class="btn sm" data-sheet="updates">看全部更新紀錄</button></div></div>` : ''}`);
+}
+
+// ------------------------------------------------------------------ App 更新紀錄（updates.js；有新的一筆時，打開 App 提示一次）
+const SEEN_KEY = 'meta.updates.seen.v1';
+function updatesList() { return Array.isArray(window.META_UPDATES) ? window.META_UPDATES : []; }
+function updatesSheet(list, fresh) {
+  openSheet(`${sheetTop(fresh ? '這次更新了什麼' : 'App 更新紀錄')}
+    ${list.map((u) => `<div class="sh-sec"><h3><span class="num">${esc(md(u.date))}</span>　${esc(u.title)}</h3><ul>${(u.items || []).map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>`).join('')}
+    <div class="btn-row"><button type="button" class="btn primary sm" data-close>知道了</button>${fresh && updatesList().length > list.length ? '<button type="button" class="btn sm" data-sheet="updates">看全部更新紀錄</button>' : ''}</div>`);
+}
+function maybeShowUpdates() {
+  const U = updatesList();
+  if (!U.length) return;
+  const seen = lsGet(SEEN_KEY);
+  if (seen === U[0].id) return;
+  const at = seen ? U.findIndex((u) => u.id === seen) : -1;
+  const fresh = (at > 0 ? U.slice(0, at) : U.slice(0, 1)).slice(0, 3);
+  lsSet(SEEN_KEY, U[0].id);
+  if ($('#sheet').hidden) updatesSheet(fresh, true);
 }
 function healthHtml() {
   const H = S.d.meta?.health || {};
@@ -699,6 +719,7 @@ function healthHtml() {
   const rows = Object.entries(P).map(([k, v]) => `<span>${esc(names[k]?.p || k)}</span><span class="${v.ok ? 'ok' : 'bad'}">${v.ok ? `${v.n} 則` : `讀不到${v.last_ok ? `（用 ${md(v.last_ok)} 的資料）` : ''}`}</span>`);
   const pr = H.prices || {};
   for (const v of ['claude', 'chatgpt', 'gemini', 'grok']) if (pr[`parse_${v}`]) rows.push(`<span>${VNAME[v]} 價格表</span><span class="${String(pr[`parse_${v}`]).startsWith('ok') ? 'ok' : 'bad'}">${String(pr[`parse_${v}`]).startsWith('ok') ? '正常' : '讀不到，沿用上次'}</span>`);
+  if (pr.held?.length) rows.push(`<span>價格交叉核對</span><span class="bad">${pr.held.length} 個型號和 OpenRouter 對不上，先用舊價</span>`);
   const tr = S.d.meta?.translate || {};
   rows.push(`<span>中文翻譯</span><span class="${tr.ok ? 'ok' : 'bad'}">${tr.ok ? `本輪翻 ${tr.done || 0} 則` : '翻譯器沒啟動'}${tr.pending ? `，${tr.pending} 則排隊` : ''}${tr.points_pending ? `，${tr.points_pending} 則詳細內容排隊` : ''}</span>`);
   return `<div class="health">${rows.join('')}</div>`;
@@ -843,6 +864,7 @@ document.addEventListener('click', (ev) => {
   if (el.id === 'scan') { onScan(); return; }
   if (el.id === 'gear' || d.sheet === 'settings') { settingsSheet(); return; }
   if (d.sheet === 'allmodels') { allModelsSheet(); return; }
+  if (d.sheet === 'updates') { updatesSheet(updatesList(), false); return; }
   if (d.srv) { serverSheet(d.srv); return; }
   if (d.pm) { S.pm = d.pm; if (location.hash.includes('?')) location.hash = '#/patch'; else renderPatch(); return; }
   if (d.pv) { S.pv = d.pv; renderPatch(); return; }
@@ -915,5 +937,6 @@ document.addEventListener('visibilitychange', () => {
   applyTheme();
   route();
   liveStatus();
+  maybeShowUpdates();
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 })();

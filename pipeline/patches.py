@@ -122,6 +122,9 @@ class Rules:
         if '新聞稿' in tags:
             why = ['公司新聞稿，跟使用沒直接關係']
             s = min(s, 5)
+        elif '地區限定' in tags and '台灣' not in tags and any(p.search(it['t']) for p in self.tags['地區限定']):
+            why = ['只限其他國家或地區']             # 標題就寫明只在別的國家，例如越南的付款方式
+            s = min(s, self.cfg.get('region_title_cap', 30))
         s = max(0, min(100, s))
         age = (today - dt.date.fromisoformat(it['d'])).days if it.get('d') else 30
         rk = s * math.pow(0.5, max(0, age) / w['half_life_days'])

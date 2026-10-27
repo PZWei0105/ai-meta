@@ -296,23 +296,78 @@ def rss(src, raw: bytes):
     return items
 
 
+AN_CATS = {'announcements', 'features', 'partnerships', 'product', 'policy', 'security', 'safeguards', 'research',
+           'societal-impacts', 'interpretability', 'alignment', 'economic-research', 'case-study', 'customer-stories',
+           'event', 'events', 'education', 'company'}
+AN_CAT_WORDS = ('Announcements', 'Policy', 'Product', 'Research', 'Societal Impacts', 'Interpretability', 'Alignment',
+                'Economic Research', 'Case Study', 'Customer stories', 'Event', 'Features', 'Partnerships', 'Security',
+                'Safeguards')
+
+
+def _an_href(a):
+    """文章連結 → '/news/<slug>'；分類頁（/news/announcements 這類）或其他連結 → None。"""
+    href = (a.get('href') or '').split('?')[0].split('#')[0]
+    if href.startswith('https://www.anthropic.com'):
+        href = href[len('https://www.anthropic.com'):]
+    if not href.startswith('/news/'):
+        return None
+    slug = href[len('/news/'):].strip('/')
+    if not slug or '/' in slug or slug in AN_CATS or 'TopicLink' in ' '.join(a.get('class') or []):
+        return None
+    return '/news/' + slug
+
+
 def anthropic_news(src, html):
+    """Anthropic 公告列表。兩種版型都認：
+    新版（2026-10-20 起）：每則一塊，裡面有分類連結、<time>、標題連結、摘要；
+    舊版：整則包在一個 <a> 裡，日期、分類、標題都是它的文字。"""
     soup = BeautifulSoup(html, 'lxml')
     items, seen = [], set()
+    for t in soup.find_all('time'):
+        if t.find_parent('a') is not None:      # 舊版：日期在連結裡，交給下面處理
+            continue
+        d = parse_date(t.get('datetime', '') or t.get_text(' ', strip=True))
+        if not d:
+            continue
+        box, href = t, None
+        for _ in range(5):                       # 往外找到「剛好只有一篇文章連結」的那一塊
+            box = box.parent
+            if box is None:
+                break
+            hrefs = {h for h in (_an_href(a) for a in box.find_all('a', href=True)) if h}
+            if len(hrefs) == 1:
+                href = hrefs.pop()
+                break
+            if len(hrefs) > 1:
+                break
+        if not href or href in seen:
+            continue
+        head = box.find(['h1', 'h2', 'h3', 'h4'])
+        texts = [a.get_text(' ', strip=True) for a in box.find_all('a', href=True) if _an_href(a) == href]
+        title = head.get_text(' ', strip=True) if head else max(texts + [''], key=len)
+        if not title:
+            img = box.find('img', alt=True)
+            title = img['alt'] if img else ''
+        if len(title) < 6:
+            continue
+        cat = box.find('a', class_=re.compile('TopicLink'))
+        body = ' '.join(p.get_text(' ', strip=True) for p in box.find_all('p')
+                        if p.get_text(' ', strip=True) != title and not p.find('a', class_=re.compile('TopicLink')))
+        seen.add(href)
+        it = _item(src, d, title, body, 'https://www.anthropic.com' + href)
+        it['cats'] = [cat.get_text(' ', strip=True)] if cat else []
+        items.append(it)
     for a in soup.find_all('a', href=True):
-        href = a['href']
-        if not href.startswith('/news/') or href in seen:
+        href = _an_href(a)
+        if not href or href in seen:
             continue
         parts = [p for p in a.get_text('|', strip=True).split('|') if p.strip()]
-        d = None
-        cat = ''
-        rest = []
+        d, cat, rest = None, '', []
         for p in parts:
             pd = parse_date(p)
             if pd and not d:
                 d = pd
-            elif p in ('Announcements', 'Policy', 'Product', 'Research', 'Societal Impacts', 'Interpretability',
-                       'Alignment', 'Economic Research', 'Case Study', 'Customer stories', 'Event'):
+            elif p in AN_CAT_WORDS:
                 cat = p
             else:
                 rest.append(p)
@@ -324,6 +379,7 @@ def anthropic_news(src, html):
         it = _item(src, d, title, body, 'https://www.anthropic.com' + href)
         it['cats'] = [cat] if cat else []
         items.append(it)
+    items.sort(key=lambda x: x['d'] or '', reverse=True)
     return items
 
 

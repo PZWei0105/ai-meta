@@ -2,13 +2,13 @@
   "note": "API 價格表的「家族」等級與一句話定位。家族由型號名稱自動判斷（pipeline/prices.py 的 FAMILY），每個家族只標最新版為主力型號；出新版不用改這裡。定位文字依官方模型頁。",
   "tiers": {
     "claude": {"fable": "頂規", "mythos": "頂規", "opus": "旗艦", "sonnet": "主力", "haiku": "輕量"},
-    "chatgpt": {"astra": "旗艦", "sol": "主力", "luna": "輕量"},
+    "chatgpt": {"astra": "旗艦", "sol": "主力", "terra": "中階", "luna": "輕量"},
     "gemini": {"argon": "旗艦", "pro": "旗艦", "flash": "主力", "flash-lite": "輕量"},
     "grok": {"grok": "旗艦", "build": "寫程式"}
   },
   "family_notes": {
     "claude": {"fable": "最強推理、長時間代理工作", "mythos": "限量開放的頂規模型", "opus": "長時間寫程式與知識工作", "sonnet": "速度與聰明的最佳平衡", "haiku": "最便宜、最快的小模型"},
-    "chatgpt": {"astra": "最強，複雜推理與寫程式", "sol": "接近 Astra 的表現、價格便宜很多", "luna": "大量、重複的雜事最划算"},
+    "chatgpt": {"astra": "最強，複雜推理與寫程式", "sol": "接近 Astra 的表現、價格便宜很多", "terra": "價格只有 Sol 的一半；看圖推理、操作電腦、寫作都行", "luna": "大量、重複的雜事最划算"},
     "gemini": {"argon": "最強，寫程式、代理、數理", "pro": "舊一代旗艦（預覽版）", "flash": "快又便宜的主力", "flash-lite": "最便宜的大量處理"},
     "grok": {"grok": "xAI 主力，寫程式、代理、知識工作", "build": "Grok Build 寫程式專用"}
   }

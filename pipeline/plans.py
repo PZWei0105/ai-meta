@@ -106,6 +106,17 @@ def app_versions(http, ids: dict, health):
 CHANGE_SHOW_DAYS = 14   # 方案頁變動的提醒掛兩週
 
 
+def recent_changes(watch_state: dict, t0):
+    """兩週內確認過的方案頁變動（給「改版」列表用；每一輪都重新列出，不會只出現一小時）。"""
+    out = []
+    for v, pages in (watch_state or {}).items():
+        for url, s in (pages or {}).items():
+            if s.get('changed_at') and days_since(s['changed_at'], t0) <= CHANGE_SHOW_DAYS:
+                out.append({'v': v, 'url': url, 'at': s['changed_at'], 'basis': s.get('basis'),
+                            'added': s.get('added') or [], 'removed': s.get('removed') or []})
+    return out
+
+
 def build(curated: dict, fx, watch_state: dict, apps: dict, t0=None):
     rate = (fx or {}).get('usd_twd')
     fee = curated.get('card_fee', 0.015)

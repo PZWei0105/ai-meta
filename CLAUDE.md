@@ -13,8 +13,8 @@
 ## 怎麼運作
 - `.github/workflows/meta.yml` 每小時第 13 分跑 `pipeline/dispatch.py` → `build.py`。推到 `main` 時執行 `control/job.json` 指定的工作：`build`／`deploy`（只改介面）／`probe`（實測新來源，原始回應存到 `probe-results` 分支，清單在 `control/probe.json`）。
 - 雲端 Claude 工作環境連不到這些網站（只連得到 GitHub），要實測就用 `probe`。
-- 改版：`feeds.py`（各家更新紀錄的解析器）→ `patches.py`（分類加強／削弱／新增／移除／調整／修正、標籤、「跟你有關」分數、合併、每天發版的工具一週併一則）→ `translate.py`（Actions 裡的 llama.cpp＋Qwen3-8B 翻成台灣用語，快取在 state 的 `zh.json`、`zh_short.json`）：先暖快取，再翻標題＋摘要（逾時的最後重試），再翻伺服器狀態的短句，最後把內容逐點翻成中文條列（`pts`）。內容改了先沿用上一次的中文。
-- 價格：`prices.py` 讀 Claude／Gemini／xAI 的 markdown 文件與 OpenAI 價格頁，OpenRouter 交叉核對；記錄漲降價歷史與「即將發生」。
+- 改版：`feeds.py`（各家更新紀錄的解析器；Anthropic 公告頁 2026-10-20 換版，新版是「分類連結＋<time>＋標題連結」一塊一則，舊版整則包在 <a> 裡，兩種都認）→ `patches.py`（分類加強／削弱／新增／移除／調整／修正、標籤、「跟你有關」分數、合併、每天發版的工具一週併一則）→ `translate.py`（Actions 裡的 llama.cpp＋Qwen3-8B 翻成台灣用語，快取在 state 的 `zh.json`、`zh_short.json`）：先暖快取，再翻標題＋摘要（逾時的最後重試），再翻伺服器狀態的短句，最後把內容逐點翻成中文條列（`pts`）。內容改了先沿用上一次的中文。譯文一律再過 `Translator.tw()`：OpenCC `s2tw` 逐字轉（`TW_KEEP` 的字如台、了、布不動，不用 s2twp 以免「擴展」變「擴充套件」）、`TERMS` 換台灣用語（緩存→快取、字段→欄位…）、`PLAN_WORD` 把「Plus 計畫」改成「Plus 方案」；快取裡的舊譯文讀出來時也會過一次。
+- 價格：`prices.py` 讀 Claude／Gemini／xAI 的 markdown 文件與 OpenAI 價格頁（依表頭文字對欄位，不靠位置），OpenRouter 交叉核對；記錄漲降價歷史與「即將發生」。每家讀完先過 `check_sane`（輸出價不低於輸入價、快取讀取不高於輸入價），不過就整家沿用上一次。`diff` 用 OpenRouter 擋讀錯：上次讀的價跟當時 OpenRouter 對不上、這次對得上 → 悄悄更正、刪掉假異動；這次對不上、舊價對得上 → 暫緩（`held`，健康表會寫）。價格異動與新模型上架存在 state 的 `price_events.json`，「改版」裡留 60 天；方案頁變動在「改版」裡留 14 天。
 - 狀態：`status.py`（Claude、OpenAI 的 Statuspage JSON；xAI 自己的狀態 JSON；Google Cloud 事故裡跟 Gemini 有關的）。App 也會直接向 Claude、OpenAI、xAI 的狀態頁即時確認。
 - 方案：`config/plans.json`（人工整理，每格附官方來源）＋ `plans.py`（匯率、官方方案頁變動偵測：連續兩輪一樣才算變動、iOS App 版本）。Google 在台灣用台幣計價（`twd_official`）。
 - 本機：`config/local.json`（精選清單，人工挑）＋ `local.py`（每天從 Hugging Face 讀 GGUF 檔案大小與 config.json 架構、新上架雷達、工具最新版）＋ `vram.py`（吃多少顯示記憶體、多快）。
@@ -29,11 +29,17 @@
 - 訂閱判定的「用途重疊」看的是使用者勾的用途（實際拿哪家做），不是方案理論上做得到；不然主力 Claude 會被建議砍掉。
 - 方案 id（`max5`、`pro100`…）對到公告裡的方案家族（`patches.TIER_FAMILY`），`config/rules.json` 的 `plan_words` 用家族名。
 - 新聞稿（公司、政策、客戶故事）分數上限 5 分，不進「跟你有關」。
+- 標題就寫明只限其他國家或地區的（`rules.json` 的「地區限定」、沒提到台灣），分數上限 `region_title_cap`（30），不進「跟你有關」。
 
 ## 本機測試
 - 把 `probe-results` 分支解開到 scratchpad（每一批各一個資料夾），`PROBE=<新的>:<舊的> python3 tests/local_build.py <輸出資料夾> <state 資料夾>` 用原始回應跑一整輪（不連網）。
 - 介面：起本機伺服器開輸出資料夾，用 Playwright 以手機寬度（390×844）截深色、淺色圖檢查，並看主控台有沒有錯誤。
 
+## 更新紀錄與待辦
+- `site/updates.js`：App 內的更新紀錄，新的放最前面，id 用「日期＋字母」（例如 2026-10-28a）。有改介面或資料規則才加一筆白話紀錄；App 打開時跳出一次（localStorage `meta.updates.seen.v1`），「我的設定」最下面看全部。
+- `ROADMAP.md`：待辦、已知問題、已完成（附日期）。
+- 每週日 19:13（台灣時間）有排程巡檢，規則在排程的指令裡：先除錯打磨、真加分才加功能。commit 訊息用英文。
+
 ## 介面
 - 主題：遊戲改版公告 × 段位表。深靛藍底、TierMaker 式段位色、施工膠帶條紋；招牌是首頁巨大的週改版號（例如 26.43）。
-- 純 HTML／CSS／JS，沒有外部程式庫；數字用 Chakra Petch（Google Fonts），中文用系統字。PWA：`sw.js` 快取外殼，資料一律先抓網路。
+- 純 HTML／CSS／JS，沒有外部程式庫；數字用 Chakra Petch（Google Fonts），中文用系統字。PWA：`sw.js` 快取外殼（新增介面檔案要加進 `SHELL_FILES`），資料一律先抓網路；存快取時要先 `clone()` 再回傳回應，晚一步複製會失敗。

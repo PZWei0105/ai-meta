@@ -1,5 +1,5 @@
 {
-  "note": "改版分類與「跟你有關」分數的固定規則。比對的是官方英文原文（標題＋內文），不分大小寫。同樣的內容永遠得到同樣的結果。",
+  "note": "改版分類與「跟你有關」分數的固定規則。比對的是官方英文原文（標題＋內文），不分大小寫。同樣的內容永遠得到同樣的結果。標題就寫明只限其他國家或地區（例如「MoMo payments in Vietnam」）、又沒提到台灣的，分數最多 region_title_cap 分，不進「跟你有關」。",
   "fx_order": [
     "gone",
     "nerf",
@@ -176,9 +176,9 @@
       "\\bfedramp\\b"
     ],
     "地區限定": [
-      "\\b(in|to) the (us|u\\.s\\.|eu|uk)\\b",
+      "\\b(in|to|for) the (us|u\\.s\\.|eu|uk|united states|united kingdom|uae)\\b",
       "\\bus[- ]only\\b",
-      "\\bin (japan|india|korea|brazil|europe)\\b",
+      "\\b(in|to|for) (japan|india|korea|south korea|brazil|europe|vietnam|indonesia|thailand|the philippines|philippines|malaysia|singapore|mexico|canada|australia|turkey|türkiye|nigeria|kenya|egypt|saudi arabia|pakistan|bangladesh|argentina|colombia|chile|peru|poland|germany|france|italy|spain|latin america|africa|the middle east)\\b",
       "\\bavailable in the eu\\b"
     ],
     "新聞稿": [
@@ -243,7 +243,9 @@
     "Google Cloud",
     "Google DeepMind",
     "Learning & Education",
-    "Health"
+    "Health",
+    "Partnerships",
+    "Safeguards"
   ],
   "weights": {
     "vendor": {
@@ -395,5 +397,6 @@
   ],
   "tag_title_only": [
     "新模型"
-  ]
+  ],
+  "region_title_cap": 30
 }

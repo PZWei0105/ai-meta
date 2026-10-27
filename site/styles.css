@@ -70,6 +70,7 @@ body {
   margin: 0; background: var(--bg); color: var(--ink);
   font: 15px/1.6 var(--body); letter-spacing: .01em;
   -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;   /* 很長的英文設定名（CLAUDE_CODE_…）在手機上自動換行，不撐破畫面 */
 }
 a { color: inherit; }
 button { font: inherit; color: inherit; }

@@ -1,6 +1,6 @@
 {
   "note": "攻略：做什麼事用什麼（人工判斷，附理由）。picks 的 models 用 API 型號 id，管線會檢查有沒有停用、同家族有沒有新版；local_id 對應 config/local.json。watch 決定哪些改版會讓這題亮黃燈。改完更新 reviewed。",
-  "reviewed": "2026-10-20",
+  "reviewed": "2026-10-28",
   "tasks": [
     {"id": "code", "name": "寫程式・做 App 與遊戲", "short": "寫程式",
      "lede": "你的 App 都是交給 Claude 寫的；額度是唯一瓶頸，所以重點是「主力留給難的、雜事分出去」。",
@@ -23,7 +23,7 @@
         "why": "中文文筆、角色前後一致最好；人物設定、大綱、前情摘要放進專案，每章都能接著寫。"},
        {"rank": "T1", "v": "claude", "tool": "Claude", "model": "Fable 5.1", "models": ["claude-fable-5-1"], "plan": "Max 5x（每週最多用到一半額度）",
         "why": "最強的模型，留給關鍵章節和整部作品的結構檢查；它很吃額度，日常段落別用它。"},
-       {"rank": "T2", "v": "chatgpt", "tool": "ChatGPT", "model": "GPT-6 Sol", "models": ["gpt-6.1-sol"], "plan": "Plus 已包含",
+       {"rank": "T2", "v": "chatgpt", "tool": "ChatGPT", "model": "GPT-6.1 Sol", "models": ["gpt-6.1-sol"], "plan": "Plus 已包含",
         "why": "換個文風、想劇情點子、要第二意見時用。"},
        {"rank": "本機", "v": "local", "tool": "LM Studio", "model": "Qwen3.8 27B", "local_id": "qwen3.8-27b",
         "why": "完全私密的草稿與大量改寫；本機模型裡中文最好的一顆。"}

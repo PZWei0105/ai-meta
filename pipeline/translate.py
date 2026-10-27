@@ -83,8 +83,13 @@ TERMS = [('克隆', '複製'), ('存儲', '儲存'), ('視頻', '影片'), ('軟
          ('界面', '介面'), ('在線', '線上'), ('移動端', '行動裝置'), ('桌面端', '桌面版'), ('令牌', 'token'),
          ('上下文窗口', '上下文長度'), ('智能體', '代理'), ('訂閱計劃', '訂閱方案'), ('計劃', '方案'), ('文檔', '文件'),
          ('圖像', '圖片'), ('臺灣', '台灣'), ('項目', '專案'), ('高級', '進階'), ('調用', '呼叫'), ('運行', '執行'),
-         ('部署', '部署'), ('賬號', '帳號'), ('帳户', '帳戶'), ('社區', '社群'), ('博客', '部落格'), ('發布', '發布')]
+         ('部署', '部署'), ('賬號', '帳號'), ('帳户', '帳戶'), ('社區', '社群'), ('博客', '部落格'), ('發布', '發布'),
+         ('緩存', '快取'), ('創建', '建立'), ('導出', '匯出'), ('字段', '欄位'), ('信用額度', '點數'), ('信用額', '點數')]
 SIMPLIFIED_ONLY = set('们这个时会对发现经过还没进开关间问题实现为与业务东车长门马鸟龙认识让请谁说读调网络视频软件硬件质数据库设计应该样么见观觉专产团队导岁华实际战类级线乐亲传标签载输设备优惠币购买卖费钱额')
+# 簡轉繁時「台灣本來就這樣寫」的字不動（平台、了解、公布、後台……），其餘簡體字逐字改成繁體
+TW_KEEP = set('台了布折后里干只面系松准冲朴卷谷丑征制范斗几才表志云余回向合占托舍千克吊杰咸涂岳')
+PLAN_WORD = re.compile(r'(\b(?:ChatGPT|Claude|Gemini|Grok|Plus|Pro|Max|Team|Free|Go|Business|Enterprise|Edu|Ultra|Premium)\s*|'
+                       r'付費|訂閱|所有|各)計畫')
 SPEC = re.compile(r'(這將|將會讓|讓使用者更|大幅提升|更加方便|值得期待|帶來更好)')
 
 
@@ -98,7 +103,7 @@ class Translator:
         self.model = os.environ.get('META_LLM_MODEL', '')
         try:
             from opencc import OpenCC
-            self.to_tw = OpenCC('s2twp')
+            self.to_tw = OpenCC('s2tw')       # 只轉字，不轉詞（s2twp 會把「擴展」變成「擴充套件」）
         except Exception:  # noqa: BLE001
             self.to_tw = None
 
@@ -113,11 +118,16 @@ class Translator:
         s = re.sub(r'\s+', ' ', (s or '').strip())
         if len(s) >= 2 and s[0] in '"“「『' and s[-1] in '"”」』':
             s = s[1:-1].strip()
-        if self.to_tw and any(ch in SIMPLIFIED_ONLY for ch in s):
-            s = self.to_tw.convert(s)
+        if self.to_tw:
+            conv = self.to_tw.convert(s)
+            if conv != s:
+                if len(conv) == len(s):
+                    s = ''.join(o if o == c or o in TW_KEEP else c for o, c in zip(s, conv))
+                elif any(ch in SIMPLIFIED_ONLY for ch in s):
+                    s = conv
         for a, b in TERMS:
             s = s.replace(a, b)
-        return s
+        return PLAN_WORD.sub(r'\1方案', s)
 
     @staticmethod
     def _ask(system, examples, user, schema, max_tokens, timeout=TIMEOUT):
@@ -248,7 +258,7 @@ def run(items: list[dict], st, t0, src_names: dict, budget_s: int | None = None,
         k = _h(text)
         c = scache.get(k)
         if c and c.get('v') == SHORT_VERSION:
-            short_map[text] = c['zh']
+            short_map[text] = tr.tw(c['zh'])
             c['at'] = iso(t0)
         else:
             need_short.append((text, k))

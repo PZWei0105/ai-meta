@@ -2,7 +2,7 @@
 const BUILD = '__BUILD__';
 const SHELL = `meta-shell-${BUILD}`;
 const DATA = 'meta-data';
-const SHELL_FILES = ['./', 'index.html', 'styles.css', 'app.js', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/apple-touch-icon.png'];
+const SHELL_FILES = ['./', 'index.html', 'styles.css', 'app.js', 'updates.js', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/apple-touch-icon.png'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(SHELL).then((c) => c.addAll(SHELL_FILES)).then(() => self.skipWaiting()));
@@ -24,7 +24,8 @@ self.addEventListener('fetch', (e) => {
     e.respondWith(
       fetch(e.request)
         .then((res) => {
-          if (res.ok) caches.open(DATA).then((c) => c.put(key, res.clone()));
+          // 一定要先複製再回傳：等快取打開時，原本的回應可能已經被頁面讀完，再複製就會失敗
+          if (res.ok) { const copy = res.clone(); caches.open(DATA).then((c) => c.put(key, copy)); }
           return res;
         })
         .catch(() => caches.open(DATA).then((c) => c.match(key)).then((r) => r || Response.error())),
@@ -35,7 +36,7 @@ self.addEventListener('fetch', (e) => {
     e.respondWith(
       caches.match(e.request, { ignoreSearch: true }).then((hit) => {
         const net = fetch(e.request).then((res) => {
-          if (res.ok) caches.open(SHELL).then((c) => c.put(e.request, res.clone()));
+          if (res.ok) { const copy = res.clone(); caches.open(SHELL).then((c) => c.put(e.request, copy)); }
           return res;
         }).catch(() => hit);
         return hit || net;

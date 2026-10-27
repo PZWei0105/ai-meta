@@ -220,18 +220,23 @@ def discover(http, catalog_ids: set, cache: dict, t0, health: dict, rig: dict, l
             cands.append({'id': mid, 'base': base, 'kind': kind, 'tag': tag, 'params_b': round(params, 1),
                           'created': (m.get('createdAt') or '')[:10], 'likes': m.get('likes'),
                           'downloads': m.get('downloads'), 'trend': round(m.get('trendingScore') or 0),
-                          'license': card.get('license'), 'url': f'{HF}/{mid}'})
+                          'license': card.get('license'), 'url': f'{HF}/{mid}',
+                          'self_gguf': bool(m.get('gguf')) and not (m.get('safetensors') or {}).get('total')})
     cands.sort(key=lambda x: -(x['trend'] or 0))
     cands = cands[:limit + 10]
     for c in cands:
         name = c['id'].split('/')[-1]
         if c['kind'] == 'llm':
-            res = fetch_json_cached(http, cache, f'ggufsearch:{name}',
-                                    f'{HF}/api/models?search={name}-GGUF&limit=20&expand[]=downloads', t0, 12, health) or []
-            hits = [r['id'] for r in res if r.get('id', '').split('/')[0].lower() in GGUF_ORGS]
-            c['gguf'] = hits[0] if hits else None
-            cfg = fetch_json_cached(http, cache, f"cfg:{c['id']}", f"{HF}/{c['id']}/resolve/main/config.json", t0,
-                                    24 * 7, health)
+            if c.get('self_gguf'):
+                # 官方直接發 GGUF 檔的倉庫（例如 NVIDIA 的 4GB 版）：本身就能下載，也沒有 config.json 可讀
+                c['gguf'], cfg = c['id'], None
+            else:
+                res = fetch_json_cached(http, cache, f'ggufsearch:{name}',
+                                        f'{HF}/api/models?search={name}-GGUF&limit=20&expand[]=downloads', t0, 12, health) or []
+                hits = [r['id'] for r in res if r.get('id', '').split('/')[0].lower() in GGUF_ORGS]
+                c['gguf'] = hits[0] if hits else None
+                cfg = fetch_json_cached(http, cache, f"cfg:{c['id']}", f"{HF}/{c['id']}/resolve/main/config.json", t0,
+                                        24 * 7, health)
             arch = arch_from_config(cfg) if isinstance(cfg, dict) else {}
             active = None
             if arch.get('experts') and arch.get('experts_active'):
@@ -259,6 +264,7 @@ def discover(http, catalog_ids: set, cache: dict, t0, health: dict, rig: dict, l
     out = (runnable + giants)[:limit]
     for c in out:
         c.pop('base', None)
+        c.pop('self_gguf', None)
     return out
 
 

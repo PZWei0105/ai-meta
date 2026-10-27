@@ -123,7 +123,7 @@ def collect_prices(http, st, srcs, t0, health):
                   ('chatgpt', lambda: prices.openai(texts['openai_pricing'], texts.get('openai_deprecations', ''))[0]),
                   ('grok', lambda: prices.xai(texts['xai_pricing']))):
         try:
-            ms = fn()
+            ms = prices.check_sane(fn())
             if not ms:
                 raise ValueError('解析不到任何模型')
             saved[v] = {'at': iso(t0), 'models': ms}
@@ -144,9 +144,19 @@ def collect_prices(http, st, srcs, t0, health):
             m['role'] = fam_note
     prev = st.load('prices_state.json', {})
     nxt, events = prices.diff(models, prev, t0)
+    held = [f"{m['v']}/{m['id']}" for m in models if m.get('held')]
+    if held:
+        hp['held'] = held          # 官方頁讀到的價跟 OpenRouter 對不上，先沿用舊價
     st.save('prices_state.json', nxt)
+    # 價格異動、新模型上架要在「改版」裡留著（以前只出現在偵測到的那一輪，一小時後就不見了）
+    ekey = lambda e: (e['v'], e['id'], e['type'], e.get('field'), e['at'])  # noqa: E731
+    log = [e for e in st.load('price_events.json', []) if (t0 - dt.datetime.fromisoformat(
+        e['at'].replace('Z', '+00:00'))).days <= SHOW_DAYS]
+    seen = {ekey(e) for e in log}
+    log += [e for e in events if ekey(e) not in seen]
+    st.save('price_events.json', log)
     up = prices.upcoming(models, t0.astimezone(TW).date())
-    return models, events, up
+    return models, log, up
 
 
 # ------------------------------------------------------------------ 伺服器狀態
@@ -262,13 +272,14 @@ def execute(http, st: State, t0, data_dir: pathlib.Path, build_id: str):
         st.save('plan_watch.json', wstate)
         apps = plans.app_versions(http, src_cfg['apps'], health)
         plan_out = plans.build(cfg('plans.json'), fx, wstate, apps, t0)
-        for e in wevents:
+        health['plan_changes'] = len(wevents)
+        for e in plans.recent_changes(wstate, t0):     # 方案頁變動留兩週（跟商城頁的提醒一樣久）
             vname = src_cfg['vendors'][e['v']]['name']
             t = f'{vname} 官方方案頁有變動'
             body = ('頁面上的價格數字變了：' + '、'.join(e['added'][:6])) if e['basis'] == 'prices' and e['added'] \
                 else '官方方案頁上跟額度有關的文字有變動，方案表要重新核對。'
             items.insert(0, {'id': f"plan-{e['v']}-{e['at']}", 'src': 'plans', 'v': e['v'], 'p': '方案頁',
-                             'd': today.isoformat(), 't': t, 'b': body, 'tz': t, 'sz': body, 'zh_native': True,
+                             'd': e['at'][:10], 't': t, 'b': body, 'tz': t, 'sz': body, 'zh_native': True,
                              'url': e['url'], 'fx': 'tweak', 'tags': ['價格', '額度'], 's': 70, 'rk': 70,
                              'why': ['你訂閱的方案可能有變']})
     except Exception:  # noqa: BLE001
