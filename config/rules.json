@@ -207,7 +207,8 @@
       "^(?!introduc|announc|new |meet )[A-Z][\\w&.'+\\- ]{1,40} (cuts|answers|triples|doubles|builds|scales|brings|turns|uses|boosts|saves|speeds|transforms|powers|reaches|gets|helps|runs|ships|expands|launches .* with) .*\\bwith (gpt|chatgpt|codex|claude|gemini|grok|openai)",
       "\\bdo better for\\b",
       "\\bcivilian\\b",
-      "\\bgovernance\\b"
+      "\\bgovernance\\b",
+      "^(?!introduc|announc|new |meet |claude|chatgpt|codex|gemini|grok|gpt|openai|anthropic|google|xai|sora|nano banana)[A-Z][\\w&.'+\\- ]{1,40} (uses?|is using|taps|adopts|chooses|relies on) (openai|chatgpt|codex|claude|gemini|grok|gpt)"
     ],
     "本機新模型": [
       "\\b(flux|wan ?\\d|ltx|hunyuan|qwen|gemma|llama|deepseek|kimi|glm|gpt-oss|mistral|minimax|phi-?\\d|z-image|hidream|nemotron|lfm)\\w*\\b.{0,40}\\b(support|added|model|template)",
