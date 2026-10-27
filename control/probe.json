@@ -1,28 +1,44 @@
 [
  {
-  "name": "lmstudio_changelog_lms",
-  "url": "https://lmstudio.ai/changelog/lmstudio"
+  "name": "anthropic_news",
+  "url": "https://www.anthropic.com/news"
  },
  {
-  "name": "cfg_Qwen__Qwen3.5-4B",
-  "url": "https://huggingface.co/Qwen/Qwen3.5-4B/resolve/main/config.json",
+  "name": "anthropic_news_bot",
+  "url": "https://www.anthropic.com/news",
   "bot_ua": true
  },
  {
-  "name": "xai_pricing_page",
-  "url": "https://x.ai/pricing"
+  "name": "anthropic_sitemap",
+  "url": "https://www.anthropic.com/sitemap.xml"
  },
  {
-  "name": "gemma4_license",
-  "url": "https://ai.google.dev/gemma/docs/gemma_4_license"
+  "name": "openai_pricing",
+  "url": "https://developers.openai.com/api/docs/pricing"
  },
  {
-  "name": "info_meta-models__Muse-Glimmer-30B",
-  "url": "https://huggingface.co/api/models/meta-models/Muse-Glimmer-30B?expand[]=cardData&expand[]=safetensors&expand[]=createdAt&expand[]=gated",
+  "name": "openai_plus",
+  "url": "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus"
+ },
+ {
+  "name": "openai_pro_tiers",
+  "url": "https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers"
+ },
+ {
+  "name": "claude_pricing",
+  "url": "https://claude.com/pricing"
+ },
+ {
+  "name": "claude_release_notes",
+  "url": "https://support.claude.com/en/articles/12138966-release-notes"
+ },
+ {
+  "name": "chatgpt_release_notes",
+  "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes"
+ },
+ {
+  "name": "info_nvidia__Nemotron-3.5-Bolt-E4B-4GB",
+  "url": "https://huggingface.co/api/models/nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB",
   "bot_ua": true
- },
- {
-  "name": "gemini_subs_tw2",
-  "url": "https://gemini.google/tw/subscriptions/"
  }
 ]
