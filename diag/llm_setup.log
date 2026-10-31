@@ -1,0 +1,16 @@
+== setup 2026-10-31T17:37:29Z cpu=4 mem=15G disk=81G
+/home/runner/.cache/meta-llm:
+total 4909968
+drwxr-xr-x 3 runner runner       4096 Oct 20 12:49 .
+drwxr-xr-x 4 runner runner       4096 Oct 31 17:37 ..
+drwxr-xr-x 2 runner runner       4096 Oct 20 12:49 bin
+-rw-r--r-- 1 runner runner 5027783488 Oct 20 12:49 model.gguf
+-rw-r--r-- 1 runner runner         16 Oct 20 12:49 model.txt
+
+/home/runner/.cache/meta-llm/bin:
+total 19048
+drwxr-xr-x 2 runner runner     4096 Oct 20 12:49 .
+drwxr-xr-x 3 runner runner     4096 Oct 20 12:49 ..
+-rwxr-xr-x 1 runner runner 19494816 Oct 20 12:49 llama-server
+translator files ready: Qwen3-8B-Q4_K_M
+translator ready after 5x2s
