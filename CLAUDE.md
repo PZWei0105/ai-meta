@@ -28,6 +28,7 @@
 - 架構：Gemma 4 的全域層用 `global_head_dim`／`num_global_key_value_heads`（存在 `kv_bpt`）；Qwen3.5 系列是線性注意力混合（只有 1/4 層存對話記憶）；Nemotron-H 用 `layers_block_type`。
 - 訂閱判定的「用途重疊」看的是使用者勾的用途（實際拿哪家做），不是方案理論上做得到；不然主力 Claude 會被建議砍掉。
 - 方案 id（`max5`、`pro100`…）對到公告裡的方案家族（`patches.TIER_FAMILY`），`config/rules.json` 的 `plan_words` 用家族名。
+- 改版分類（`patches.Rules.classify`）：先只看標題，標題沒命中任何分類才看內文（內文不算「修正」）；改 `rules.json` 的 `fx` 規則前，用 state 的 `feeds.json.gz` 新舊規則各跑一遍比對差異。理由（why）順序：廠商 → 方案判定（適用你的／要更高的方案）→ 標籤，只留三條。同來源、同標題、同日期的公告只留一則。
 - 新聞稿（公司、政策、客戶故事）分數上限 5 分，不進「跟你有關」。
 - 標題就寫明只限其他國家或地區的（`rules.json` 的「地區限定」、沒提到台灣），分數上限 `region_title_cap`（30），不進「跟你有關」。
 

@@ -37,6 +37,7 @@
       "(increas|rais|doubl|tripl|expand|boost|extend)\\w*\\s+(the\\s+)?(\\w+\\s+){0,2}(limits?|quotas?|caps?|context|window|allowance|usage)",
       "higher (usage |rate )?limits",
       "more usage",
+      "^more (\\w+\\s+){1,3}(usage|limits?|messages|requests|credits)\\b",
       "\\bnow free\\b",
       "free (for|to) (all|everyone|free users)",
       "at no (extra|additional) (cost|charge)",

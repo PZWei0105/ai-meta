@@ -73,24 +73,24 @@
          "src": ["https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus", "https://chatgpt.com/pricing", "https://help.openai.com/en/articles/6825453-chatgpt-release-notes"]
         },
         {"id": "pro100", "name": "Pro 100", "usd": 100,
-         "limits": ["GPT-6 Astra、Sol 擴充額度", "GPT Instant 上下文 12.8 萬、推理 40 萬 token（約 680 頁）"],
+         "limits": ["GPT-6 Astra、Sol 擴充額度", "10/29 起 ChatGPT 工作與 Codex 的內含用量加倍", "GPT Instant 上下文 12.8 萬、推理 40 萬 token（約 680 頁）"],
          "gets": ["GPT-6 Pro（由 GPT-6 Astra 驅動）", "dot 常駐代理、ChatGPT 空間", "無限額且更快的生圖", "最高等級的深度研究與記憶", "更長的 Codex 與 ChatGPT 工作階段"],
          "covers": {"code": "Codex（擴充額度）", "novel": "GPT-6 Astra／Pro", "script": "GPT-6 Astra", "research": "最高等級深度研究", "translate": "可以", "image": "無限額生圖"},
          "lift": "Pro 200 的用量比 Pro 100 多。",
-         "src": ["https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers"]
+         "src": ["https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers", "https://help.openai.com/en/articles/6825453-chatgpt-release-notes"]
         },
         {"id": "pro200", "name": "Pro 200", "usd": 200,
-         "limits": ["用量比 Pro 100 多", "9/29 起內含用量調低（9/22–9/29 間有訂閱的舊戶可沿用舊額度到 10/29）"],
+         "limits": ["用量比 Pro 100 多", "9/29 宣布的用量調降已取消：10/29 起 ChatGPT 工作與 Codex 一律是較高的那一級額度"],
          "gets": ["Pro 100 的全部功能", "更高的內含用量"],
          "covers": {"code": "Codex（擴充額度）", "novel": "GPT-6 Astra／Pro", "script": "GPT-6 Astra", "research": "最高等級深度研究", "translate": "可以", "image": "無限額生圖"},
          "lift": "Pro 500 用量最高，並含 GPT-6 Astra／GPT-6.1 Sol Ultrafast。",
-         "src": ["https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers"]
+         "src": ["https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers", "https://help.openai.com/en/articles/6825453-chatgpt-release-notes"]
         },
         {"id": "pro500", "name": "Pro 500", "usd": 500,
-         "limits": ["三個 Pro 方案中內含用量最高", "Ultrafast 以 8 倍速率扣內含額度，用完再扣點數"],
+         "limits": ["三個 Pro 方案中內含用量最高", "10/29 起 ChatGPT 工作與 Codex 的內含用量加倍", "Ultrafast 以 8 倍速率扣內含額度，用完再扣點數"],
          "gets": ["Pro 200 的全部功能", "GPT-6 Astra／GPT-6.1 Sol Ultrafast（ChatGPT 工作與 Codex）"],
          "covers": {"code": "Codex（最高用量＋Ultrafast）", "novel": "GPT-6 Astra／Pro", "script": "GPT-6 Astra", "research": "最高等級深度研究", "translate": "可以", "image": "無限額生圖"},
-         "src": ["https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers"]
+         "src": ["https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers", "https://help.openai.com/en/articles/6825453-chatgpt-release-notes"]
         }
       ],
       "unique": ["Codex 寫程式代理（免費版起就有；Plus 起含雲端 Codex Cloud）", "ChatGPT Images 2.5 生圖（Plus 起可用 Thinking 模型生圖）", "ChatGPT 工作：長時間研究與交付任務", "dot 常駐代理、ChatGPT 空間（Pro 才有）"]

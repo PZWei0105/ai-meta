@@ -48,12 +48,18 @@ class Rules:
             if any(p.search(' '.join(it.get('hl') or [])) for p in self.fx['gone']):
                 fx = 'tweak'
         else:
+            # 先只看標題（標題寫的就是這則的重點）；標題沒命中才看內文，
+            # 內文只算「移除／削弱／加強／新增」這類明確字眼。
+            # 例：標題「More Work and Codex usage…」是加強，內文順帶提到「lower allowance」不能把它判成削弱。
             for k in self.cfg['fx_order']:
-                pats = self.fx.get(k) or []
-                # 標題命中優先；內文命中只算「移除／削弱／加強／新增」這類明確字眼
-                if any(p.search(head) for p in pats) or (k != 'fix' and any(p.search(text) for p in pats)):
+                if any(p.search(head) for p in self.fx.get(k) or []):
                     fx = k
                     break
+            if fx is None:
+                for k in self.cfg['fx_order']:
+                    if k != 'fix' and any(p.search(text) for p in self.fx.get(k) or []):
+                        fx = k
+                        break
             if (it.get('kind_hint') or '') == 'fix':
                 fx = 'fix'
         fx = fx or 'tweak'
@@ -107,16 +113,19 @@ class Rules:
             s += pts
             if pts >= 6:
                 tag_pts.append((pts, t))
+        tag_why = []
         for pts, t in sorted(tag_pts, reverse=True)[:2]:
-            why.append({'額度': '跟額度有關', '價格': '跟價格有關', '新模型': '新模型', '程式': '跟寫程式有關',
+            tag_why.append({'額度': '跟額度有關', '價格': '跟價格有關', '新模型': '新模型', '程式': '跟寫程式有關',
                         '生影片': '跟生影片有關', 'Windows': '跟 Windows 有關', '台灣': '提到台灣'}.get(t, t))
         ph = self.plan_hit(it['v'], f"{it['t']} {it.get('b') or ''}")
+        # 方案判定排在標籤理由前面：只留三條理由時，「要更高的方案才有」不能被擠掉
         if ph == 'mine':
             s += w['my_plan']
             why.append(f"適用你的 {TIER_ZH.get(self.tiers.get(it['v']), '')} 方案")
         elif ph == 'higher':
             s += w['other_plan_only']
             why.append('要更高的方案才有')
+        why += tag_why
         if '企業' in tags:
             why.append('偏企業版')
         if '新聞稿' in tags:
@@ -139,7 +148,7 @@ SRC_RANK = {'claude_apps': 0, 'chatgpt_notes': 0, 'gemini_app': 0, 'claude_api':
             'xai_api': 1, 'anthropic_news': 2, 'openai_news': 2, 'google_blog': 2, 'xai_news': 2}
 
 
-MODEL_KEY = re.compile(r'\b(claude (?:fable|mythos|opus|sonnet|haiku) \d+(?:\.\d+)?|gpt-\d+(?:\.\d+)?(?: (?:astra|sol|luna|pro))?|'
+MODEL_KEY = re.compile(r'\b(claude (?:fable|mythos|opus|sonnet|haiku) \d+(?:\.\d+)?|gpt-\d+(?:\.\d+)?(?:[ -](?:astra|sol|luna|pro))?|'
                        r'gemini \d+(?:\.\d+)? (?:argon|pro|flash-lite|flash)|nano banana \d+(?:\.\d+)?|veo \d+(?:\.\d+)?|'
                        r'grok \d+(?:\.\d+)?|grok voice \d+(?:\.\d+)?|sora \d+)\b', re.I)
 
@@ -241,7 +250,7 @@ def weekly_tools(items, sources: set, today: dt.date):
 
 
 def finalize(items, rules: Rules, today: dt.date, keep_days=75):
-    out = []
+    out, seen = [], set()
     for it in items:
         if not it.get('d'):
             continue
@@ -252,6 +261,9 @@ def finalize(items, rules: Rules, today: dt.date, keep_days=75):
         if age > keep_days or age < -3:
             continue
         it.setdefault('id', sid(f"{it['src']}|{it['url']}|{it['t']}|{it['d']}"))
+        if it['id'] in seen:        # 官方頁面同一則貼了兩次（同來源、同標題、同日期），只留一則
+            continue
+        seen.add(it['id'])
         fx, tags = rules.classify(it)
         s, rk, why = rules.score(it, fx, tags, today)
         it.update(fx=fx, tags=tags, s=s, rk=rk, why=why)
