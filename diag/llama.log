@@ -1,0 +1,9 @@
+0.00.001.072 I srv  llama_server: initializing ...
+0.00.001.939 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.002.210 W srv  llama_server: security: no API key is set and CORS allows all origins (see https://github.com/ggml-org/llama.cpp/pull/25655)
+0.00.003.597 I srv    load_model: loading model '/home/runner/.cache/meta-llm/model.gguf'
+0.00.269.650 W load: control-looking token: 128247 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.03.911.037 I cmn          init: llama threadpool init, n_threads = 4
+0.04.345.546 I srv    load_model: initializing, n_slots = 4, n_ctx_slot = 4096, kv_unified = 'false'
+0.04.349.858 I srv  llama_server: model loaded
+0.04.349.870 I srv  llama_server: listening on http://127.0.0.1:8088
