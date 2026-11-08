@@ -1,14 +1,6 @@
 [
  {
-  "name": "gemini_pricing",
-  "url": "https://ai.google.dev/gemini-api/docs/pricing.md.txt"
- },
- {
-  "name": "gemini_deprecations",
-  "url": "https://ai.google.dev/gemini-api/docs/deprecations.md.txt"
- },
- {
-  "name": "gemini_models",
-  "url": "https://ai.google.dev/gemini-api/docs/models.md.txt"
+  "name": "anthropic_news",
+  "url": "https://www.anthropic.com/news"
  }
 ]
