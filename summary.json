@@ -1,0 +1,22 @@
+{
+ "started": "2026-11-08T11:19:12.613300+00:00",
+ "python": "3.12.16",
+ "results": [
+  {
+   "name": "anthropic_news",
+   "url": "https://www.anthropic.com/news",
+   "status": 200,
+   "final_url": "https://www.anthropic.com/news",
+   "size": 354750,
+   "headers": {
+    "content-type": "text/html; charset=utf-8",
+    "cache-control": "s-maxage=300, stale-while-revalidate=31535700",
+    "server": "cloudflare",
+    "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding"
+   },
+   "history": [],
+   "elapsed": 0.1
+  }
+ ],
+ "finished": "2026-11-08T11:19:13.715452+00:00"
+}
