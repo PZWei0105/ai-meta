@@ -52,6 +52,8 @@ function ctxZh(n) { if (!n) return ''; return n >= 10000 ? `${Math.round(n / 100
 function ctxLabel(n) { if (n >= 1e6) return `${+(n / 1e6).toFixed(1)}M`; return `${Math.round(n / 1024)}K`; }
 function ctxChars(n) { const c = Math.round(n * 1.3 / 1000) * 1000; return c >= 10000 ? `約 ${+(c / 10000).toFixed(1)} 萬字` : `約 ${c.toLocaleString()} 字`; }
 function vd(v, label) { return `<span class="vd vc-${esc(v)}">${esc(label || VNAME[v] || v)}</span>`; }
+// 型號名稱本來就以廠商名開頭（Claude Sonnet 4.5、Gemini 4 Argon）時只留色點，免得出現「Claude Claude …」
+function vName(v, name) { return String(name || '').toLowerCase().startsWith(String(VNAME[v] || v).toLowerCase() + ' ') ? `<span class="vd vc-${esc(v)}" aria-hidden="true"></span>` : vd(v); }
 function fxChip(fx) { const f = FX[fx] || FX.tweak; return `<span class="fx fx-${esc(fx)}"><i>${f[0]}</i>${f[1]}</span>`; }
 
 // ------------------------------------------------------------------ 設定（只存在這台裝置）
@@ -352,7 +354,7 @@ function cdRow(e) {
   }
   const d = twDate(e.d);
   return `<div class="cd"><div class="cd-d"><b class="num">${d.getMonth() + 1}/${d.getDate()}</b><span>${WD[d.getDay()]}</span></div>
-    <div class="cd-t">${vd(e.v)} ${t}<small>${sub}</small></div><div class="cd-left">${n <= 0 ? '今天' : `${n} 天`}</div></div>`;
+    <div class="cd-t">${vName(e.v, e.name)} ${t}<small>${sub}</small></div><div class="cd-left">${n <= 0 ? '今天' : `${n} 天`}</div></div>`;
 }
 
 // ------------------------------------------------------------------ 改版公告

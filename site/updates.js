@@ -2,6 +2,16 @@
    有新的一筆時，打開 App 會跳出來提示一次；「我的設定」最下面可以看全部。 */
 window.META_UPDATES = [
   {
+    id: '2026-11-08a',
+    date: '2026-11-08',
+    title: '巡檢修正：Gemini API 價格恢復每小時更新',
+    items: [
+      'Google 11/3 把 Gemini API 的官方價格頁搬家、換了寫法，之後「商城」的 Gemini API 價格一直停在 11/3 的資料（數字沒錯，但新消息進不來）。現在新寫法也讀得懂，恢復每小時更新。',
+      '跟著補上：Gemini Omni 1.2 Flash（11/5 正式版）上架；Gemini Omni 1.1 Flash 12/3 停用、Gemini 2.5 Pro／2.5 Flash 12/1 停用的倒數，會出現在首頁「即將發生」。',
+      '首頁「即將發生」不再出現「Claude Claude Sonnet 4.5」「Gemini Gemini 4 Argon」這種廠商名重複兩次的寫法。',
+    ],
+  },
+  {
     id: '2026-11-01a',
     date: '2026-11-01',
     title: '巡檢修正：改版分類更準、重複的消息合成一則',

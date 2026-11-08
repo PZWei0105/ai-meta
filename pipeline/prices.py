@@ -21,11 +21,32 @@ def money(s):
 
 
 def md_tables(text):
-    """把 markdown 文字裡所有表格切出來：[(表格前最近的標題, [列, ...]), ...]，列是儲存格字串陣列。"""
+    """把 markdown 文字裡所有表格切出來：[(表格前最近的標題, [列, ...]), ...]，列是儲存格字串陣列。
+    也認 Markdoc 表格（Google 文件 2026-11 起的寫法）：{% table %} 開頭、每列用 --- 分隔、
+    每格是一行「* 內容」，沒有「* 」開頭的行接在上一格後面，{% /table %} 結束。"""
     out, cur, head = [], None, ''
+    doc = None          # 正在讀的 Markdoc 表格：(標題, 列)
     for line in text.splitlines():
+        t = line.strip()
+        if doc is not None:
+            rows = doc[1]
+            if t.startswith('{% /table'):
+                rows[:] = [r for r in rows if r]
+                if rows:
+                    out.append(doc)
+                doc = None
+            elif t == '---':
+                rows.append([])
+            elif t == '*' or t.startswith('* '):
+                rows[-1].append(t[2:].strip())
+            elif t and rows[-1]:
+                rows[-1][-1] = (rows[-1][-1] + ' ' + t).strip()
+            continue
+        if t.startswith('{% table'):
+            doc, cur = (head, [[]]), None
+            continue
         if line.startswith('#'):
-            head = line.lstrip('#').strip()
+            head = re.sub(r'\s*\{%[^%]*%\}\s*', ' ', line.lstrip('#')).strip()
         if line.strip().startswith('|'):
             cells = [c.strip() for c in line.strip().strip('|').split('|')]
             if all(re.match(r'^:?-{2,}:?$', c) or not c for c in cells):
@@ -164,9 +185,11 @@ def gemini(pricing_md, deprec_md):
                 status[mid] = {'shut': shut, 'replace': rep or None,
                                'routed': 'automatically routes' in (r[3] if len(r) > 3 else '')}
     models = []
+    # Markdoc 版：{% tab title="Standard" %} 當成「### Standard」，標題結尾的 {% id="…" %} 拿掉
+    pricing_md = re.sub(r'^\s*\{%\s*tab title="([^"]+)"\s*%\}', r'### \1', pricing_md, flags=re.M)
     sections = re.split(r'^## ', pricing_md, flags=re.M)
     for sec in sections[1:]:
-        title = sec.splitlines()[0].strip()
+        title = re.sub(r'\s*\{%[^%]*%\}', '', sec.splitlines()[0]).strip()
         title = re.sub(r'\[([^\]]+)\]\([^)]*\)', r'\1', title).replace('🍌', '').strip()
         ids = re.findall(r'`(gemini-[a-z0-9.\-]+|veo-[a-z0-9.\-]+|lyria-[a-z0-9.\-]+)`', sec[:600])
         if not ids or re.search(r'tts|embedding|robotics|live|transcribe|audio|veo|lyria', ids[0]):
