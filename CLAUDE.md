@@ -11,7 +11,7 @@
 - 鑰匙（GitHub token）只存在使用者裝置的 localStorage，絕不寫進 repo 或資料檔。
 
 ## 怎麼運作
-- `.github/workflows/meta.yml` 每小時第 13 分跑 `pipeline/dispatch.py` → `build.py`。推到 `main` 時執行 `control/job.json` 指定的工作：`build`／`deploy`（只改介面）／`probe`（實測新來源，原始回應存到 `probe-results` 分支，清單在 `control/probe.json`）。
+- `.github/workflows/meta.yml` 跑 `pipeline/dispatch.py` → `build.py`。每小時一輪靠「接力」（2026-11-15 起，和玩真的、回波同一套）：GitHub 的排程 2026/11 起常常 5～7 小時才來一次，所以每一輪結束後由 `next` 工作等到上一次 build 開始後約 58 分鐘，自己用 workflow_dispatch 發出下一輪；已經有比自己新的一輪就不發。concurrency 只放在 `run` 工作（state 只能一個人寫），`next` 在等的時候不會擋住推送。每小時第 13 分的排程留著當備援。推到 `main` 時執行 `control/job.json` 指定的工作：`build`／`deploy`（只改介面）／`probe`（實測新來源，原始回應存到 `probe-results` 分支，清單在 `control/probe.json`）。
 - 雲端 Claude 工作環境連不到這些網站（只連得到 GitHub），要實測就用 `probe`。
 - 改版：`feeds.py`（各家更新紀錄的解析器；Anthropic 公告頁 2026-10-20 換版，新版是「分類連結＋<time>＋標題連結」一塊一則，舊版整則包在 <a> 裡，兩種都認）→ `patches.py`（分類加強／削弱／新增／移除／調整／修正、標籤、「跟你有關」分數、合併、每天發版的工具一週併一則）→ `translate.py`（Actions 裡的 llama.cpp＋Qwen3-8B 翻成台灣用語，快取在 state 的 `zh.json`、`zh_short.json`）：先暖快取，再翻標題＋摘要（逾時的最後重試），再翻伺服器狀態的短句，最後把內容逐點翻成中文條列（`pts`）。內容改了先沿用上一次的中文。譯文一律再過 `Translator.tw()`：OpenCC `s2tw` 逐字轉（`TW_KEEP` 的字如台、了、布不動，不用 s2twp 以免「擴展」變「擴充套件」）、`TERMS` 換台灣用語（緩存→快取、字段→欄位…）、`PLAN_WORD` 把「Plus 計畫」改成「Plus 方案」；快取裡的舊譯文讀出來時也會過一次。
 - 價格：`prices.py` 讀 Claude／Gemini／xAI 的 markdown 文件（Gemini 文件 2026-11-03 起轉址到 aistudio.google.com，改用 Markdoc：`{% table %}` 表格、`{% tab title=… %}` 分頁；`md_tables` 兩種表格都認）與 OpenAI 價格頁（依表頭文字對欄位，不靠位置），OpenRouter 交叉核對；記錄漲降價歷史與「即將發生」。每家讀完先過 `check_sane`（輸出價不低於輸入價、快取讀取不高於輸入價），不過就整家沿用上一次。`diff` 用 OpenRouter 擋讀錯：上次讀的價跟當時 OpenRouter 對不上、這次對得上 → 悄悄更正、刪掉假異動；這次對不上、舊價對得上 → 暫緩（`held`，健康表會寫）。價格異動與新模型上架存在 state 的 `price_events.json`，「改版」裡留 60 天；方案頁變動在「改版」裡留 14 天。
@@ -29,8 +29,8 @@
 - 訂閱判定的「用途重疊」看的是使用者勾的用途（實際拿哪家做），不是方案理論上做得到；不然主力 Claude 會被建議砍掉。
 - 方案 id（`max5`、`pro100`…）對到公告裡的方案家族（`patches.TIER_FAMILY`），`config/rules.json` 的 `plan_words` 用家族名。
 - 改版分類（`patches.Rules.classify`）：先只看標題，標題沒命中任何分類才看內文（內文不算「修正」）；改 `rules.json` 的 `fx` 規則前，用 state 的 `feeds.json.gz` 新舊規則各跑一遍比對差異。理由（why）順序：廠商 → 方案判定（適用你的／要更高的方案）→ 標籤，只留三條。同來源、同標題、同日期的公告只留一則。
-- 新聞稿（公司、政策、客戶故事）分數上限 5 分，不進「跟你有關」。
-- 標題就寫明只限其他國家或地區的（`rules.json` 的「地區限定」、沒提到台灣），分數上限 `region_title_cap`（30），不進「跟你有關」。
+- 新聞稿（公司、政策、客戶故事）分數上限 5 分，不進「跟你有關」。「新聞稿」標籤只看標題（`tag_title_only`；以前連內文比對，產品更新紀錄被內文的 Office、invest 誤判）。比對前標題與內文的不換行連字號、不換行空白會先換成一般寫法（`patches._norm`）。
+- 標題就寫明只限其他國家或地區的（`rules.json` 的「地區限定」、沒提到台灣），或內文明講只開放給某國用戶的（`region_body`：「Pro users in the U.S.」「US only」），分數上限 `region_title_cap`（30），不進「跟你有關」。
 
 ## 本機測試
 - 把 `probe-results` 分支解開到 scratchpad（每一批各一個資料夾），`PROBE=<新的>:<舊的> python3 tests/local_build.py <輸出資料夾> <state 資料夾>` 用原始回應跑一整輪（不連網）。

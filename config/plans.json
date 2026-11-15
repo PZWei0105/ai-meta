@@ -37,18 +37,18 @@
         {"id": "max5", "name": "Max 5x", "usd": 100,
          "limits": ["用量是 Pro 的 5 倍（一樣是 5 小時週期＋每週上限）", "Fable 最多可用到每週額度的一半", "只能月繳"],
          "gets": ["Pro 的全部功能", "每月 $100 Claude Platform API 額度（給自己的 App、代理用；不能抵 Claude Code 對話）", "所有工作的輸出長度上限較高", "尖峰時段優先使用", "新功能搶先用"],
-         "covers": {"code": "Claude Code（5 倍用量）", "novel": "Opus 5.5／Fable 5.1", "script": "Opus／Sonnet", "research": "Research", "translate": "可以"},
+         "covers": {"code": "Claude Code（5 倍用量）", "novel": "Opus 5.5／Fable 5.2", "script": "Opus／Sonnet", "research": "Research", "translate": "可以"},
          "lift": "Max 20x 用量是 Pro 的 20 倍，API 額度變每月 $200。",
-         "src": ["https://claude.com/pricing", "https://support.claude.com/en/articles/17154008-monthly-api-credits-for-max-and-team-plans"]
+         "src": ["https://claude.com/pricing", "https://support.claude.com/en/articles/17154008-monthly-api-credits-for-max-and-team-plans", "https://support.claude.com/en/articles/15424964"]
         },
         {"id": "max20", "name": "Max 20x", "usd": 200,
          "limits": ["用量是 Pro 的 20 倍", "Fable 最多可用到每週額度的一半", "只能月繳"],
          "gets": ["Max 5x 的全部功能", "每月 $200 Claude Platform API 額度"],
-         "covers": {"code": "Claude Code（20 倍用量）", "novel": "Opus 5.5／Fable 5.1", "script": "Opus／Sonnet", "research": "Research", "translate": "可以"},
-         "src": ["https://claude.com/pricing"]
+         "covers": {"code": "Claude Code（20 倍用量）", "novel": "Opus 5.5／Fable 5.2", "script": "Opus／Sonnet", "research": "Research", "translate": "可以"},
+         "src": ["https://claude.com/pricing", "https://support.claude.com/en/articles/15424964"]
         }
       ],
-      "unique": ["Claude Code：Pro 起就含終端機、桌面與 IDE 的寫程式代理", "Max 方案每月附 API 額度（Max 5x 每月 $100、Max 20x 每月 $200），要到網頁版「設定 → 帳單」連結 Claude Console 才領得到", "Fable 5.1 頂規模型（Max 每週最多用到一半額度；Pro 要用點數）"]
+      "unique": ["Claude Code：Pro 起就含終端機、桌面與 IDE 的寫程式代理", "Max 方案每月附 API 額度（Max 5x 每月 $100、Max 20x 每月 $200），要到網頁版「設定 → 帳單」連結 Claude Console 才領得到", "Fable 5.2 頂規模型（Max 每週最多用到一半額度；Pro 要用點數）"]
     },
     "chatgpt": {
       "name": "ChatGPT",

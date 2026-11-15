@@ -24,6 +24,14 @@ STOP = set('a an the and or of to in on for with is are be now new our your you 
            'available introducing announcing update updates model models'.split())
 
 
+# 官方標題常用不換行連字號（GPT‑6，U+2011）或不換行空白；比對前統一成一般寫法，不然認不出型號與產品名
+_DASH = str.maketrans({c: '-' for c in '\u2010\u2011\u2012\u2013\u2212'} | {'\u00a0': ' ', '\u202f': ' '})
+
+
+def _norm(s: str) -> str:
+    return (s or '').translate(_DASH)
+
+
 class Rules:
     def __init__(self, cfg: dict, profile: dict):
         self.cfg = cfg
@@ -36,10 +44,11 @@ class Rules:
         self.newsroom = set(cfg.get('cats_newsroom') or [])
         self.news_sources = set(cfg.get('news_sources') or [])
         self.product = re.compile(cfg.get('product_words') or r'^$', re.I)
+        self.region_body = [re.compile(p, re.I) for p in cfg.get('region_body') or []]
 
     def classify(self, it):
-        text = f"{it['t']} {it.get('b') or ''}"
-        head = it['t']
+        text = _norm(f"{it['t']} {it.get('b') or ''}")
+        head = _norm(it['t'])
         fx = None
         if it.get('fx'):
             fx = it['fx']
@@ -117,7 +126,7 @@ class Rules:
         for pts, t in sorted(tag_pts, reverse=True)[:2]:
             tag_why.append({'額度': '跟額度有關', '價格': '跟價格有關', '新模型': '新模型', '程式': '跟寫程式有關',
                         '生影片': '跟生影片有關', 'Windows': '跟 Windows 有關', '台灣': '提到台灣'}.get(t, t))
-        ph = self.plan_hit(it['v'], f"{it['t']} {it.get('b') or ''}")
+        ph = self.plan_hit(it['v'], _norm(f"{it['t']} {it.get('b') or ''}"))
         # 方案判定排在標籤理由前面：只留三條理由時，「要更高的方案才有」不能被擠掉
         if ph == 'mine':
             s += w['my_plan']
@@ -131,8 +140,11 @@ class Rules:
         if '新聞稿' in tags:
             why = ['公司新聞稿，跟使用沒直接關係']
             s = min(s, 5)
-        elif '地區限定' in tags and '台灣' not in tags and any(p.search(it['t']) for p in self.tags['地區限定']):
-            why = ['只限其他國家或地區']             # 標題就寫明只在別的國家，例如越南的付款方式
+        elif '地區限定' in tags and '台灣' not in tags and (
+                any(p.search(_norm(it['t'])) for p in self.tags['地區限定'])
+                or any(p.search(_norm(it.get('b') or '')) for p in self.region_body)):
+            # 標題就寫明只在別的國家（例如越南的付款方式），或內文明講只開放給某國的用戶（「Pro users in the U.S.」「US only」）
+            why = ['只限其他國家或地區']
             s = min(s, self.cfg.get('region_title_cap', 30))
         s = max(0, min(100, s))
         age = (today - dt.date.fromisoformat(it['d'])).days if it.get('d') else 30

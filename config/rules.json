@@ -177,7 +177,7 @@
       "\\bfedramp\\b"
     ],
     "地區限定": [
-      "\\b(in|to|for) the (us|u\\.s\\.|eu|uk|united states|united kingdom|uae)\\b",
+      "\\b(in|to|for) the (u\\.s\\.|(us|u\\.s|eu|uk|united states|united kingdom|uae)\\b)",
       "\\bus[- ]only\\b",
       "\\b(in|to|for) (japan|india|korea|south korea|brazil|europe|vietnam|indonesia|thailand|the philippines|philippines|malaysia|singapore|mexico|canada|australia|turkey|türkiye|nigeria|kenya|egypt|saudi arabia|pakistan|bangladesh|argentina|colombia|chile|peru|poland|germany|france|italy|spain|latin america|africa|the middle east)\\b",
       "\\bavailable in the eu\\b"
@@ -205,11 +205,14 @@
       "\\bresponsibly\\b",
       "\\btips? for\\b",
       "\\bstyling\\b",
-      "^(?!introduc|announc|new |meet )[A-Z][\\w&.'+\\- ]{1,40} (cuts|answers|triples|doubles|builds|scales|brings|turns|uses|boosts|saves|speeds|transforms|powers|reaches|gets|helps|runs|ships|expands|launches .* with) .*\\bwith (gpt|chatgpt|codex|claude|gemini|grok|openai)",
+      "^(?!introduc|announc|new |meet |google|claude|chatgpt|codex|gemini|grok|gpt|openai|anthropic|xai|sora|nano banana)[A-Z][\\w&.'+\\- ]{1,40} (cuts|answers|triples|doubles|builds|scales|brings|turns|uses|boosts|saves|speeds|transforms|powers|reaches|gets|helps|runs|ships|expands|launches .* with) .*\\bwith (gpt|chatgpt|codex|claude|gemini|grok|openai)",
       "\\bdo better for\\b",
       "\\bcivilian\\b",
       "\\bgovernance\\b",
-      "^(?!introduc|announc|new |meet |claude|chatgpt|codex|gemini|grok|gpt|openai|anthropic|google|xai|sora|nano banana)[A-Z][\\w&.'+\\- ]{1,40} (uses?|is using|taps|adopts|chooses|relies on) (openai|chatgpt|codex|claude|gemini|grok|gpt)"
+      "^(?!introduc|announc|new |meet |claude|chatgpt|codex|gemini|grok|gpt|openai|anthropic|google|xai|sora|nano banana)[A-Z][\\w&.'+\\- ]{1,40} (uses?|is using|taps|adopts|chooses|relies on) (openai|chatgpt|codex|claude|gemini|grok|gpt)",
+      "^how (?!to\\b)[\\w&.'+\\- ]{2,40} (is|are) \\w+ing\\b.*\\bwith (openai|chatgpt|codex|claude|gemini|grok)\\b",
+      "\\bfrees up\\b.*\\bhours\\b",
+      "\\b\\d+(-\\d+)? hours (a|per) (week|day)\\b"
     ],
     "本機新模型": [
       "\\b(flux|wan ?\\d|ltx|hunyuan|qwen|gemma|llama|deepseek|kimi|glm|gpt-oss|mistral|minimax|phi-?\\d|z-image|hidream|nemotron|lfm)\\w*\\b.{0,40}\\b(support|added|model|template)",
@@ -398,7 +401,14 @@
     "bionic"
   ],
   "tag_title_only": [
-    "新模型"
+    "新模型",
+    "新聞稿"
   ],
-  "region_title_cap": 30
+  "region_title_cap": 30,
+  "region_body": [
+    "\\b(us|u\\.s\\.|united states)[- ]only\\b",
+    "\\bonly (available )?in the (us|u\\.s\\.|united states)\\b",
+    "\\b(users|members|subscribers|customers|businesses|accounts)\\b[^.]{0,40}? in (the (u\\.s\\.|(us|eu|uk|united states|united kingdom|uae)\\b)|(japan|india|korea|south korea|brazil|europe|vietnam|indonesia|thailand|the philippines|philippines|malaysia|singapore|mexico|canada|australia|turkey|türkiye|nigeria|kenya|egypt|saudi arabia|pakistan|bangladesh|argentina|colombia|chile|peru|poland|germany|france|italy|spain|latin america|africa|the middle east)\\b)",
+    "\\b(rolling out|roll out|rolls out|available)\\b[^.]{0,60}? in (the (u\\.s\\.|(us|eu|uk|united states|united kingdom|uae)\\b)|(japan|india|korea|south korea|brazil|europe|vietnam|indonesia|thailand|the philippines|philippines|malaysia|singapore|mexico|canada|australia|turkey|türkiye|nigeria|kenya|egypt|saudi arabia|pakistan|bangladesh|argentina|colombia|chile|peru|poland|germany|france|italy|spain|latin america|africa|the middle east)\\b)"
+  ]
 }

@@ -21,6 +21,14 @@
 
 ## 已完成
 
+- 2026-11-15 巡檢
+  - 後台：每次都成功、各來源都讀得到，但 GitHub 排程這週隔 5～7 小時才來一次 → 加上「接力」（每輪結束後約 58 分鐘自己發出下一輪，和玩真的、回波同一套；第 13 分的排程留著當備援），concurrency 從整個 workflow 移到 `run` 工作。
+  - 「新聞稿」標籤以前連內文一起比對，產品更新紀錄被內文的 Office、invest 這類字誤判成新聞稿藏起來 → 改成只看標題；「X gets … with Gemini」這條客戶案例規則排除廠商自家產品（Google Search …）；為了不放掉原本靠內文抓到的客戶案例，補上「How X is …ing … with ChatGPT」「frees up … hours」「10-15 hours a week」三條標題規則。
+  - 標題的不換行連字號（GPT‑6，U+2011）認不出型號 → 比對前統一成一般連字號；GPT-6 Cyber 改判新模型。
+  - 「in the U.S.」後面接句點時認不出地區（正規式的字界問題）→ 修正；內文明講只給某國用戶的（`region_body`：「Pro users in the U.S.」「US only」「rolling out … in the US」）也套用地區上限 30 分。
+  - 用 state 的 feeds.json.gz（527 則）新舊規則比對：15 則分類改變，都是改對（6 則美國限定的改標地區限定、7 則產品消息不再當新聞稿、GPT-6 Cyber 改新模型、Pollo AI 案例多一個生圖標籤）。
+  - Claude Fable 5.2（11/9 上線）：官方說明 15424964 確認所有付費方案都有、Max 每週最多一半額度用在 Fable → 方案表與攻略「小說 T1」改成 Fable 5.2。
+
 - 2026-11-08 巡檢
   - 後台：GitHub 排程這週常常隔 4～8 小時才跑一次（GitHub 那邊延遲，不是程式問題）；每次都成功，各來源都讀得到，翻譯沒有卡住。
   - Gemini API 價格頁 11/3 搬到 aistudio.google.com、改用 Markdoc 寫法（`{% table %}` 表格、`{% tab %}` 分頁），解析器一直「解析不到任何模型」，價格停在 11/3（標 stale）→ `md_tables` 認 Markdoc 表格、`gemini()` 認分頁。用 11/8 實測回應比對：12 個型號，價格與 11/3 一致，多了 Gemini Omni 1.2 Flash；停用表也讀得到了（Omni 1.1 Flash 12/3、2.5 Pro／Flash 12/1）。
